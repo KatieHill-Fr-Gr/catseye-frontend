@@ -1,35 +1,51 @@
 /* Global Typography */
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 /* Color Scheme Variables */
 :root {
-  --primary-color: #2D3E4E;
-  --color-gold: #D4AF37;
-  --color-silver: #C4D4E0;
-  --color-silver-light: #E5E7EB;
-  --color-text-dark: #1F2937;
-  --color-text-light: #6B7280;
+  --dark-primary: #2D3E4E;
+  --dark-teal: #8CBDB9;
+  --dark-lightteal: #E8ECEB;
+  --dark-yellow: #E09E50;
+  --dark-fonts: white;
 }
 
 /* Exceptions - Keep original fonts for specific elements */
-.brand-name {
-  font-family: 'Roboto', sans-serif;
+.logo {
+  font-family: 'Raleway', sans-serif;
 }
 
 /* Ensure headings use the new font */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 /* Ensure buttons and form elements use the new font */
 button, input, textarea, select, label {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 /* Ensure links use the new font */
 a {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
+  /* Global button styles */
+.page-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--dark-teal);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-weight: 400;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.page-button:hover {
+    color: white;
+    background-color: var(--dark-lightteal);
+}

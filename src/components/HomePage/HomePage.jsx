@@ -12,6 +12,7 @@ const HomePage = () => {
     <section className="hero">
       <h1>Collaborate, Translate, Manage WorkFlows</h1>
       <p>Keep all your multilingual content in one place.</p>
+            <button className="page-button">Create a project</button>
     </section>
     <section className="page-content">
       <div id="categories">

@@ -20,9 +20,7 @@ const NavBar = () => {
         {user 
           ? (
             <>
-              <Link to="/cart" className="page-link"></Link>
-              <Link to="/profile" className="page-link"><VscAccount /></Link>
-              <Link to="/items/new" className="page-link-sell">Sell an item</Link>
+              <Link to="/profile" className="page-link"><VscAccount />My profile</Link>
               <Link to="#" onClick={(e) => {e.preventDefault(); signOut()}} className="nav-button">Sign Out</Link>
             </>
           ) 
