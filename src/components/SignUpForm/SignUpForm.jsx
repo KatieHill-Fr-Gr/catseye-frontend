@@ -24,6 +24,8 @@ export default function SignUpForm(){
     profileImg: ''
   })
   const [errors, setErrors] = useState({})
+  const [uploading, setUploading] = useState(false)
+
 
 
   // Nav

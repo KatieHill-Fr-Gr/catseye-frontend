@@ -9,26 +9,23 @@ import './SignInForm.css'
 
 export default function SignInForm(){
   
-  // Context
   const { setUser } = useContext(UserContext)
 
-  // State
   const [formData, setFormData] = useState({
-    identifier: '',
+    username: '',
     password: ''
   })
   const [errors, setErrors] = useState({})
 
-
-  // Nav
   const navigate = useNavigate()
 
-  // Functions
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       const { data } = await signIn(formData)
-      setToken(data.token)
+      console.log('Login response:', data)
+      console.log(formData)
+      setToken(data)
       setUser(getUser())
       navigate('/')
     } catch (error) {
@@ -44,10 +41,10 @@ export default function SignInForm(){
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <h2>Welcome back to <span className='brand-font'>Re-lux</span></h2>
+      <h2>Log in to your account</h2>
       
-      <label htmlFor="identifier">Email or Username</label>
-      <input type="text" name="identifier" id="identifier" placeholder='yourname@example.com or username' value={formData.identifier} onChange={handleChange} />
+      <label htmlFor="username">Username</label>
+      <input type="text" name="username" id="username" placeholder='Your username' value={formData.username} onChange={handleChange} />
       {errors.identifier && <p className='error-message'>{errors.identifier}</p>}
 
       <label htmlFor="password">Password</label>

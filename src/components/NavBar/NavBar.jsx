@@ -12,11 +12,9 @@ const NavBar = () => {
   return (
     <nav>
       <nav id="main-pages">
-      <Link to="/" className="home-link">catseye ai</Link>
+      <Link to="/" className="home-link">catseye</Link>
       <Link to="/" className="page-link">Projects</Link>
       <Link to="/" className="page-link">Tasks</Link>
-      <Link to="/" className="page-link">Translations</Link>
-      <Link to="/" className="page-link">Termbases</Link>
       </nav>
       <nav id="user-access">
         {user 
@@ -31,7 +29,7 @@ const NavBar = () => {
           : (
             <>
               <Link to="/sign-in" className="nav-button">Log in</Link>
-              <Link to="/sign-up" className="nav-button">Create an account</Link>
+              <Link to="/sign-up" className="nav-button">Sign up</Link>
             </>
           )}
       </nav>
