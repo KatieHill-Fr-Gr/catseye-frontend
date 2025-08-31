@@ -1,0 +1,58 @@
+nav {
+    background-color: white;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Lato", sans-serif;
+}
+
+#main-pages {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+#user-access {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+a.home-link {
+    font-family: 'Parisienne', cursive;
+    font-weight: 400;
+    color: #000;
+    font-size: 1.8rem;
+    text-decoration: none;
+}
+
+a.home-link:hover {
+    color: grey;
+}
+
+a.page-link {
+    color: grey;
+    text-decoration: none;
+}
+
+a.page-link-sell {
+    color: #D4AF37;
+    text-decoration: none;
+}
+
+a.nav-button {
+    padding: 0.5rem 1rem;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+a.nav-button:hover {
+    color: white;
+    background-color: black;
+}

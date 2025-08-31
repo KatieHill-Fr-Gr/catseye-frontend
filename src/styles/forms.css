@@ -1,0 +1,123 @@
+.form {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+}
+
+.form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+
+.form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form input:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: #333;
+}
+
+.form input::placeholder,
+.form textarea::placeholder {
+  color: #999;
+}
+
+.form textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.form input[type="file"] {
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border: 2px dashed #ddd;
+  cursor: pointer;
+}
+
+.form input[type="file"]:hover {
+  border-color: #333;
+  background: #f0f0f0;
+}
+
+.form button {
+  width: 100%;
+  padding: 0.875rem;
+  background: #000;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.form button:hover {
+  background: #333;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.form-actions button {
+  flex: 1;
+  margin-top: 0;
+}
+
+.form-actions .cancel-button {
+  background: #6c757d;
+}
+
+.form-actions .cancel-button:hover {
+  background: #5a6268;
+}
+
+.image-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  border: 2px solid #ddd;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin: -0.5rem 0 1rem 0;
+  font-weight: 500;
+}
+
+.general-error {
+  text-align: center;
+  font-size: 1rem;
+  padding: 1rem;
+  background-color: #fdf2f2;
+  border: 1px solid #fecaca;
+  margin-bottom: 1rem;
+}

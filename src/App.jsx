@@ -1,33 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+
+import { useContext } from 'react'
+import { Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router'
+import { UserContext } from './Contexts/UserContext'
+
+// Global
+import Navbar from './components/Navbar/Navbar'
+
+// Pages
+import HomePage from './components/HomePage/HomePage'
+import SignUpPage from './components/SignUpPage/SignUpPage'
+import SignInPage from './components/SignInPage/SignInPage'
+
+import NotFound from './components/404NotFound/404NotFound'
+
+// Contexts
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { user, setUser } = useContext(UserContext);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <Navbar />
+        <div className="page-container">
+      <Routes>
+        <Route index element={<HomePage />} />
+        <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
