@@ -1,4 +1,6 @@
-import './App.css';
+import './styles/layout.css';
+import './styles/index.css';
+import './styles/forms.css';
 
 import { useContext } from 'react'
 import { Navigate } from 'react-router-dom'
@@ -6,7 +8,8 @@ import { Routes, Route } from 'react-router'
 import { UserContext } from './Contexts/UserContext'
 
 // Global
-import Navbar from './components/Navbar/Navbar'
+import NavBar from './components/NavBar/NavBar'
+import FooterBar from './components/FooterBar/FooterBar'
 
 // Pages
 import HomePage from './components/HomePage/HomePage'
@@ -22,7 +25,7 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      <NavBar />
         <div className="page-container">
       <Routes>
         <Route index element={<HomePage />} />
@@ -31,6 +34,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       </div>
+      <FooterBar />
     </>
   )
 }

@@ -1,0 +1,35 @@
+/* Global Typography */
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Color Scheme Variables */
+:root {
+  --primary-color: #2D3E4E;
+  --color-gold: #D4AF37;
+  --color-silver: #C4D4E0;
+  --color-silver-light: #E5E7EB;
+  --color-text-dark: #1F2937;
+  --color-text-light: #6B7280;
+}
+
+/* Exceptions - Keep original fonts for specific elements */
+.brand-name {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Ensure headings use the new font */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Ensure buttons and form elements use the new font */
+button, input, textarea, select, label {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Ensure links use the new font */
+a {
+  font-family: 'Roboto', sans-serif;
+}
+

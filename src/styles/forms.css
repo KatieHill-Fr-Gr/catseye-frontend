@@ -2,13 +2,13 @@
   max-width: 800px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #ffffff;
+  background: #1A242E;
 }
 
 .form h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: white;
   font-weight: 400;
   font-size: 1.5rem;
 }
@@ -16,7 +16,7 @@
 .form label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #555;
+  color: white;
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -35,7 +35,7 @@
 .form input:focus,
 .form textarea:focus {
   outline: none;
-  border-color: #333;
+  border-color: white;
 }
 
 .form input::placeholder,

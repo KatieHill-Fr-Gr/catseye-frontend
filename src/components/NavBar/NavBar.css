@@ -1,11 +1,11 @@
 nav {
-    background-color: white;
+    background-color: #2D3E4E;
+    color: white;
     padding: 0.5rem 1rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    font-family: "Lato", sans-serif;
 }
 
 #main-pages {
@@ -21,9 +21,8 @@ nav {
 }
 
 a.home-link {
-    font-family: 'Parisienne', cursive;
     font-weight: 400;
-    color: #000;
+    color: white;
     font-size: 1.8rem;
     text-decoration: none;
 }
@@ -37,14 +36,10 @@ a.page-link {
     text-decoration: none;
 }
 
-a.page-link-sell {
-    color: #D4AF37;
-    text-decoration: none;
-}
-
 a.nav-button {
     padding: 0.5rem 1rem;
-    background-color: black;
+    border: 1px solid white;
+    border-radius: 5px;
     color: white;
     text-decoration: none;
     font-weight: 400;
@@ -53,6 +48,5 @@ a.nav-button {
 }
 
 a.nav-button:hover {
-    color: white;
-    background-color: black;
+    color: #8CBDB9;
 }

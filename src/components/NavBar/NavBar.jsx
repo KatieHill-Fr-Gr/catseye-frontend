@@ -1,29 +1,28 @@
 import { useContext } from 'react'
 import { UserContext } from '../../contexts/UserContext'
-import './Navbar.css'
+import './NavBar.css'
 
 import { Link } from 'react-router-dom'
 
-import { IoBagOutline } from "react-icons/io5";
 import { VscAccount } from "react-icons/vsc";
 
-const Navbar = () => {
+const NavBar = () => {
   const { user, signOut } = useContext(UserContext)
 
   return (
     <nav>
       <nav id="main-pages">
-      <Link to="/" className="home-link">Re-Lux</Link>
-      <Link to="/fashion" className="page-link">Fashion</Link>
-      <Link to="/accessories" className="page-link">Accessories</Link>
-      <Link to="/tech" className="page-link">Tech</Link>
-      <Link to="/lifestyle" className="page-link">Lifestyle</Link>
+      <Link to="/" className="home-link">catseye ai</Link>
+      <Link to="/" className="page-link">Projects</Link>
+      <Link to="/" className="page-link">Tasks</Link>
+      <Link to="/" className="page-link">Translations</Link>
+      <Link to="/" className="page-link">Termbases</Link>
       </nav>
       <nav id="user-access">
         {user 
           ? (
             <>
-              <Link to="/cart" className="page-link"><IoBagOutline /></Link>
+              <Link to="/cart" className="page-link"></Link>
               <Link to="/profile" className="page-link"><VscAccount /></Link>
               <Link to="/items/new" className="page-link-sell">Sell an item</Link>
               <Link to="#" onClick={(e) => {e.preventDefault(); signOut()}} className="nav-button">Sign Out</Link>
@@ -31,8 +30,8 @@ const Navbar = () => {
           ) 
           : (
             <>
-              <Link to="/sign-in" className="nav-button">Sign In</Link>
-              <Link to="/sign-up" className="nav-button">Sign Up</Link>
+              <Link to="/sign-in" className="nav-button">Log in</Link>
+              <Link to="/sign-up" className="nav-button">Create an account</Link>
             </>
           )}
       </nav>
@@ -40,4 +39,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default NavBar
