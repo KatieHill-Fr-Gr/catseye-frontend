@@ -44,6 +44,7 @@ section {
 h1,
 h2 {
     text-align: left;
+    margin-left: 4rem;
 }
 
 h1 {
@@ -64,6 +65,7 @@ h2 {
     text-align: left;
     padding: 1rem var(--content-padding);
     margin-top: 4rem;
+    margin-left: 2rem;
     border-bottom: 1px solid lightgrey;
 }
 

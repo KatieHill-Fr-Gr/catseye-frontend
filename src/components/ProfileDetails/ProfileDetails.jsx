@@ -1,3 +1,5 @@
+import './ProfileDetails.css'
+
 import { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../../contexts/UserContext'
@@ -12,10 +14,12 @@ const ProfileDetails = () => {
 
     return (
         <div>
+            <div className='profile-img-container'>
             <img src={user.profileImg} alt='Profile' className='profile-img' />
-            <h3>{user.name}</h3>
-            {/* Job title */}
-            {/* Team */}
+            </div>
+            <h3>{user.username}</h3>
+            <h4>{user.jobTitle}</h4>
+            <h4>{user.team}</h4>
             {/* List of tasks */}
         </div>
     )

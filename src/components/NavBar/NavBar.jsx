@@ -29,8 +29,8 @@ const NavBar = () => {
                     ? (
                         <>
                             {/* <Link to="/profile" className="page-link"><VscAccount />My profile</Link> */}
-                            <button onClick={() => setProfileOpen(true)}>
-                                View Profile
+                            <button onClick={() => setProfileOpen(true)} className="profile-button">
+                                My Profile
                             </button>
                             <Sidebar
                                 isOpen={profileOpen}
