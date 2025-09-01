@@ -7,14 +7,13 @@ const ProfilePage = () => {
     const { user, setUser } = useContext(UserContext)
 
     if (!user) {
-        return <div>Please log in to view your profile.</div>
+        return <div>Please log in to view your projects.</div>
     }
 
     return (
         <div className="page-content">
             <div className="page-title">
                     <h1>Your projects</h1>
-                    <p>Here's what your currently working on</p>
             </div>
             <div className="project-grid">
 
