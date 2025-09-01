@@ -6,9 +6,11 @@
 /* Color Scheme Variables */
 :root {
   --dark-primary: #2D3E4E;
+  --dark-secondary: #1A242E;
   --dark-teal: #8CBDB9;
   --dark-lightteal: #E8ECEB;
   --dark-yellow: #E09E50;
+  --dark-red: #e05050;
   --dark-fonts: white;
 }
 

@@ -34,31 +34,32 @@ const ProfilePage = () => {
     return (
         <div className="page-content">
             <div className="page-title">
-                <h1>{user.username}'s workspace</h1>
+                <h1>My projects</h1>
             </div>
             <section>
-                <h2>My Projects ({userTeamProjects.length})</h2>
+                <h2></h2>
                 <div className="projects-grid">
                     {projectsLoading ? (
                         <p>Loading projects...</p>
                     ) : userTeamProjects.length > 0 ? (
                         userTeamProjects.map((project) => {
-                            const firstLine = project.brief
-                                ? project.brief.split(/\r?\n/)[0]
-                                : '';
+                            const firstLine = project.brief?.split('.')[0] + '.' || ''
                             return (
-                                <div key={project.id} className="project-card">
+                                <div key={project.id} className={`project-card ${project.status}`}>
                                     <div className="project-info">
-                                        <div className="project-title">
-                                            <h3>{project.name}</h3>
-                                        </div>
+
+                                        <h3>{project.name}</h3>
+
                                         <div className="project-description">
                                             <p>{firstLine}</p>
                                         </div>
                                     </div>
                                     <div className="project-actions">
-                                        <Link to={`/projects/${project.id}`}>
-                                            View Project
+                                        <Link to={`/projects/${project.id}`} className="project-button">
+                                            View
+                                        </Link>
+                                        <Link to={`/projects/${project.id}`} className="project-button">
+                                            Edit
                                         </Link>
                                     </div>
                                 </div>

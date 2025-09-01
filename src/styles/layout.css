@@ -43,7 +43,7 @@ section {
 
 h1,
 h2 {
-    text-align: center;
+    text-align: left;
 }
 
 h1 {
@@ -54,16 +54,6 @@ h1 {
 h2 {
     font-size: 1.5rem;
     margin-bottom: 0;
-}
-
-#hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 2rem var(--content-padding);
-    margin-top: 4rem;
-    gap: 2rem;
 }
 
 #page-title {

@@ -1,0 +1,103 @@
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.project-card {
+  background: white;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.project-card:hover {
+  transform: translateY(-2px);
+}
+
+.project-card.in_progress {
+  background: linear-gradient(180deg, var(--dark-yellow) 0%,  var(--dark-lightteal) 100%);
+  border-color: var(--dark-yellow);
+}
+
+.project-card.review {
+  background: linear-gradient(180deg, var(--dark-teal) 0%, var(--dark-lightteal) 100%);
+  border-color: var(--dark-teal);
+}
+
+.project-card.completed {
+  background: linear-gradient(180deg, var(--dark-lightteal) 0%, var(--dark-primary) 100%);
+  border-color: var(--dark-lightteal);
+}
+
+.project-card.on_hold {
+  background: linear-gradient(180deg, var(--dark-secondary) 0%, var(--dark-primary) 100%);
+  border-color: var(--dark-secondary);
+}
+
+.project-card.cancelled {
+  background: linear-gradient(180deg, var(--dark-red) 0%, var(--dark-lightteal) 100%);
+  border-color: var(--dark-red);
+}
+
+.project-info {
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.project-info h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  line-height: 1.3;
+}
+
+.project-description {
+  color: white;
+  margin: 0;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.project-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.project-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--dark-secondary);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 7px;
+    font-weight: 400;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.project-button:hover {
+    color: white;
+    background-color: var(--dark-primary);
+}
+
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
