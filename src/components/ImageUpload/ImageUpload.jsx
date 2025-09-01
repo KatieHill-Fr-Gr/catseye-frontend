@@ -1,5 +1,5 @@
 import './ImageUpload.css'
-import { uploadImage } from '../../services/Cloudinary'
+import { uploadImage } from '../../services/cloudinary_imgs.js'
 import { useState } from 'react'
 
 const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFormData, imageURLs, setUploading, multiple = true }) => {
@@ -16,7 +16,7 @@ const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFor
         try {
             const files = Array.from(e.target.files);
 
-            const responses = await Promise.all(files.map(file => uploadImage(file))
+            const responses = await Promise.all(files.map(file => cloudinary.uploadImage(file))
             )
 
             const justURLs = responses.map(response => response.data.secure_url)

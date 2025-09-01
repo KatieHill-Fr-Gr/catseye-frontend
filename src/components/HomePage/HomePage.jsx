@@ -15,13 +15,13 @@ const HomePage = () => {
                 <button className="page-button">Create a project</button>
             </section>
             <section className="page-content">
-                <div class="content-wrapper">
-                    <div class="text-column">
+                <div className="content-wrapper">
+                    <div className="text-column">
                         <h2>Streamlined project management</h2>
                         <div></div>
                     </div>
                 </div>
-                <div class="image-column">
+                <div className="image-column">
                     </div>
             </section>
         </main>

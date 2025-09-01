@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { signIn } from '../../services/User'
+import { signIn } from '../../services/users.js'
 import { setToken, getUser } from '../../utils/auth'
 import { UserContext } from '../../contexts/UserContext'
 

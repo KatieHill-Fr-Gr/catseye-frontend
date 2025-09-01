@@ -1,6 +1,8 @@
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { signUp } from '../../services/User'
+
+import { signUp } from '../../services/users'
+import { getTeams } from '../../services/team'
 import { setToken, getUser } from '../../utils/auth'
 import { UserContext } from '../../contexts/UserContext'
 import ImageUpload from '../ImageUpload/ImageUpload'
@@ -24,15 +26,32 @@ export default function SignUpForm() {
         team: '',
         profileImg: ''
     })
+    const [teams, setTeams] = useState([]);
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState(false)
 
-
-
-    // Nav
     const navigate = useNavigate()
 
-    // Functions
+    useEffect(() => {
+        const fetchTeams = async () => {
+            try {
+                setUploading(true);
+                const teamsData = await getTeams();
+                setTeams(teamsData);
+                setErrors(null);
+            } catch (err) {
+                setErrors('Failed to load teams');
+                console.error('Error loading teams:', err);
+            } finally {
+                setUploading(false);
+            }
+        };
+
+        fetchTeams();
+    }, []);
+
+
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -80,8 +99,15 @@ export default function SignUpForm() {
             {errors.jobTitle && <p className='error-message'>{errors.jobTitle}</p>}
 
             <label htmlFor="team">Team</label>
-            <input type="team" name="team" id="team" placeholder='Your team' value={formData.team} onChange={handleChange} />
-            {errors.jobTitle && <p className='error-message'>{errors.team}</p>}
+            <select name="team" id="team" value={formData.team} onChange={handleChange} disabled={uploading} />
+            <option value="">Select your team</option>
+            {teams.map(team => (
+                <option key={team.id} value={team.id}>
+                    {team.name}
+                </option>
+            ))}
+            {uploading && <p>Loading teams...</p>}
+            {errors.team && <p className='error-message'>{errors.team}</p>}
 
             <ImageUpload
                 labelText="Upload profile photo"
