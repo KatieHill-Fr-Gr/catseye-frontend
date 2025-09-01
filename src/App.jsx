@@ -15,7 +15,7 @@ import FooterBar from './components/FooterBar/FooterBar'
 import HomePage from './components/HomePage/HomePage'
 import SignUpPage from './components/SignUpPage/SignUpPage'
 import SignInPage from './components/SignInPage/SignInPage'
-import ProfilePage from './components/ProfilePage/ProfilePage'
+import MyProjects from './components/MyProjects/MyProjects'
 
 import NotFound from './components/404NotFound/404NotFound'
 
@@ -32,7 +32,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/projects" element={<MyProjects />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </div>

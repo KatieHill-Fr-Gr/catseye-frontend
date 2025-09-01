@@ -17,7 +17,7 @@ const NavBar = () => {
                     <img src={eyeIcon} alt="White silhouette of eye" />
                 </div>
                 <Link to="/" className="home-link">catseye</Link>
-                <Link to="/" className="page-link">Projects</Link>
+                <Link to="/projects" className="page-link">Projects</Link>
                 <Link to="/" className="page-link">Tasks</Link>
             </nav>
             <nav id="user-access">
