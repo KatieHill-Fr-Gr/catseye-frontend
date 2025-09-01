@@ -42,13 +42,17 @@ export default function SignInForm(){
     <form className="form" onSubmit={handleSubmit}>
       <h2>Log in to your account</h2>
       
+      <div className="form-row">
       <label htmlFor="username">Username</label>
       <input type="text" name="username" id="username" placeholder='Your username' value={formData.username} onChange={handleChange} />
       {errors.identifier && <p className='error-message'>{errors.identifier}</p>}
+      </div>
 
+<div className="form-row">
       <label htmlFor="password">Password</label>
       <input type="password" name="password" id="password" placeholder='Your password' value={formData.password} onChange={handleChange} />
       {errors.password && <p className='error-message'>{errors.password}</p>}
+      </div>
 
       {errors.message && (
         <div className="error-message general-error">

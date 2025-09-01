@@ -108,13 +108,14 @@ export default function SignUpForm() {
 
             <div className="form-row">
                 <label htmlFor="team">Team</label>
-                <select name="team" id="team" value={formData.team} onChange={handleChange} disabled={uploading} />
-                <option value="">Select your team</option>
+                <select name="team" id="team" value={formData.team} onChange={handleChange} disabled={uploading}>
+                <option value=""></option>
                 {teams && teams.length > 0 && teams.map(team => (
                     <option key={team.id} value={team.id}>
                         {team.name}
                     </option>
                 ))}
+                  </select>
                 {uploading && <p>Loading teams...</p>}
                 {errors.team && <p className='error-message'>{errors.team}</p>}
             </div>
