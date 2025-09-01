@@ -23,7 +23,6 @@ export default function SignInForm(){
     e.preventDefault()
     try {
       const { data } = await signIn(formData)
-      console.log('Login response:', data)
       console.log(formData)
       setToken(data)
       setUser(getUser())
@@ -53,7 +52,7 @@ export default function SignInForm(){
 
       {errors.message && (
         <div className="error-message general-error">
-          ❌ {errors.message}
+          {errors.message}
         </div>
       )}
 

@@ -1,5 +1,5 @@
 import './404NotFound.css'
-import eyeIcon from '../../assets/eyeIcon.png';
+import eyeIcon from '../../assets/eyeIcon.png'
 
 import { Link } from 'react-router-dom'
 

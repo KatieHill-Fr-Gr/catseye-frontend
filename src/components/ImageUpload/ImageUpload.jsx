@@ -1,16 +1,12 @@
+import './ImageUpload.css'
 import { uploadImage } from '../../services/Cloudinary'
 import { useState } from 'react'
 
-const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFormData, imageURLs, setUploading }) => {
-
-    // State
+const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFormData, imageURLs, setUploading, multiple = true }) => {
 
     const [error, setError] = useState('')
 
-    // Functions
-
     const handleUpload = async (e) => {
-
         const files = e.target.files;
         if (!files || files.length === 0) return;
 
@@ -26,12 +22,12 @@ const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFor
             const justURLs = responses.map(response => response.data.secure_url)
             console.log(justURLs)
 
-            setFormData(formData => {
-                return {
-                    ...formData,
-                    [fieldName]: [...formData.images, ...justURLs]
-                }
-            })
+            setFormData(prev => ({
+                ...prev,
+                [fieldName]: multiple
+                    ? [...(Array.isArray(prev[fieldName]) ? prev[fieldName] : []), ...uploadedURLs]
+                    : uploadedURLs[0] || ''
+            }));
 
             e.target.value = ''
 
@@ -45,28 +41,39 @@ const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFor
 
     return (
         <>
-        {imageURLs.length > 0 && (
-            <div className="image-preview-container">
-                {imageURLs.map((url, idx) => (
-                    <img 
-                        key={idx} 
-                        className='uploaded-image' 
-                        src={url} 
-                        alt={`Preview ${idx + 1}`} 
-                    />
-                ))}
-            </div>
-        )}
+            {multiple ? (
+                Array.isArray(imageURLs) && imageURLs.length > 0 && (
+                    <div className="image-preview-container">
+                        {imageURLs.map((url, idx) => (
+                            <img
+                                key={idx}
+                                className='uploaded-image'
+                                src={url}
+                                alt={`Preview ${idx + 1}`}
+                            />
+                        ))}
+                    </div>
+                )
+            ) : (
+                imageURLs && (
+                    <div className="image-preview-container">
+                        <img
+                            className="uploaded-image"
+                            src={imageURLs}
+                            alt="Preview"
+                        />
+                    </div>
+                )
+            )}
 
             {error && <p className='error-message'>{error}</p>}
 
             <label htmlFor={fieldName}>{labelText}</label>
-            <input type="file" name={fieldName} id={fieldName} onChange={handleUpload} multiple />
+            <input type="file" name={fieldName} id={fieldName} onChange={handleUpload} multiple={multiple}
+                accept="image/*" />
 
         </>
     )
-
-
 }
 
 export default ImageUpload

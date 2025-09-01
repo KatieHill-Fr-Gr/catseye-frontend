@@ -1,6 +1,6 @@
 /* Global Typography */
 * {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 /* Color Scheme Variables */
@@ -14,22 +14,22 @@
 
 /* Exceptions - Keep original fonts for specific elements */
 .logo {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 /* Ensure headings use the new font */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 /* Ensure buttons and form elements use the new font */
 button, input, textarea, select, label {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 /* Ensure links use the new font */
 a {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
   /* Global button styles */
