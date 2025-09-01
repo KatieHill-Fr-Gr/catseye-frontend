@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { signUp } from '../../services/users'
@@ -35,21 +35,20 @@ export default function SignUpForm() {
     useEffect(() => {
         const fetchTeams = async () => {
             try {
-                setUploading(true);
-                const teamsData = await getTeams();
-                setTeams(teamsData);
-                setErrors(null);
+                setUploading(true)
+                const teamsData = await getTeams()
+                setTeams(Array.isArray(teamsData) ? teamsData : [])
+                setErrors({})
             } catch (err) {
-                setErrors('Failed to load teams');
-                console.error('Error loading teams:', err);
+                setTeams([])
+                setErrors({ teams: 'Failed to load teams' })
+                console.error('Error loading teams:', err)
             } finally {
-                setUploading(false);
+                setUploading(false)
             }
-        };
-
-        fetchTeams();
-    }, []);
-
+        }
+        fetchTeams()
+    }, [])
 
 
     const handleSubmit = async (e) => {
@@ -58,7 +57,7 @@ export default function SignUpForm() {
         const payload = toSnakeCase(formData);
 
         try {
-            const { data } = await signUp(formData)
+            const { data } = await signUp(payload)
             console.log('Signup response:', data)
             setToken(data)
             setUser(getUser())
@@ -101,7 +100,7 @@ export default function SignUpForm() {
             <label htmlFor="team">Team</label>
             <select name="team" id="team" value={formData.team} onChange={handleChange} disabled={uploading} />
             <option value="">Select your team</option>
-            {teams.map(team => (
+            {teams && teams.length > 0 && teams.map(team => (
                 <option key={team.id} value={team.id}>
                     {team.name}
                 </option>
