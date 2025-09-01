@@ -1,12 +1,17 @@
 import './MyProjects.css'
 import { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
+
 import { UserContext } from '../../contexts/UserContext'
 import { getUserTeamProjects } from '../../services/projects.js'
+
+import Sidebar from '../Sidebar/Sidebar'
+import ProfileDetails from '../ProfileDetails/ProfileDetails'
 
 const ProfilePage = () => {
     const { user, setUser } = useContext(UserContext)
 
+    const [profileOpen, setProfileOpen] = useState(false);
     const [userTeamProjects, setUserTeamProjects] = useState([]);
     const [projectsLoading, setProjectsLoading] = useState(true);
 
@@ -35,6 +40,16 @@ const ProfilePage = () => {
         <div className="page-content">
             <div className="page-title">
                 <h1>My projects</h1>
+                <button onClick={() => setProfileOpen(true)}>
+                    View Profile
+                </button>
+                <Sidebar
+                    isOpen={profileOpen}
+                    onClose={() => setProfileOpen(false)}
+                    title="User Profile"
+                >
+                    <ProfileDetails />
+                </Sidebar>
             </div>
             <section>
                 <h2></h2>

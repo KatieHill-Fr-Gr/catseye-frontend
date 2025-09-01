@@ -18,3 +18,5 @@ const Sidebar = ({ isOpen, onClose, title, children }) => {
   );
 };
 
+export default Sidebar
+
