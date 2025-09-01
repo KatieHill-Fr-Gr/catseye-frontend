@@ -77,45 +77,57 @@ export default function SignUpForm() {
         <form className='form' onSubmit={handleSubmit}>
             <h2>Create your account</h2>
 
-            <label htmlFor="username">Username</label>
-            <input type="text" name="username" id="username" placeholder='Your username' value={formData.username} onChange={handleChange} />
-            {errors.username && <p className='error-message'>{errors.username}</p>}
+            <div className="form-row">
+                <label htmlFor="username">Username</label>
+                <input type="text" name="username" id="username" placeholder='Your username' value={formData.username} onChange={handleChange} />
+                {errors.username && <p className='error-message'>{errors.username}</p>}
+            </div>
+            <div className="form-row">
+                <label htmlFor="password">Password</label>
+                <input type="password" name="password" id="password" placeholder='Your password' value={formData.password} onChange={handleChange} />
+                {errors.password && <p className='error-message'>{errors.password}</p>}
+            </div>
 
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" id="password" placeholder='Your password' value={formData.password} onChange={handleChange} />
-            {errors.password && <p className='error-message'>{errors.password}</p>}
+            <div className="form-row">
+                <label htmlFor="passwordConfirmation">Confirm password</label>
+                <input type="password" name='passwordConfirmation' id='passwordConfirmation' placeholder='Type your password again' value={formData.passwordConfirmation} onChange={handleChange} />
+                {errors.passwordConfirmation && <p className='error-message'>{errors.passwordConfirmation}</p>}
+            </div>
 
-            <label htmlFor="passwordConfirmation">Type your password again</label>
-            <input type="password" name='passwordConfirmation' id='passwordConfirmation' placeholder='Confirm password' value={formData.passwordConfirmation} onChange={handleChange} />
-            {errors.passwordConfirmation && <p className='error-message'>{errors.passwordConfirmation}</p>}
+            <div className="form-row">
+                <label htmlFor="email">Email</label>
+                <input type="email" name="email" id="email" placeholder='yourname@example.com' value={formData.email} onChange={handleChange} />
+                {errors.email && <p className='error-message'>{errors.email}</p>}
+            </div>
 
-            <label htmlFor="email">Email</label>
-            <input type="email" name="email" id="email" placeholder='yourname@example.com' value={formData.email} onChange={handleChange} />
-            {errors.email && <p className='error-message'>{errors.email}</p>}
+            <div className="form-row">
+                <label htmlFor="jobTitle">Job title</label>
+                <input type="jobTitle" name="jobTitle" id="jobTitle" placeholder='Your job title' value={formData.jobTitle} onChange={handleChange} />
+                {errors.jobTitle && <p className='error-message'>{errors.jobTitle}</p>}
+            </div>
 
-            <label htmlFor="jobTitle">Job title</label>
-            <input type="jobTitle" name="jobTitle" id="jobTitle" placeholder='Your job title' value={formData.jobTitle} onChange={handleChange} />
-            {errors.jobTitle && <p className='error-message'>{errors.jobTitle}</p>}
-
-            <label htmlFor="team">Team</label>
-            <select name="team" id="team" value={formData.team} onChange={handleChange} disabled={uploading} />
-            <option value="">Select your team</option>
-            {teams && teams.length > 0 && teams.map(team => (
-                <option key={team.id} value={team.id}>
-                    {team.name}
-                </option>
-            ))}
-            {uploading && <p>Loading teams...</p>}
-            {errors.team && <p className='error-message'>{errors.team}</p>}
-
-            <ImageUpload
-                labelText="Upload profile photo"
-                fieldName="profileImg"
-                setFormData={setFormData}
-                imageURLs={formData.profileImg}
-                setUploading={setUploading}
-                multiple={false}
-            />
+            <div className="form-row">
+                <label htmlFor="team">Team</label>
+                <select name="team" id="team" value={formData.team} onChange={handleChange} disabled={uploading} />
+                <option value="">Select your team</option>
+                {teams && teams.length > 0 && teams.map(team => (
+                    <option key={team.id} value={team.id}>
+                        {team.name}
+                    </option>
+                ))}
+                {uploading && <p>Loading teams...</p>}
+                {errors.team && <p className='error-message'>{errors.team}</p>}
+            </div>
+            <div className="form-row">
+                <ImageUpload
+                    labelText="Upload photo"
+                    fieldName="profileImg"
+                    setFormData={setFormData}
+                    imageURLs={formData.profileImg}
+                    setUploading={setUploading}
+                    multiple={false}
+                />
+            </div>
 
             {errors.message && (
                 <div className="error-message general-error">
