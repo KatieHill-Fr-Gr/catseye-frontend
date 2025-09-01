@@ -21,7 +21,7 @@ export const getUser = () => {
         const payloadString = token.split('.')[1]
         const payload = JSON.parse(atob(payloadString))
 
-        const user = payload.user || payload.user.id || payload
+        const user = payload.user || payload.user?.id || payload
         const exp = payload.exp
 
         const today = Date.now() / 1000

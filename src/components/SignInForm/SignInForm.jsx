@@ -23,7 +23,6 @@ export default function SignInForm(){
     e.preventDefault()
     try {
       const { data } = await signIn(formData)
-      console.log(formData)
       setToken(data)
       setUser(getUser())
       navigate('/')

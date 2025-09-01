@@ -54,6 +54,13 @@ export default function SignUpForm() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        const formDataWithAvatar = {
+            ...formData,
+            profileImg: formData.profileImg ||
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.username || 'User')}&background=6366f1&color=ffffff&size=200`
+        };
+
+
         const payload = toSnakeCase(formData);
 
         try {
@@ -109,13 +116,13 @@ export default function SignUpForm() {
             <div className="form-row">
                 <label htmlFor="team">Team</label>
                 <select name="team" id="team" value={formData.team} onChange={handleChange} disabled={uploading}>
-                <option value=""></option>
-                {teams && teams.length > 0 && teams.map(team => (
-                    <option key={team.id} value={team.id}>
-                        {team.name}
-                    </option>
-                ))}
-                  </select>
+                    <option value=""></option>
+                    {teams && teams.length > 0 && teams.map(team => (
+                        <option key={team.id} value={team.id}>
+                            {team.name}
+                        </option>
+                    ))}
+                </select>
                 {uploading && <p>Loading teams...</p>}
                 {errors.team && <p className='error-message'>{errors.team}</p>}
             </div>
