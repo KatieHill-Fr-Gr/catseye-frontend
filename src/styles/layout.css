@@ -56,6 +56,30 @@ h2 {
     margin-bottom: 0;
 }
 
-body {
+#hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    padding: 2rem var(--content-padding);
+    margin-top: 4rem;
+    gap: 2rem;
+}
+
+#page-title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    gap: 1.5rem;
+    text-align: left;
+    padding: 1rem var(--content-padding);
+    margin-top: 4rem;
+    border-bottom: 1px solid lightgrey;
+}
+
+.subtitle {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0 var(--content-padding);
+    margin-top: 0;
 }
