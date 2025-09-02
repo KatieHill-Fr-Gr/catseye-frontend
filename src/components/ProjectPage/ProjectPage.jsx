@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../../contexts/UserContext'
 import { projectShow, getProjectTasks } from '../../services/projects.js'
 import DraggableTask from '../ProjectTasks/ProjectTasks'
+import DropZone from '../ProjectTaskDropZone/ProjectTaskDropZone'
 
 const ProjectPage = () => {
     const { user, setUser } = useContext(UserContext)
@@ -36,6 +37,12 @@ const ProjectPage = () => {
         fetchData()
     }, [projectId])
 
+    const handleTaskDrop = (droppedTask) => {
+        console.log('Task dropped:', droppedTask);
+
+    }
+
+
     if (!user) {
         return <div>Please log in to view this project.</div>
     }
@@ -64,18 +71,31 @@ const ProjectPage = () => {
                     )}
                 </div>
             </section>
-                    <section>
-            <h2>Tasks</h2>
-            <div className="tasks-container">
-                {loading ? (
-                    <p>Loading tasks...</p>
-                ) : (
-                    tasks.map(task => (
-                        <DraggableTask key={task.id} task={task} />
-                    ))
-                )}
-            </div>
-        </section>
+<section>
+    <h2>Tasks</h2>
+    <div className="kanban-board">
+        <DropZone status="todo" onDrop={handleTaskDrop}>
+            <h3>To Do</h3>
+            {loading ? (
+                <p>Loading tasks...</p>
+            ) : (
+                tasks.map(task => (
+                    <DraggableTask key={task.id} task={task} />
+                ))
+            )}
+        </DropZone>
+        
+        <DropZone status="in-progress" onDrop={handleTaskDrop}>
+            <h3>In Progress</h3>
+            {/* Empty by default - users can drag tasks here */}
+        </DropZone>
+        
+        <DropZone status="done" onDrop={handleTaskDrop}>
+            <h3>Done</h3>
+            {/* Empty by default - users can drag tasks here */}
+        </DropZone>
+    </div>
+</section>
         </div>
     )
 }
