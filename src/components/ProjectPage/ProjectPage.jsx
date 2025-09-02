@@ -3,33 +3,37 @@ import { useState, useEffect, useContext, useRef } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { UserContext } from '../../contexts/UserContext'
-import { projectShow } from '../../services/projects.js'
+import { projectShow, getProjectTasks } from '../../services/projects.js'
+import DraggableTask from '../ProjectTasks/ProjectTasks'
 
 const ProjectPage = () => {
     const { user, setUser } = useContext(UserContext)
-
     const [project, setProject] = useState(null)
+    const [tasks, setTasks] = useState([])
     const [loading, setLoading] = useState(true)
-
     const { projectId } = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
-        const getProject = async () => {
+        const fetchData = async () => {
             try {
                 setLoading(true)
-                const project = await projectShow(projectId)
-                console.log('Full project data:', project.data)
-                setProject(project.data)
+                const [projectResponse, tasksResponse] = await Promise.all([
+                    projectShow(projectId),
+                    getProjectTasks(projectId)
+                ])
+
+                setProject(projectResponse.data)
+                setTasks(tasksResponse.data)
             } catch (error) {
                 console.error('Error:', error)
                 setProject(null)
+                setTasks([])
             } finally {
                 setLoading(false)
             }
-        };
-
-        getProject()
+        }
+        fetchData()
     }, [projectId])
 
     if (!user) {
@@ -39,7 +43,7 @@ const ProjectPage = () => {
     return (
         <div className="page-content">
             <div className="page-title">
-                <h1>{project.name}</h1>
+                <h1>{project?.name}</h1>
             </div>
             <section>
                 <h2></h2>
@@ -60,6 +64,18 @@ const ProjectPage = () => {
                     )}
                 </div>
             </section>
+                    <section>
+            <h2>Tasks</h2>
+            <div className="tasks-container">
+                {loading ? (
+                    <p>Loading tasks...</p>
+                ) : (
+                    tasks.map(task => (
+                        <DraggableTask key={task.id} task={task} />
+                    ))
+                )}
+            </div>
+        </section>
         </div>
     )
 }

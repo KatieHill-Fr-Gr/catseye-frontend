@@ -49,7 +49,7 @@ export const getUserTeamProjects = () => {
     })
 }
 
-export const getProjectTasks = () => {
+export const getProjectTasks = (projectId) => {
     return axios.get(`${BASE_URL}projects/${projectId}/tasks/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
