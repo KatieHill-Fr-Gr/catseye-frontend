@@ -28,7 +28,6 @@ const NavBar = () => {
                 {user
                     ? (
                         <>
-                            {/* <Link to="/profile" className="page-link"><VscAccount />My profile</Link> */}
                             <button onClick={() => setProfileOpen(true)} className="profile-button">
                                 My Profile
                             </button>

@@ -5,10 +5,14 @@ import { Link } from 'react-router-dom'
 import { UserContext } from '../../contexts/UserContext'
 import { getUserTeamProjects } from '../../services/projects.js'
 
+import FormModal from '../FormModal/FormModal'
+import CreateProject from '../CreateProject/CreateProject'
+
 const ProfilePage = () => {
     const { user, setUser } = useContext(UserContext)
     const [userTeamProjects, setUserTeamProjects] = useState([]);
     const [projectsLoading, setProjectsLoading] = useState(true);
+    const [newProjectOpen, setNewProjectOpen] = useState(false);
 
     useEffect(() => {
         const loadUserTeamProjects = async () => {
@@ -69,6 +73,18 @@ const ProfilePage = () => {
                         <p>There are no projects assigned to your team</p>
                     )}
                 </div>
+            </section>
+            <section>
+            <button onClick={() => setNewProjectOpen(true)} className="page-button">
+                                Create new project
+                            </button>
+                <FormModal
+                    isOpen={newProjectOpen}
+                    onClose={() => setNewProjectOpen(false)}
+                    title="Create new project"
+                >
+                    <CreateProject />
+                </FormModal>
             </section>
 
         </div>

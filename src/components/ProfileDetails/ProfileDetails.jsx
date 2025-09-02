@@ -11,10 +11,7 @@ const ProfileDetails = () => {
     if (!user) {
         return <div>Please log in to view profile</div>
     }
-
-    console.log('Full user object:', user);
-    console.log('User profileImg:', user.profileImg);
-
+    
     return (
         <div>
             <div className='profile-img-container'>
