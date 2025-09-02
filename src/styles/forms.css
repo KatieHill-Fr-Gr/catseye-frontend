@@ -2,7 +2,7 @@
   max-width: 500px;
   margin: 1rem auto;
   padding: 1.5rem;
-  background-color: rgba(26, 36, 46, 0.5); /* semi-transparent background */
+  background-color: rgba(26, 36, 46, 0.5);
   font-size: 0.85rem;
   border-radius: 8px;
 }
@@ -15,24 +15,23 @@
   font-size: 1rem;
 }
 
-/* Compact inline rows */
 .form-row {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem; /* tighter spacing */
+  margin-bottom: 0.5rem;
   justify-content: flex-start;
 }
 
 .form-row label {
   flex: none;
-  width: auto;              /* hug text width */
+  width: auto;             
   margin: 0;
   color: white;
   font-size: 0.8rem;
   font-weight: 500;
   text-align: left;
   padding-right: 0.5rem;
-  white-space: nowrap;      /* keep label on one line */
+  white-space: nowrap;     
 }
 
 .form-row input,
@@ -61,7 +60,6 @@
   color: rgba(255, 255, 255, 0.6); 
 }
 
-/* File input */
 .form-row input[type="file"] {
   background-color: rgba(255, 255, 255, 0.1);
   border: 2px dashed rgba(255, 255, 255, 0.4);
@@ -74,7 +72,6 @@
   background-color: rgba(255, 255, 255, 0.15);
 }
 
-/* Buttons */
 .form button {
   width: 100%;
   padding: 0.75rem;
@@ -93,7 +90,6 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
-/* Button row */
 .form-actions {
   display: flex;
   gap: 0.75rem;
@@ -113,7 +109,6 @@
   background: rgba(90, 98, 104, 0.9);
 }
 
-/* Image preview */
 .image-preview {
   width: 80px;
   height: 80px;
@@ -123,7 +118,6 @@
   border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
-/* Error messages */
 .error-message {
   color: #e74c3c;
   font-size: 0.8rem;
