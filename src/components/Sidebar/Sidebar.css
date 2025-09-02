@@ -28,7 +28,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(45deg, var(--dark-teal) 0%, var(--dark-yellow) 100%);
+  min-height: 8rem;
 }
 
 .sidebar-header h2 {
@@ -40,7 +41,7 @@
 .sidebar-header button {
   background: none;
   border: none;
-  color: #9CA3AF;
+  color: var(--dark-secondary);
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0.25rem;

@@ -1,0 +1,7 @@
+.project-task {
+    background: var(--dark-secondary);
+    text-align: center;
+    border-radius: 8px; 
+    margin: 0.5rem;
+    cursor: grab;
+}

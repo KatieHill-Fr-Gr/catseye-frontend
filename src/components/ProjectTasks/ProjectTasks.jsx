@@ -1,3 +1,5 @@
+import './ProjectTasks.css'
+
 import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { useRef, useEffect } from 'react'
 
@@ -18,9 +20,8 @@ const DraggableTask = ({ task }) => {
     }, [task]);
 
     return (
-        <div ref={ref} style={{ cursor: 'grab', padding: '1rem' }}>
-            <h3>{task.title}</h3>
-            <p>{task.description}</p>
+        <div ref={ref} className='project-task'>
+            <h4>{task.title}</h4>
         </div>
     );
 }
