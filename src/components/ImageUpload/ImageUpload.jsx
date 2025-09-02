@@ -1,5 +1,5 @@
 import './ImageUpload.css'
-import { uploadImage } from '../../services/cloudinaryService'
+import { uploadImage } from '../../services/cloudinaryImgs'
 import { useState } from 'react'
 
 const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFormData, imageURLs, setUploading, multiple = true }) => {

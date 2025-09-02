@@ -16,7 +16,11 @@ export const getUserTeamProjects = () => {
 }
 
 export const projectShow = (projectId) => {
-    return axios.get(`${BASE_URL}projects/${projectId}`)
+    return axios.get(`${BASE_URL}projects/${projectId}`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
 }
 
 export const projectCreate = (formData) => {

@@ -16,6 +16,7 @@ import HomePage from './components/HomePage/HomePage'
 import SignUpPage from './components/SignUpPage/SignUpPage'
 import SignInPage from './components/SignInPage/SignInPage'
 import MyProjects from './components/MyProjects/MyProjects'
+import ProjectPage from './components/ProjectPage/ProjectPage'
 
 import NotFound from './components/404NotFound/404NotFound'
 
@@ -27,13 +28,14 @@ function App() {
   return (
     <>
       <NavBar />
-        <div className="page-container">
+        <div className='page-container'>
       <Routes>
         <Route index element={<HomePage />} />
-        <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="/sign-in" element={<SignInPage />} />
-        <Route path="/projects" element={<MyProjects />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path='/sign-up' element={<SignUpPage />} />
+        <Route path='/sign-in' element={<SignInPage />} />
+        <Route path='/projects' element={<MyProjects />} />
+        <Route path='/projects/:projectId' element={<ProjectPage />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
       </div>
       <FooterBar />
