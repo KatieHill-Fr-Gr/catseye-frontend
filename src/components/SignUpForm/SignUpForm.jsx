@@ -54,13 +54,6 @@ export default function SignUpForm() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const formDataWithAvatar = {
-            ...formData,
-            profileImg: formData.profileImg ||
-                `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.username || 'User')}&background=6366f1&color=ffffff&size=200`
-        };
-
-
         const payload = toSnakeCase(formData);
 
         try {

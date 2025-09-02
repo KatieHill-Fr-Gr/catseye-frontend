@@ -1,3 +1,5 @@
+import { toCamelCase } from './cases.js'
+
 const tokenName = 'catseye-token'
 
 export const setToken = (tokenData) => {
@@ -29,7 +31,7 @@ export const getUser = () => {
             removeToken()
             return null
         }
-        return user
+        return toCamelCase(user)
     } catch (error) {
         console.log('Token decode error')
         removeToken()

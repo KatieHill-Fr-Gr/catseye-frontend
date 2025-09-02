@@ -7,3 +7,12 @@ export const toSnakeCase = (obj) => {
   }
   return snakeObj;
 }
+
+export const toCamelCase = (obj) => {
+  const camelObj = {};
+  for (const key in obj) {
+    const camelKey = key.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
+    camelObj[camelKey] = obj[key];
+  }
+  return camelObj;
+}

@@ -1,11 +1,16 @@
 .profile-img {
-  width: 100px;
-  height: 100px;
-  border-radius: 0;
-  object-fit: cover;
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    object-fit: cover;
 }
 
 .profile-img-container {
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
 
+.user-actions {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}

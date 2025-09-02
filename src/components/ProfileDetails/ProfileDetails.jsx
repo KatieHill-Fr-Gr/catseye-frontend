@@ -9,17 +9,27 @@ const ProfileDetails = () => {
     const { user, signOut } = useContext(UserContext)
 
     if (!user) {
-    return <div>Please log in to view profile</div>
-    }   
+        return <div>Please log in to view profile</div>
+    }
+
+    console.log('Full user object:', user);
+    console.log('User profileImg:', user.profileImg);
 
     return (
         <div>
             <div className='profile-img-container'>
-            <img src={user.profileImg} alt='Profile' className='profile-img' />
+                <img src={user.profileImg} alt='Profile' className='profile-img' />
             </div>
             <h3>{user.username}</h3>
             <h4>{user.jobTitle}</h4>
-            <h4>{user.team}</h4>
+            <div className="user-actions">
+                <button className="page-button">
+                    Edit
+                </button>
+                <button className="page-button">
+                    Delete
+                </button>
+            </div>
             {/* List of tasks */}
         </div>
     )
