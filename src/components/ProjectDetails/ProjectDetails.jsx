@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState, useContext } from 'react'
-import { projectShow } from '../../services/projects.js'
+import { projectShow, projectDelete } from '../../services/projects.js'
 import { UserContext } from '../../contexts/UserContext'
 
 import './ProjectDetails.css'
@@ -14,8 +14,10 @@ const ProjectDetails = () => {
 
     const [project, setProject] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [editProjectOpen, setEditProjectOpen] = useState(false);
+    const [error, setError] = useState(null)
+    const [editProjectOpen, setEditProjectOpen] = useState(false)
 
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,6 +37,16 @@ const ProjectDetails = () => {
             fetchData()
         }
     }, [projectId])
+
+    const handleDelete = async () => {
+        try {
+            await projectDelete(projectId)
+            navigate('/projects')
+        } catch (error) {
+            console.log(error)
+            setError(error)
+        }
+    }
 
 
     return (
@@ -70,7 +82,7 @@ const ProjectDetails = () => {
                 >
                     <EditProject />
                 </FormModal>
-                <button className="page-button">
+                <button onClick={handleDelete} className="page-button">
                     Delete
                 </button>
             </div>
