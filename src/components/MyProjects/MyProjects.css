@@ -73,13 +73,13 @@
 
 .project-button {
     padding: 0.5rem 1rem;
-    background-color: var(--dark-secondary);
+    background-color: var(--dark-secondary);;
     color: white;
     text-decoration: none;
     border: none;
     border-radius: 7px;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 0.75rem;
     transition: background-color 0.3s ease;
 }
 

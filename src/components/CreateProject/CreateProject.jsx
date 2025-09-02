@@ -2,16 +2,10 @@ import { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { projectCreate } from '../../services/projects'
-import { getTeams } from '../../services/team'
-import { setToken, getUser } from '../../utils/auth'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
 import ImageUpload from '../ImageUpload/ImageUpload'
-
-import '../../styles/forms.css'
-import './CreateProject.css'
-
 
 const CreateProject = () => {
     const { setUser } = useContext(UserContext)
@@ -46,8 +40,7 @@ const CreateProject = () => {
 
     return (
             <form className='form' onSubmit={handleSubmit}>
-                <h2>Create a project</h2>
-
+                 <h2>Create a project</h2>
                 <div className="form-row">
                     <label htmlFor="name">Name</label>
                     <input type="text" name="name" id="name" placeholder='Your project name' value={formData.name} onChange={handleChange} />

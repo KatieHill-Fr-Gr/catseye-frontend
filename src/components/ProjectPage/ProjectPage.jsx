@@ -7,12 +7,17 @@ import { projectShow, getProjectTasks } from '../../services/projects.js'
 import DraggableTask from '../ProjectTasks/ProjectTasks'
 import DropZone from '../ProjectTaskDropZone/ProjectTaskDropZone'
 
+import Sidebar from '../Sidebar/Sidebar'
+import ProjectDetails from '../ProjectDetails/ProjectDetails'
+
 const ProjectPage = () => {
-    const { user, setUser } = useContext(UserContext)
+    const { user } = useContext(UserContext)
     const [project, setProject] = useState(null)
     const [tasks, setTasks] = useState([])
     const [taskColumns, setTaskColumns] = useState({})
     const [loading, setLoading] = useState(true)
+    const [projectDetailsOpen, setProjectDetailsOpen] = useState(false);
+
     const { projectId } = useParams()
     const navigate = useNavigate()
 
@@ -51,7 +56,6 @@ const ProjectPage = () => {
         )
     }
 
-
     if (!user) {
         return <div>Please log in to view this project.</div>
     }
@@ -60,6 +64,16 @@ const ProjectPage = () => {
         <div className="page-content">
             <div className="page-title">
                 <h1>{project?.name}</h1>
+                    <button onClick={() => setProjectDetailsOpen(true)} className="page-button">
+                                View project details
+                            </button>
+                            <Sidebar
+                                isOpen={projectDetailsOpen}
+                                onClose={() => setProjectDetailsOpen(false)}
+                                title="Project details"
+                            >
+                                <ProjectDetails />
+                            </Sidebar>
             </div>
             <section>
                 <h2></h2>

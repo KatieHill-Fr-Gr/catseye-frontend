@@ -60,10 +60,7 @@ const ProfilePage = () => {
                                     </div>
                                     <div className="project-actions">
                                         <Link to={`/projects/${project.id}`} className="project-button">
-                                            View
-                                        </Link>
-                                        <Link to={`/projects/${project.id}`} className="project-button">
-                                            Edit
+                                            Open board
                                         </Link>
                                     </div>
                                 </div>

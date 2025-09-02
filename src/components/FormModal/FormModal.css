@@ -27,6 +27,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  height: 10px;
 }
 
 .modal-close-button {
