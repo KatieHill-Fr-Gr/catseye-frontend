@@ -20,7 +20,7 @@ const DropZone = ({ onDrop, children }) => {
   }, [onDrop])
 
    return (
-    <div ref={ref} style={{ minHeight: '100px', border: '2px dashed #ccc', padding: '1rem' }}>
+    <div ref={ref}>
       { children }
     </div>
    )

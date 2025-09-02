@@ -11,6 +11,7 @@ const ProjectPage = () => {
     const { user, setUser } = useContext(UserContext)
     const [project, setProject] = useState(null)
     const [tasks, setTasks] = useState([])
+    const [taskColumns, setTaskColumns] = useState({})
     const [loading, setLoading] = useState(true)
     const { projectId } = useParams()
     const navigate = useNavigate()
@@ -37,9 +38,17 @@ const ProjectPage = () => {
         fetchData()
     }, [projectId])
 
-    const handleTaskDrop = (droppedTask) => {
+    const handleTaskDrop = (droppedTask, taskColumn) => {
         console.log('Task dropped:', droppedTask);
-
+        setTaskColumns(prev => ({
+            ...prev,
+            [droppedTask.taskId]: taskColumn
+        }))
+    }
+    const getTasksForColumn = (column) => {
+        return tasks.filter(task =>
+            (taskColumns[task.id] || 'todo') === column
+        )
     }
 
 
@@ -71,31 +80,41 @@ const ProjectPage = () => {
                     )}
                 </div>
             </section>
-<section>
-    <h2>Tasks</h2>
-    <div className="kanban-board">
-        <DropZone status="todo" onDrop={handleTaskDrop}>
-            <h3>To Do</h3>
-            {loading ? (
-                <p>Loading tasks...</p>
-            ) : (
-                tasks.map(task => (
-                    <DraggableTask key={task.id} task={task} />
-                ))
-            )}
-        </DropZone>
-        
-        <DropZone status="in-progress" onDrop={handleTaskDrop}>
-            <h3>In Progress</h3>
-            {/* Empty by default - users can drag tasks here */}
-        </DropZone>
-        
-        <DropZone status="done" onDrop={handleTaskDrop}>
-            <h3>Done</h3>
-            {/* Empty by default - users can drag tasks here */}
-        </DropZone>
-    </div>
-</section>
+            <section>
+                <h2>Tasks</h2>
+                <div className="project-board">
+                    <div className="drop-zone">
+                        <DropZone status="todo" onDrop={(task) => handleTaskDrop(task, 'todo')}>
+                            <h3>To Do</h3>
+                            <div className="tasks-column">
+                                {getTasksForColumn('todo').map(task => (
+                                    <DraggableTask key={task.id} task={task} />
+                                ))}
+                            </div>
+                        </DropZone>
+                    </div>
+                    <div className="drop-zone">
+                        <DropZone status="in-progress" onDrop={(task) => handleTaskDrop(task, 'in-progress')}>
+                            <h3>In Progress</h3>
+                            <div className="tasks-column">
+                                {getTasksForColumn('in-progress').map(task => (
+                                    <DraggableTask key={task.id} task={task} />
+                                ))}
+                            </div>
+                        </DropZone>
+                    </div>
+                    <div className="drop-zone">
+                        <DropZone status="done" onDrop={(task) => handleTaskDrop(task, 'done')}>
+                            <h3>Done</h3>
+                            <div className="tasks-column">
+                                {getTasksForColumn('done').map(task => (
+                                    <DraggableTask key={task.id} task={task} />
+                                ))}
+                            </div>
+                        </DropZone>
+                    </div>
+                </div>
+            </section>
         </div>
     )
 }

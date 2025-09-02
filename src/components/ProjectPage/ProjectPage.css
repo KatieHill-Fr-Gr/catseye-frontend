@@ -1,0 +1,24 @@
+.project-board {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.drop-zone {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 2rem;
+    gap: 1rem;
+    min-height: 100px;
+    max-width: 400px;
+}
+
+.tasks-column {
+    display: flex;
+    flex-direction: column;
+    background: var(--dark-secondary);
+    border-radius: 8px;
+    padding: 1rem;
+    min-height: 100px;
+}

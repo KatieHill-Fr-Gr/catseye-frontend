@@ -18,7 +18,7 @@ const DraggableTask = ({ task }) => {
     }, [task]);
 
     return (
-        <div ref={ref} style={{ cursor: 'grab', padding: '8px', border: '1px solid #ccc' }}>
+        <div ref={ref} style={{ cursor: 'grab', padding: '1rem' }}>
             <h3>{task.title}</h3>
             <p>{task.description}</p>
         </div>
