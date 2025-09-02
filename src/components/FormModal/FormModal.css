@@ -106,48 +106,4 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-/* Button styles */
-.modal-buttons {
-  display: flex;
-  gap: 12px;
-  padding-top: 16px;
-}
 
-.btn {
-  flex: 1;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s ease-in-out;
-  border: 1px solid transparent;
-}
-
-.btn-cancel {
-  color: #374151;
-  background-color: #f3f4f6;
-  border-color: #d1d5db;
-}
-
-.btn-cancel:hover {
-  background-color: #e5e7eb;
-}
-
-.btn-primary {
-  color: white;
-  background-color: #3b82f6;
-}
-
-.btn-primary:hover {
-  background-color: #2563eb;
-}
-
-.btn-primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-primary:disabled:hover {
-  background-color: #3b82f6;
-}

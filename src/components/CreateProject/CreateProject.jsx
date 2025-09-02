@@ -67,12 +67,12 @@ const CreateProject = () => {
 
                 <div className="form-row">
                     <ImageUpload
-                        labelText="Upload photo"
+                        labelText="Upload images"
                         fieldName="profileImg"
                         setFormData={setFormData}
                         imageURLs={formData.profileImg}
                         setUploading={setUploading}
-                        multiple={false}
+                        multiple={true}
                     />
                 </div>
 
