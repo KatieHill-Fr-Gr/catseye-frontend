@@ -1,37 +1,40 @@
 import { useState, useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 
-import { signUp } from '../../services/users'
+import { updateUserProfile } from '../../services/users'
 import { getTeams } from '../../services/team'
-import { setToken, getUser } from '../../utils/auth'
 import { UserContext } from '../../contexts/UserContext'
 import ImageUpload from '../ImageUpload/ImageUpload'
 import { toSnakeCase } from '../../utils/cases'
 
-import '../../styles/forms.css'
-import './SignUpForm.css'
 
+export default function EditProfile() {
+    const { user } = useContext(UserContext)
 
-export default function SignUpForm() {
-    // Context
-    const { setUser } = useContext(UserContext)
-
-    // State
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-        passwordConfirmation: '',
-        jobTitle: '',
-        team: '',
-        profileImg: ''
-    })
     const [teams, setTeams] = useState([]);
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState(false)
     const [imageUploading, setImageUploading] = useState(false)
 
-    const navigate = useNavigate()
+    const [formData, setFormData] = useState({
+        username: user?.username || '',
+        email: user?.email || '',
+        jobTitle: user?.jobTitle || '',
+        team: user?.team || '',
+        profileImg: user?.profileImg || ''
+    })
+
+    useEffect(() => {
+        if (user) {
+            setFormData(prev => ({
+                ...prev,
+                username: user.username || '',
+                email: user.email || '',
+                jobTitle: user.jobTitle || '',
+                team: user.team || '',
+                profileImg: user.profileImg || ''
+            }))
+        }
+    }, [user])
 
     useEffect(() => {
         const fetchTeams = async () => {
@@ -58,13 +61,10 @@ export default function SignUpForm() {
         const payload = toSnakeCase(formData);
 
         try {
-            const { data } = await signUp(payload)
-            console.log('Signup response:', data)
-            setToken(data)
-            setUser(getUser())
-            navigate('/')
+            const { data } = await updateUserProfile(payload)
+            console.log('Update response:', data)
         } catch (error) {
-            setErrors(error.response?.data || { message: 'Sign-up failed' })
+            setErrors(error.response?.data || { message: 'Update failed' })
         }
     }
 
@@ -76,23 +76,12 @@ export default function SignUpForm() {
 
     return (
         <form className='form' onSubmit={handleSubmit}>
-            <h2>Create your account</h2>
+            <h2>Update your profile</h2>
 
             <div className="form-row">
                 <label htmlFor="username">Username</label>
                 <input type="text" name="username" id="username" placeholder='Your username' value={formData.username} onChange={handleChange} />
                 {errors.username && <p className='error-message'>{errors.username}</p>}
-            </div>
-            <div className="form-row">
-                <label htmlFor="password">Password</label>
-                <input type="password" name="password" id="password" placeholder='Your password' value={formData.password} onChange={handleChange} />
-                {errors.password && <p className='error-message'>{errors.password}</p>}
-            </div>
-
-            <div className="form-row">
-                <label htmlFor="passwordConfirmation">Confirm password</label>
-                <input type="password" name='passwordConfirmation' id='passwordConfirmation' placeholder='Type your password again' value={formData.passwordConfirmation} onChange={handleChange} />
-                {errors.passwordConfirmation && <p className='error-message'>{errors.passwordConfirmation}</p>}
             </div>
 
             <div className="form-row">

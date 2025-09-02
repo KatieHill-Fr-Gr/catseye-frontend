@@ -1,11 +1,15 @@
 import './ProfileDetails.css'
 
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { UserContext } from '../../contexts/UserContext'
+
+import FormModal from '../FormModal/FormModal'
+import EditProfile from '../EditProfile/EditProfile'
 
 
 const ProfileDetails = () => {
     const { user, signOut } = useContext(UserContext)
+    const [editProfileOpen, setEditProfileOpen] = useState(false);
 
     if (!user) {
         return <div>Please log in to view profile</div>
@@ -19,9 +23,16 @@ const ProfileDetails = () => {
             <h3>{user.username}</h3>
             <h4>{user.jobTitle}</h4>
             <div className="user-actions">
-                <button className="page-button">
+                <button onClick={() => setEditProfileOpen(true)} className="page-button">
                     Edit
                 </button>
+                <FormModal
+                    isOpen={editProfileOpen}
+                    onClose={() => setEditProfileOpen(false)}
+                    title="Edit profile"
+                >
+                    <EditProfile />
+                </FormModal>
                 <button className="page-button">
                     Delete
                 </button>

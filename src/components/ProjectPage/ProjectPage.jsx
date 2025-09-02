@@ -64,8 +64,15 @@ const ProjectPage = () => {
         <div className="page-content">
             <div className="page-title">
                 <h1>{project?.name}</h1>
-                    <button onClick={() => setProjectDetailsOpen(true)} className="page-button">
-                                View project details
+            </div>
+            <section>
+                <div className="project-board">
+                    {loading ? (
+                        <p>Loading project...</p>
+                    ) : project ? (
+                        <div>
+                            <button onClick={() => setProjectDetailsOpen(true)} className="profile-button">
+                                View project brief
                             </button>
                             <Sidebar
                                 isOpen={projectDetailsOpen}
@@ -74,13 +81,7 @@ const ProjectPage = () => {
                             >
                                 <ProjectDetails />
                             </Sidebar>
-            </div>
-            <section>
-                <h2></h2>
-                <div className="project-board">
-                    {loading ? (
-                        <p>Loading project...</p>
-                    ) : project ? (
+    
                         <div className="tag-container">
                             <span className="team-tag">
                                 {project.team.name}
@@ -89,6 +90,7 @@ const ProjectPage = () => {
                                     {project.status}
                                 </span>
                             </div>
+                              </div>
                     ) : (
                         <p>There was a problem loading this project...</p>
                     )}
