@@ -7,13 +7,6 @@ export const projectsIndex = () => {
     return axios.get(`${BASE_URL}projects/`)
 }
 
-export const getUserTeamProjects = () => {
-    return axios.get(`${BASE_URL}projects/user-team-projects/`, {
-        headers: {
-            Authorization: `Bearer ${getToken()}`
-        }
-    })
-}
 
 export const projectShow = (projectId) => {
     return axios.get(`${BASE_URL}projects/${projectId}`, {
@@ -42,6 +35,22 @@ export const projectUpdate = (projectId, formData) => {
 
 export const projectDelete = (projectId) => {
     return axios.delete(`${BASE_URL}projects/${projectId}`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
+}
+
+export const getUserTeamProjects = () => {
+    return axios.get(`${BASE_URL}projects/user-team-projects/`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
+}
+
+export const getProjectTasks = () => {
+    return axios.get(`${BASE_URL}projects/${projectId}/tasks/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
