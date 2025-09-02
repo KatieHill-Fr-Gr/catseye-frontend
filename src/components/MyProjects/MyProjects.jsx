@@ -8,7 +8,7 @@ import { getUserTeamProjects } from '../../services/projects.js'
 import FormModal from '../FormModal/FormModal'
 import CreateProject from '../CreateProject/CreateProject'
 
-const ProfilePage = () => {
+const MyProjects = () => {
     const { user, setUser } = useContext(UserContext)
     const [userTeamProjects, setUserTeamProjects] = useState([]);
     const [projectsLoading, setProjectsLoading] = useState(true);
@@ -88,4 +88,4 @@ const ProfilePage = () => {
     )
 }
 
-export default ProfilePage
+export default MyProjects

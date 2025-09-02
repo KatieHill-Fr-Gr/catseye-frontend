@@ -1,31 +1,66 @@
-import { useState, useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
-import { projectEdit } from '../../services/projects'
+import { projectUpdate, projectShow } from '../../services/projects'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
 import ImageUpload from '../ImageUpload/ImageUpload'
 
 const EditProject = () => {
-    const { setUser } = useContext(UserContext)
+    const { projectId } = useParams()
+    const [project, setProject] = useState(null)
+    const [statusChoices, setStatusChoices] = useState([])
 
     const [formData, setFormData] = useState({
-        name: project?.name || '',
-        brief: project?.brief || '',
-        deadline: project?.deadline || '',
-        images: project?.images || [],
+        name: '',
+        brief: '',
+        deadline: '',
+        status: '',
+        images: []
     })
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState(false)
 
+    const STATUS_CHOICES = [
+        { value: 'in_progress', label: 'In Progress' },
+        { value: 'review', label: 'Under Review' },
+        { value: 'completed', label: 'Completed' },
+        { value: 'on_hold', label: 'On Hold' },
+        { value: 'cancelled', label: 'Cancelled' },
+    ]
+
+    useEffect(() => {
+        const getProject = async () => {
+            try {
+                const response = await projectShow(projectId)
+                const projectData = response.data
+                setProject(projectData)
+
+                setFormData({
+                    name: projectData.name || '',
+                    brief: projectData.brief || '',
+                    deadline: projectData.deadline || '',
+                    status: projectData.status || '',
+                    images: projectData.images || []
+                })
+            } catch (error) {
+                console.error('Error fetching data:', error)
+                setErrors({ message: 'Unable to load project data' })
+            }
+        }
+
+        if (projectId) {
+            getProject()
+        }
+    }, [projectId])
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         const payload = toSnakeCase(formData);
 
         try {
-            const { data } = await projectEdit(payload)
+            const { data } = await projectUpdate(projectId, payload)
             console.log('Edited project:', data)
         } catch (error) {
             setErrors(error.response?.data || { message: 'Unable to edit project' })
@@ -57,11 +92,24 @@ const EditProject = () => {
             </div>
 
             <div className="form-row">
+                <label htmlFor="status">Status</label>
+                <select name="status" id="status" value={formData.status} onChange={handleChange}>
+                    <option value="">Select status</option>
+                    {STATUS_CHOICES.map((choice) => (
+                        <option key={choice.value} value={choice.value}>
+                            {choice.label}
+                        </option>
+                    ))}
+                </select>
+                {errors.status && <p className='error-message'>{errors.status}</p>}
+            </div>
+
+            <div className="form-row">
                 <ImageUpload
                     labelText="Upload images"
-                    fieldName="profileImg"
+                    fieldName="images"
                     setFormData={setFormData}
-                    imageURLs={formData.profileImg}
+                    imageURLs={formData.images}
                     setUploading={setUploading}
                     multiple={true}
                 />

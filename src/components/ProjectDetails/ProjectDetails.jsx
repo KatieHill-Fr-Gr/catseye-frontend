@@ -5,12 +5,17 @@ import { UserContext } from '../../contexts/UserContext'
 
 import './ProjectDetails.css'
 
+import FormModal from '../FormModal/FormModal'
+import EditProject from '../EditProject/EditProject'
+
 
 const ProjectDetails = () => {
     const { projectId } = useParams()
 
     const [project, setProject] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [editProjectOpen, setEditProjectOpen] = useState(false);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -55,9 +60,16 @@ const ProjectDetails = () => {
                 </div>
             </section>
             <div className="project-actions">
-                <button className="page-button">
+                <button onClick={() => setEditProjectOpen(true)} className="page-button">
                     Edit
                 </button>
+                <FormModal
+                    isOpen={editProjectOpen}
+                    onClose={() => setEditProjectOpen(false)}
+                    title="Edit project"
+                >
+                    <EditProject />
+                </FormModal>
                 <button className="page-button">
                     Delete
                 </button>
