@@ -67,14 +67,14 @@ const ProjectPage = () => {
                     {loading ? (
                         <p>Loading project...</p>
                     ) : project ? (
-                        <div className="project-info">
-                            <div className="project-team-tag">
-                                <h3>{project.team.name}</h3>
-                                <div className="project-status-tag">
-                                    <p>{project.status}</p>
-                                </div>
+                        <div className="tag-container">
+                            <span className="team-tag">
+                                {project.team.name}
+                                </span>
+                                <span className="status-tag">
+                                    {project.status}
+                                </span>
                             </div>
-                        </div>
                     ) : (
                         <p>There was a problem loading this project...</p>
                     )}

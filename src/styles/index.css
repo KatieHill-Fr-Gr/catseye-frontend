@@ -51,3 +51,34 @@ a {
     color: white;
     background-color: var(--dark-lightteal);
 }
+
+.tag-container {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.team-tag {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(45deg, var(--dark-primary) 0%, var(--dark-teal) 100%);
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 25px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  border: none;
+}
+
+.status-tag {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(45deg, var(--dark-primary) 0%, var(--dark-yellow) 100%);
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 25px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  border: none;
+}
