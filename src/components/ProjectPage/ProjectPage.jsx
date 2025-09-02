@@ -1,5 +1,5 @@
 import './ProjectPage.css'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { UserContext } from '../../contexts/UserContext'
@@ -19,7 +19,7 @@ const ProjectPage = () => {
             try {
                 setLoading(true)
                 const project = await projectShow(projectId)
-                console.log(project.data)
+                console.log('Full project data:', project.data)
                 setProject(project.data)
             } catch (error) {
                 console.error('Error:', error)
@@ -36,39 +36,32 @@ const ProjectPage = () => {
         return <div>Please log in to view this project.</div>
     }
 
-return (
-    <div className="page-content">
-        <div className="page-title">
-            <h1>Project</h1>
-        </div>
-        <section>
-            <h2></h2>
-            <div className="project-board">
-                {loading ? (
-                    <p>Loading project...</p>
-                ) : project ? (
-                        <div className="project-team">
-                            <h3>{project.team}</h3>
-                            <div className="project-status">
-                                <p>{project.status}</p>
-                            </div>
-        
-                        <div className="project-actions">
-                            <button className="project-button">
-                                Edit
-                            </button>
-                            <button className="project-button">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                ) : (
-                    <p>There was a problem loading this project...</p>
-                )}
+    return (
+        <div className="page-content">
+            <div className="page-title">
+                <h1>{project.name}</h1>
             </div>
-        </section>
-    </div>
-)
+            <section>
+                <h2></h2>
+                <div className="project-board">
+                    {loading ? (
+                        <p>Loading project...</p>
+                    ) : project ? (
+                        <div className="project-info">
+                            <div className="project-team-tag">
+                                <h3>{project.team.name}</h3>
+                                <div className="project-status-tag">
+                                    <p>{project.status}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <p>There was a problem loading this project...</p>
+                    )}
+                </div>
+            </section>
+        </div>
+    )
 }
 
 export default ProjectPage
