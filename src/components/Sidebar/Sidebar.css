@@ -13,7 +13,7 @@
 
 .sidebar {
   background-color: var(--dark-secondary);
-  width: 400px;
+  width: 600px;
   height: 100vh;
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
   display: flex;

@@ -19,8 +19,8 @@ const ProjectPage = () => {
     const [tasks, setTasks] = useState([])
     const [taskColumns, setTaskColumns] = useState({})
     const [loading, setLoading] = useState(true)
-    const [projectDetailsOpen, setProjectDetailsOpen] = useState(false);
-    const [newTaskOpen, setNewTaskOpen] = useState(false);
+    const [projectDetailsOpen, setProjectDetailsOpen] = useState(false)
+    const [newTaskOpen, setNewTaskOpen] = useState(false)
 
     const { projectId } = useParams()
     const navigate = useNavigate()
