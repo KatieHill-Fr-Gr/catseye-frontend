@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
-import { textUpdate } from '../../services/texts'
+import { textUpdate, textShow } from '../../services/texts'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
@@ -9,6 +10,8 @@ import './EditSourceForm.css'
 
 const EditSourceForm = () => {
     const { user } = useContext(UserContext)
+    const { sourceId } = useParams()
+    const [source, setSource] = useState(null)
     const [lexicalValue, setLexicalValue] = useState('')
 
     const [formData, setFormData] = useState({
@@ -23,9 +26,9 @@ const EditSourceForm = () => {
     useEffect(() => {
         const getSource = async () => {
             try {
-                const response = await sourceShow(sourceId)
+                const response = await textShow(sourceId)
                 const sourceData = response.data
-                setProject(sourceData)
+                setSource(sourceData)
 
                 setFormData({
                     title: sourceData.title || '',

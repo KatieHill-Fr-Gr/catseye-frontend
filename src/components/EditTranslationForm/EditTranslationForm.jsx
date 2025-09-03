@@ -21,7 +21,7 @@ const EditTranslationForm = () => {
         sourceTextOption: '',
         sourceText: '',
         termbaseOption: '', // Option to select a termbase or leave blank (or possibly create new)
-        temrbase: '',
+        termbase: '',
         feedback: [],
     })
     const [errors, setErrors] = useState({})
