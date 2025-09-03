@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 
 import { textUpdate } from '../../services/texts'
 import { toSnakeCase } from '../../utils/cases'

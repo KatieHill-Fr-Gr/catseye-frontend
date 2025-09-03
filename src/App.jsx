@@ -19,6 +19,8 @@ import MyProjects from './components/MyProjects/MyProjects'
 import ProjectPage from './components/ProjectPage/ProjectPage'
 import CreateSourcePage from './components/CreateSourcePage/CreateSourcePage'
 import CreateTranslationPage from './components/CreateTranslationPage/CreateTranslationPage'
+import EditSourcePage from './components/EditSourcePage/EditSourcePage'
+import EditTranslationPage from './components/EditTranslationPage/EditTranslationPage'
 
 
 import NotFound from './components/404NotFound/404NotFound'
@@ -39,7 +41,9 @@ function App() {
         <Route path='/projects' element={<MyProjects />} />
         <Route path='/projects/:projectId' element={<ProjectPage />} />
         <Route path='/texts/new' element={<CreateSourcePage />} />
+        <Route path='/texts/:sourceId/edit' element={<EditSourcePage />} />
         <Route path='/translations/new' element={<CreateTranslationPage />} />
+        <Route path='/translations/:translationId/edit' element={<EditTranslationPage />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       </div>

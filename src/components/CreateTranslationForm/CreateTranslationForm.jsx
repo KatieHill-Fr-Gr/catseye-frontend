@@ -54,10 +54,10 @@ const CreateTranslationForm = () => {
         <form className='form' onSubmit={handleSubmit}>
             <h2>Add your translation</h2>
             <div className="form-row">
-                <label htmlFor="sourceLanguage">Language</label>
+                <label htmlFor="targetLanguage">Language</label>
                 <select
-                    name="sourceLanguage"
-                    value={formData.sourceLanguage}
+                    name="targetLanguage"
+                    value={formData.targetLanguage}
                     onChange={handleChange}
                 >
                     <option value="en-GB">English (UK)</option>
