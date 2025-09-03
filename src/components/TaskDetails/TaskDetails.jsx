@@ -9,43 +9,24 @@ import './TaskDetails.css'
 // import EditTask from '../EditTask/EditTask'
 
 
-const TaskDetails = () => {
-    const { taskId } = useParams()
-
-    const [loading, setLoading] = useState(true)
-    const [task, setTask] = useState(null)
+const TaskDetails = ({ task }) => {
     const [error, setError] = useState(null)
     // const [editTaskOpen, setEditTaskOpen] = useState(false)
 
     const navigate = useNavigate()
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true)
-                const response = await taskShow(taskId)
-                setTask(response.data)
-            } catch (error) {
-                console.error('Error:', error)
-                setTask(null)
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        if (taskId) {
-            fetchData()
-        }
-    }, [taskId])
-
     const handleDelete = async () => {
         try {
-            await taskDelete(taskId)
+            await taskDelete(task.id)
             // Close modal on delete?
         } catch (error) {
             console.log(error)
             setError(error)
         }
+    }
+
+    if (!task) {
+        return <p>No task data available...</p>
     }
 
     return (
@@ -56,18 +37,11 @@ const TaskDetails = () => {
             <section>
                 <h2></h2>
                 <div className="task-details">
-                    {loading ? (
-                        <p>Loading task...</p>
-                    ) : task ? (
                         <div className="task-info">
                             <div className="description">
                                 {task.description}
                             </div>
                         </div>
-
-                    ) : (
-                        <p>There was a problem loading this task...</p>
-                    )}
                 </div>
             </section>
             <div className="task-actions">

@@ -1,7 +1,15 @@
 .project-task {
     background: var(--dark-secondary);
-    text-align: center;
     border-radius: 8px; 
     margin: 0.5rem;
     cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.project-task h4 {
+    margin: 0; 
+    text-align: left; 
 }

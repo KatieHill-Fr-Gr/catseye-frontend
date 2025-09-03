@@ -1,6 +1,8 @@
 import './ProjectPage.css'
 import { useState, useEffect, useContext, useRef } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { LuCirclePlus } from "react-icons/lu";
+
 
 import { UserContext } from '../../contexts/UserContext'
 import { projectShow, getProjectTasks } from '../../services/projects.js'
@@ -114,7 +116,7 @@ const ProjectPage = () => {
                         </DropZone>
                                     <div>
             <button onClick={() => setNewTaskOpen(true)} className="new-task">
-                                + Add new task
+                                <LuCirclePlus /> Add new task
                             </button>
                 <FormModal
                     isOpen={newTaskOpen}

@@ -35,10 +35,10 @@ const DraggableTask = ({ task }) => {
             </button>
             <Sidebar
                 isOpen={taskDetailsOpen}
-                onClose={() => setProjectDetailsOpen(false)}
+                onClose={() => setTaskDetailsOpen(false)}
                 title="Task details"
             >
-                <TaskDetails />
+                <TaskDetails task={task}/>
             </Sidebar>
         </div>
     );
