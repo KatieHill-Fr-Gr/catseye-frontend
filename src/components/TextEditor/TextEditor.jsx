@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { $getRoot, $getSelection } from 'lexical'
+
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
@@ -8,16 +9,6 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 
-// Theme for styling
-const theme = {
-  // You can add custom CSS classes here later
-  paragraph: 'editor-paragraph',
-  text: {
-    bold: 'editor-text-bold',
-    italic: 'editor-text-italic',
-    underline: 'editor-text-underline',
-  },
-}
 
 // Initial editor state
 function prepopulatedRichText() {
@@ -45,7 +36,6 @@ function MyOnChangePlugin({ onChange }) {
 const TextEditor = ({ value, onChange, placeholder = "Enter some text..." }) => {
   const initialConfig = {
     namespace: 'MyEditor',
-    theme,
     onError(error) {
       console.error(error)
     },

@@ -16,10 +16,10 @@ const CreateProject = () => {
         title: '',
         description: '',
         deadline: '',
-        sourceTextOption: '', // User will be able to choose between 'Use existing' and 'Create new'
-        sourceText: '', // Dropdown for the existing text
-        translationOption: '', // User will be able to choose between 'Select translation' and 'Create translation'
-        translation: '', // Dropdown for the existing translation
+        sourceTextOption: '', 
+        sourceText: '', 
+        translationOption: '',
+        translation: '',
     })
     const [existingSourceTexts, setExistingSourceTexts] = useState([])
     const [existingTranslations, setExistingTranslations] = useState([])

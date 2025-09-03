@@ -18,6 +18,7 @@ import SignInPage from './components/SignInPage/SignInPage'
 import MyProjects from './components/MyProjects/MyProjects'
 import ProjectPage from './components/ProjectPage/ProjectPage'
 import CreateSourcePage from './components/CreateSourcePage/CreateSourcePage'
+import CreateTranslationPage from './components/CreateTranslationPage/CreateTranslationPage'
 
 
 import NotFound from './components/404NotFound/404NotFound'
@@ -37,7 +38,8 @@ function App() {
         <Route path='/sign-in' element={<SignInPage />} />
         <Route path='/projects' element={<MyProjects />} />
         <Route path='/projects/:projectId' element={<ProjectPage />} />
-        <Route path='/texts' element={<CreateSourcePage />} />
+        <Route path='/texts/new' element={<CreateSourcePage />} />
+        <Route path='/translations/new' element={<CreateTranslationPage />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       </div>
