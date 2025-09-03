@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { translationUpdate } from '../../services/translations'
+import { translationUpdate, translationShow } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
@@ -35,14 +35,14 @@ const EditTranslationForm = () => {
                 setTranslation(translationData)
 
                 setFormData({
-                    title: sourceData.title || '',
-                    body: sourceData.body || '',
-                    targetLanguage: sourceData.targetLanguage || '',
-                    sourceTextOption: sourceData.sourceTextOption || '',
-                    sourceText: sourceData.sourceText || '',
-                    termbaseOption: sourceData.termbaseOption || '',
-                    termbase: sourceData.termbase|| '',
-                    feedback: sourceData.feedback || [],
+                    title: translationData.title || '',
+                    body: translationData.body || '',
+                    targetLanguage: translationData.targetLanguage || '',
+                    sourceTextOption: translationData.sourceTextOption || '',
+                    sourceText: translationData.sourceText || '',
+                    termbaseOption: translationData.termbaseOption || '',
+                    termbase: translationData.termbase|| '',
+                    feedback: translationData.feedback || [],
                 })
             } catch (error) {
                 console.error('Error fetching data:', error)
