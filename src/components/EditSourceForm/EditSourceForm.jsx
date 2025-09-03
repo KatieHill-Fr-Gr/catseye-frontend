@@ -104,11 +104,16 @@ const EditSourceForm = () => {
 
             <div className="form-row">
                 <label>Text</label>
-                <TextEditor
-                    value={lexicalValue}
-                    onChange={handleLexicalChange}
-                    placeholder="Enter your source text here..."
-                />
+                {lexicalValue !== '' ? (
+                    <TextEditor
+                        key={sourceId}
+                        value={lexicalValue}
+                        onChange={handleLexicalChange}
+                        placeholder="Enter your source text here..."
+                    />
+                ) : (
+                    <div>Loading...</div>
+                )}
             </div>
 
 
