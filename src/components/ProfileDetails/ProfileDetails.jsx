@@ -1,19 +1,33 @@
 import './ProfileDetails.css'
 
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+
 import { UserContext } from '../../contexts/UserContext'
+import { getUserTasks } from '../../services/projects.js'
 
 import FormModal from '../FormModal/FormModal'
 import EditProfile from '../EditProfile/EditProfile'
 
 
 const ProfileDetails = () => {
-    const { user, signOut } = useContext(UserContext)
+    const { user } = useContext(UserContext)
+    const [tasks, setTasks] = useState([])
     const [editProfileOpen, setEditProfileOpen] = useState(false);
 
     if (!user) {
         return <div>Please log in to view profile</div>
     }
+
+
+    useEffect(() => {
+        const userTasks = async () => {
+            const response = await getUserTasks()
+            setTasks(response.data)
+        };
+        userTasks()
+    }, [])
+
 
     return (
         <div>
@@ -37,7 +51,21 @@ const ProfileDetails = () => {
                     Delete
                 </button>
             </div>
-            {/* List of tasks */}
+            <div>
+                <h3>Tasks</h3>
+                {tasks.map(task => (
+                    <div key={task.id} className="task-card">
+                        <h3>
+                            <Link to={`/projects/${task.parent_project}/tasks/${task.id}`}>
+                                {task.title}
+                            </Link>
+                        </h3>
+                        <p>Status: {task.status}</p>
+                        <p>Deadline: {task.deadline}</p>
+                        {task.source_text && <p>Source: {task.source_text.title}</p>}
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }

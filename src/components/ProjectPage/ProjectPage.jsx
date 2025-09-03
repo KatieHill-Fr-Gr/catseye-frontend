@@ -113,8 +113,8 @@ const ProjectPage = () => {
                             </div>
                         </DropZone>
                                     <div>
-            <button onClick={() => setNewTaskOpen(true)} className="page-button">
-                                Add new
+            <button onClick={() => setNewTaskOpen(true)} className="new-task">
+                                + Add new task
                             </button>
                 <FormModal
                     isOpen={newTaskOpen}

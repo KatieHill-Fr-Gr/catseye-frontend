@@ -22,3 +22,13 @@
     padding: 1rem;
     min-height: 100px;
 }
+
+.new-task {
+    background: var(--dark-secondary);
+    color: var(--dark-fonts);
+    text-align: center;
+    border-radius: 8px; 
+    padding: 1rem;
+    margin: 1rem;
+    cursor: grab;
+}

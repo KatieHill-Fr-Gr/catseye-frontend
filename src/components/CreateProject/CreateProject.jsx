@@ -8,7 +8,7 @@ import { UserContext } from '../../contexts/UserContext'
 import ImageUpload from '../ImageUpload/ImageUpload'
 
 const CreateProject = () => {
-    const { setUser } = useContext(UserContext)
+    const { user } = useContext(UserContext)
 
     const [formData, setFormData] = useState({
         name: '',
