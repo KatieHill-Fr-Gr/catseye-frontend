@@ -51,7 +51,8 @@ const ProfileDetails = () => {
                     Delete
                 </button>
             </div>
-            <div>
+            <div className="task-container">
+                <div className="task-list">
                 <h3>Tasks</h3>
                 {tasks.map(task => (
                     <div key={task.id} className="task-card">
@@ -60,11 +61,11 @@ const ProfileDetails = () => {
                                 {task.title}
                             </Link>
                         </h3>
-                        <p>Status: {task.status}</p>
-                        <p>Deadline: {task.deadline}</p>
+                        <div className="deadline-tag">{task.deadline}</div>
                         {task.source_text && <p>Source: {task.source_text.title}</p>}
                     </div>
                 ))}
+                </div>
             </div>
         </div>
     )
