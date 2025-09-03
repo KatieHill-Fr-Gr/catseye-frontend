@@ -28,7 +28,7 @@ export const translationCreate = (formData) => {
     })
 }
 
-export const translationUpdate = (sourceId, formData) => {
+export const translationUpdate = (translationId, formData) => {
     const token = getToken()
     return axios.put(`${BASE_URL}translations/${translationId}/`, formData, {
         headers: {

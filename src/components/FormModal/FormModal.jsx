@@ -1,6 +1,6 @@
 import './FormModal.css'
-import { useState } from 'react';
-import { X, Edit, Plus } from 'lucide-react';
+import { useState } from 'react'
+import { X, Edit, Plus } from 'lucide-react'
 
 
 const FormModal = ({ isOpen, onClose, title, children }) => {

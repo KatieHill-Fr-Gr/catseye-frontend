@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { UserContext } from '../../contexts/UserContext'
 import { getUserTasks } from '../../services/projects.js'
+import { toCamelCase } from '../../utils/cases'
 
 import FormModal from '../FormModal/FormModal'
 import EditProfile from '../EditProfile/EditProfile'
@@ -19,11 +20,10 @@ const ProfileDetails = () => {
         return <div>Please log in to view profile</div>
     }
 
-
     useEffect(() => {
         const userTasks = async () => {
             const response = await getUserTasks()
-            setTasks(response.data)
+            setTasks(response.data.map(task => toCamelCase(task)))
         };
         userTasks()
     }, [])
@@ -57,12 +57,12 @@ const ProfileDetails = () => {
                 {tasks.map(task => (
                     <div key={task.id} className="task-card">
                         <h3>
-                            <Link to={`/projects/${task.parent_project}/tasks/${task.id}`}>
+                            <Link to={`/projects/${task.parentProject}/tasks/${task.id}`}>
                                 {task.title}
                             </Link>
                         </h3>
                         <div className="deadline-tag">{task.deadline}</div>
-                        {task.source_text && <p>Source: {task.source_text.title}</p>}
+                        {task.sourceText && <p>Source: {task.sourceText.title}</p>}
                     </div>
                 ))}
                 </div>

@@ -2,8 +2,9 @@ import { useState, useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { translationUpdate, translationShow } from '../../services/translations'
-import { toSnakeCase } from '../../utils/cases'
+import { toSnakeCase, toCamelCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
+
 
 import TextEditor from '../TextEditor/TextEditor'
 // import './EditTranslationForm.css'
@@ -32,7 +33,7 @@ const EditTranslationForm = () => {
             try {
                 const response = await translationShow(translationId)
                 const translationData = response.data
-                setTranslation(translationData)
+                setTranslation(toCamelCase(translationData))
 
                 setFormData({
                     title: translationData.title || '',
@@ -65,11 +66,16 @@ const EditTranslationForm = () => {
             body: lexicalValue
         })
 
+        console.log(payload)
+
         try {
-            const { data } = await translationUpdate(payload)
+            const { data } = await translationUpdate(translationId, payload)
             console.log('Text update response:', data)
         } catch (error) {
-            setErrors(error.response?.data || { message: 'Unable to update source text' })
+            console.error('Full error object:', error)
+            console.error('Error response:', error.response)
+            console.error('Error response data:', error.response?.data)
+            setErrors(error.response?.data || { message: 'Unable to update translation' })
         }
     }
 
@@ -118,7 +124,7 @@ const EditTranslationForm = () => {
                         key={translationId}
                         value={lexicalValue}
                         onChange={handleLexicalChange}
-                        placeholder="Enter your source text here..."
+                        placeholder="Enter your translation here..."
                     />
                 ) : (
                     <div>Loading...</div>
