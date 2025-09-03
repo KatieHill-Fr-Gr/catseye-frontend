@@ -1,22 +1,16 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext } from 'react'
 
-import { textCreate } from '../../services/projects'
+import { textCreate } from '../../services/texts'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
-import { createEditor } from 'slate'
-import { Slate, Editable, withReact } from 'slate-react'
+import TextEditor from '../TextEditor/TextEditor'
+import './CreateSourceForm.css'
 
-import SlateEditor from '../SlateEditor/SlateEditor'
-
-
-// file upload??
-
-const CreateSourceText = () => {
+const CreateSourceForm = () => {
     const { user } = useContext(UserContext)
-    const [slateValue, setSlateValue] = useState([
-        { type: 'paragraph', children: [{ text: '' }] }
-    ])
+    const [lexicalValue, setLexicalValue] = useState('')
+
     const [formData, setFormData] = useState({
         title: '',
         body: '',
@@ -31,7 +25,7 @@ const CreateSourceText = () => {
 
         const payload = toSnakeCase({
             ...formData,
-            body: JSON.stringify(slateValue)
+            body: lexicalValue
         })
 
         try {
@@ -48,44 +42,46 @@ const CreateSourceText = () => {
         setFormData(newFormData)
     }
 
-    const handleSlateChange = (value) => {
-        setSlateValue(value)
+    const handleLexicalChange = (jsonString) => {
+        setLexicalValue(jsonString)
     }
 
     return (
         <form className='form' onSubmit={handleSubmit}>
-            <SlateEditor 
-                value={slateValue} 
-                onChange={handleSlateChange} 
-            />
-            <h2>Create a project</h2>
+            <h2>Add a new source text</h2>
             <div className="form-row">
-                <label htmlFor="name">Name</label>
-                <input type="text" name="name" id="name" placeholder='Your project name' value={formData.name} onChange={handleChange} />
-                {errors.name && <p className='error-message'>{errors.name}</p>}
+                <label htmlFor="sourceLanguage">Language</label>
+                <select
+                    name="sourceLanguage"
+                    value={formData.sourceLanguage}
+                    onChange={handleChange}
+                >
+                    <option value="en-GB">English (UK)</option>
+                    <option value="en-US">English (US)</option>
+                    <option value="fr-FR">French</option>
+                    <option value="es-ES">Spanish</option>
+                    <option value="it-IT">Italian</option>
+                    <option value="gr-GR">Greek</option>
+                    <option value="de-DE">German</option>
+                    <option value="nl-NL">Dutch</option>
+                    <option value="pl-PL">Polish</option>
+                </select>
             </div>
             <div className="form-row">
-                <label htmlFor="brief">Brief</label>
-                <input type="text" name="brief" id="brief" placeholder='Write your brief here' value={formData.brief} onChange={handleChange} />
-                {errors.brief && <p className='error-message'>{errors.brief}</p>}
+                <label htmlFor="title">Title</label>
+                <input type="text" name="title" id="title" placeholder='Enter your heading here' value={formData.title} onChange={handleChange} />
+                {errors.title && <p className='error-message'>{errors.title}</p>}
             </div>
 
             <div className="form-row">
-                <label htmlFor="deadline">Due</label>
-                <input type="deadline" name='deadline' id='deadline' placeholder='Please enter a date YYYY-MM-DD' value={formData.deadline} onChange={handleChange} />
-                {errors.deadline && <p className='error-message'>{errors.deadline}</p>}
-            </div>
-
-            <div className="form-row">
-                <ImageUpload
-                    labelText="Upload images"
-                    fieldName="profileImg"
-                    setFormData={setFormData}
-                    imageURLs={formData.profileImg}
-                    setUploading={setUploading}
-                    multiple={true}
+                <label>Text</label>
+                <TextEditor
+                    value={lexicalValue}
+                    onChange={handleLexicalChange}
+                    placeholder="Enter your source text here..."
                 />
             </div>
+
 
             {errors.message && (
                 <div className="error-message general-error">
@@ -98,4 +94,4 @@ const CreateSourceText = () => {
     )
 }
 
-export default CreateSourceText
+export default CreateSourceForm
