@@ -17,7 +17,8 @@
     "react-dom": "^19.1.1",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.8.2",
-    "run": "^1.5.0"
+    "run": "^1.5.0",
+    "slate-react": "^0.117.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

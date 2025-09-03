@@ -47,12 +47,12 @@ const TaskDetails = ({ task }) => {
                             <div className="description">
                                 <b>Description:</b> {task.description}
                             </div>
-                            <div className="source-text">
-                                {task.source.title}
+                            {/* <div className="source-text">
+                                {task.sourceText.title}
                             </div>
                             <div className="translation">
                                 {task.translation.title}
-                            </div>
+                            </div> */}
                         </div>
             </section>
             <div className="task-actions">
