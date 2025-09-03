@@ -36,6 +36,8 @@ const EditSourceForm = () => {
                     sourceLanguage: sourceData.sourceLanguage || '',
                     feedback: sourceData.feedback || [],
                 })
+                setLexicalValue(sourceData.body || '')
+
             } catch (error) {
                 console.error('Error fetching data:', error)
                 setErrors({ message: 'Unable to load source text' })
@@ -78,6 +80,7 @@ const EditSourceForm = () => {
             <div className="form-row">
                 <label htmlFor="sourceLanguage">Language</label>
                 <select
+                    id="sourceLanguage"
                     name="sourceLanguage"
                     value={formData.sourceLanguage}
                     onChange={handleChange}

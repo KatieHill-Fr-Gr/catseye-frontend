@@ -41,9 +41,12 @@ const EditTranslationForm = () => {
                     sourceTextOption: translationData.sourceTextOption || '',
                     sourceText: translationData.sourceText || '',
                     termbaseOption: translationData.termbaseOption || '',
-                    termbase: translationData.termbase|| '',
+                    termbase: translationData.termbase || '',
                     feedback: translationData.feedback || [],
                 })
+
+                setLexicalValue(translationData.body || '')
+
             } catch (error) {
                 console.error('Error fetching data:', error)
                 setErrors({ message: 'Unable to load source text' })
@@ -81,11 +84,12 @@ const EditTranslationForm = () => {
     }
 
     return (
-<form className='form' onSubmit={handleSubmit}>
+        <form className='form' onSubmit={handleSubmit}>
             <h2>Edit translation</h2>
             <div className="form-row">
                 <label htmlFor="targetLanguage">Language</label>
                 <select
+                    id="targetLanguage"
                     name="targetLanguage"
                     value={formData.targetLanguage}
                     onChange={handleChange}
@@ -108,12 +112,17 @@ const EditTranslationForm = () => {
             </div>
 
             <div className="form-row">
-                <label>Translation</label>
-                <TextEditor
-                    value={lexicalValue}
-                    onChange={handleLexicalChange}
-                    placeholder="Enter your source text here..."
-                />
+                <label>Text</label>
+                {lexicalValue !== '' ? (
+                    <TextEditor
+                        key={translationId}
+                        value={lexicalValue}
+                        onChange={handleLexicalChange}
+                        placeholder="Enter your source text here..."
+                    />
+                ) : (
+                    <div>Loading...</div>
+                )}
             </div>
 
 

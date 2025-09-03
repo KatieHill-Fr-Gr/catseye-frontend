@@ -52,6 +52,7 @@ const CreateSourceForm = () => {
             <div className="form-row">
                 <label htmlFor="sourceLanguage">Language</label>
                 <select
+                    id="sourceLanguage"
                     name="sourceLanguage"
                     value={formData.sourceLanguage}
                     onChange={handleChange}

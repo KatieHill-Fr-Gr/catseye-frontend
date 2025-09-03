@@ -56,6 +56,7 @@ const CreateTranslationForm = () => {
             <div className="form-row">
                 <label htmlFor="targetLanguage">Language</label>
                 <select
+                    id="targetLanguage"
                     name="targetLanguage"
                     value={formData.targetLanguage}
                     onChange={handleChange}
