@@ -28,7 +28,7 @@ export const projectUpdate = (projectId, formData) => {
     const token = getToken()
     return axios.put(`${BASE_URL}projects/${projectId}/`, formData, {
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${getToken()}`
         }
     })
 }
