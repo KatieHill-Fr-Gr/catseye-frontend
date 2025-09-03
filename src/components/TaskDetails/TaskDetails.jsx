@@ -31,18 +31,29 @@ const TaskDetails = ({ task }) => {
 
     return (
         <div className="page-content">
-            <div className="page-title">
+            <div className="task-title">
                 <h2>{task.title}</h2>
             </div>
-            <section>
-                <h2></h2>
+            <section className="task-container">
+                <div className="task-tags">
+                        <div className="status-tag">
+                                {task.status}
+                            </div>
+                            <div className="deadline-tag">
+                                {task.deadline}
+                            </div>
+                            </div>
                 <div className="task-details">
-                        <div className="task-info">
                             <div className="description">
-                                {task.description}
+                                <b>Description:</b> {task.description}
+                            </div>
+                            <div className="source-text">
+                                {task.source.title}
+                            </div>
+                            <div className="translation">
+                                {task.translation.title}
                             </div>
                         </div>
-                </div>
             </section>
             <div className="task-actions">
                 {/* <button onClick={() => setEditProjectOpen(true)} className="page-button">

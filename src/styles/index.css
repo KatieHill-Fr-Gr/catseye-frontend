@@ -73,7 +73,7 @@ a {
 .status-tag {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: linear-gradient(45deg, var(--dark-primary) 0%, var(--dark-yellow) 100%);
+  background: linear-gradient(45deg, var(--dark-yellow) 0%, var(--dark-red) 100%);
   color: white;
   font-size: 0.75rem;
   border-radius: 25px;
@@ -84,7 +84,7 @@ a {
 .deadline-tag {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: linear-gradient(45deg, var(--dark-yellow) 0%, var(--dark-lightteal) 100%);
+  background: linear-gradient(45deg, var(--dark-primary) 0%, var(--dark-teal) 100%);
   color: white;
   font-size: 0.75rem;
   border-radius: 25px;
