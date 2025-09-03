@@ -1,21 +1,24 @@
 import { useState, useContext, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import { taskCreate } from '../../services/projects'
+import { getSourceTexts } from '../../services/texts'
+import { getTranslations } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
-import ImageUpload from '../ImageUpload/ImageUpload'
-
 const CreateProject = () => {
     const { user } = useContext(UserContext)
+    const { projectId } = useParams()
+    const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         deadline: '',
-        source_text_option: '', // User will be able to choose between 'Select text' and 'Create new'
-        source_text: '', // Dropdown for the existing text
-        translation_option, // User will be able to choose between 'Select translation' and 'Create translation'
+        sourceTextOption: '', // User will be able to choose between 'Use existing' and 'Create new'
+        sourceText: '', // Dropdown for the existing text
+        translationOption: '', // User will be able to choose between 'Select translation' and 'Create translation'
         translation: '', // Dropdown for the existing translation
     })
     const [existingSourceTexts, setExistingSourceTexts] = useState([])
@@ -26,20 +29,39 @@ const CreateProject = () => {
     useEffect(() => {
         const loadOptions = async () => {
             try {
-            } catch (err) {
+                const [sourceTextsResponse, translationsResponse] = await Promise.all([
+                    getSourceTexts(),
+                    getTranslations()
+                ]);
 
+                setExistingSourceTexts(sourceTextsResponse.data);
+                setExistingTranslations(translationsResponse.data);
+            } catch (error) {
+                console.error('Error loading options:', error);
             }
-        }
-    })
+        };
+
+        loadOptions();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const payload = toSnakeCase(formData);
+        const { sourceTextOption, translationOption, ...filteredData } = formData
+
+        if (sourceTextOption !== 'Use existing') {
+            filteredData.sourceText = null
+        }
+        if (translationOption !== 'Use existing') {
+            filteredData.translation = null
+        }
+
+        const payload = toSnakeCase(formData)
 
         try {
-            const { data } = await projectCreate(payload)
+            const { data } = await taskCreate(projectId, payload)
             console.log('Task creation response:', data)
+            navigate(`/projects/${projectId}`)
         } catch (error) {
             setErrors(error.response?.data || { message: 'Unable to create task' })
         }
@@ -53,16 +75,16 @@ const CreateProject = () => {
 
     return (
         <form className='form' onSubmit={handleSubmit}>
-            <h2>Create a project</h2>
+            <h2>Add a new task</h2>
             <div className="form-row">
-                <label htmlFor="name">Name</label>
-                <input type="text" name="name" id="name" placeholder='Your project name' value={formData.name} onChange={handleChange} />
-                {errors.name && <p className='error-message'>{errors.name}</p>}
+                <label htmlFor="title">Title</label>
+                <input type="text" name="title" id="title" placeholder='Your task name' value={formData.title} onChange={handleChange} />
+                {errors.title && <p className='error-message'>{errors.title}</p>}
             </div>
             <div className="form-row">
-                <label htmlFor="brief">Brief</label>
-                <input type="text" name="brief" id="brief" placeholder='Write your brief here' value={formData.brief} onChange={handleChange} />
-                {errors.brief && <p className='error-message'>{errors.brief}</p>}
+                <label htmlFor="description">Description</label>
+                <input type="text" name="description" id="description" placeholder='Describe what needs to be done' value={formData.description} onChange={handleChange} />
+                {errors.description && <p className='error-message'>{errors.description}</p>}
             </div>
 
             <div className="form-row">
@@ -72,14 +94,53 @@ const CreateProject = () => {
             </div>
 
             <div className="form-row">
-                <ImageUpload
-                    labelText="Upload images"
-                    fieldName="profileImg"
-                    setFormData={setFormData}
-                    imageURLs={formData.profileImg}
-                    setUploading={setUploading}
-                    multiple={true}
-                />
+                <label htmlFor="sourceText">Source text</label>
+                <select
+                    name="sourceTextOption"
+                    value={formData.sourceTextOption}
+                    onChange={handleChange}
+                >
+                    <option value="">None</option>
+                    <option value="existing">Select existing</option>
+                    <option value="create_new">Create new</option>
+                </select>
+                {formData.sourceTextOption === 'existing' && (
+                <select name="sourceText" id="sourceText" value={formData.sourceText || ''} onChange={handleChange}>
+                    <option value="">Select source text...</option>
+                    {existingSourceTexts && existingSourceTexts.length > 0 && existingSourceTexts.map(source => (
+                        <option key={source.id} value={source.id}>
+                            {source.title}
+                        </option>
+                    ))}
+                </select>
+                )}
+                {uploading && <p>Loading source texts...</p>}
+                {errors.sourceText && <p className='error-message'>{errors.sourceText}</p>}
+            </div>
+
+            <div className="form-row">
+                <label htmlFor="translation">Translation</label>
+                <select
+                    name="translationOption"
+                    value={formData.translationOption}
+                    onChange={handleChange}
+                >
+                    <option value="">None</option>
+                    <option value="existing">Select existing</option>
+                    <option value="create_new">Create new</option>
+                </select>
+                {formData.translationOption === 'existing' && (
+                <select name="translation" id="translation" value={formData.translation || ''} onChange={handleChange}>
+                    <option value="">Select translation...</option>
+                    {existingTranslations && existingTranslations.length > 0 && existingTranslations.map(translation => (
+                        <option key={translation.id} value={translation.id}>
+                            {translation.title}
+                        </option>
+                    ))}
+                </select>
+                )}
+                {uploading && <p>Loading translations...</p>}
+                {errors.translation && <p className='error-message'>{errors.translation}</p>}
             </div>
 
             {errors.message && (

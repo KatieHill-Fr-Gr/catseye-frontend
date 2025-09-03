@@ -10,6 +10,9 @@ import DropZone from '../ProjectTaskDropZone/ProjectTaskDropZone'
 import Sidebar from '../Sidebar/Sidebar'
 import ProjectDetails from '../ProjectDetails/ProjectDetails'
 
+import FormModal from '../FormModal/FormModal'
+import CreateTask from '../CreateTask/CreateTask'
+
 const ProjectPage = () => {
     const { user } = useContext(UserContext)
     const [project, setProject] = useState(null)
@@ -17,6 +20,7 @@ const ProjectPage = () => {
     const [taskColumns, setTaskColumns] = useState({})
     const [loading, setLoading] = useState(true)
     const [projectDetailsOpen, setProjectDetailsOpen] = useState(false);
+    const [newTaskOpen, setNewTaskOpen] = useState(false);
 
     const { projectId } = useParams()
     const navigate = useNavigate()
@@ -108,6 +112,18 @@ const ProjectPage = () => {
                                 ))}
                             </div>
                         </DropZone>
+                                    <div>
+            <button onClick={() => setNewTaskOpen(true)} className="page-button">
+                                Add new
+                            </button>
+                <FormModal
+                    isOpen={newTaskOpen}
+                    onClose={() => setNewTaskOpen(false)}
+                    title="Create new task"
+                >
+                    <CreateTask />
+                </FormModal>
+            </div>
                     </div>
                     <div className="drop-zone">
                         <DropZone status="in-progress" onDrop={(task) => handleTaskDrop(task, 'in-progress')}>

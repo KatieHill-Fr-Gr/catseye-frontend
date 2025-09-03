@@ -109,6 +109,7 @@ export default function EditProfile() {
                 {uploading && <p>Loading teams...</p>}
                 {errors.team && <p className='error-message'>{errors.team}</p>}
             </div>
+            
             <div className="form-row">
                 <ImageUpload
                     labelText="Upload photo"
