@@ -56,3 +56,43 @@ export const getProjectTasks = (projectId) => {
         }
     })
 }
+
+export const getUserTasks = () => {
+    return axios.get(`${BASE_URL}projects/user-tasks/`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
+}
+
+export const taskShow = (projectId, taskId) => {
+    return axios.get(`${BASE_URL}projects/${projectId}/tasks/${taskId}/`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
+}
+
+export const taskCreate = (projectId, formData) => {
+    return axios.post(`${BASE_URL}projects/${projectId}/tasks/`, formData, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        }
+    })
+}
+
+export const taskUpdate = (projectId, taskId, formData) => {
+    return axios.put(`${BASE_URL}projects/${projectId}/tasks/${taskId}/`, formData, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        }
+    })
+}
+
+export const taskDelete = (projectId, taskId) => {
+    return axios.delete(`${BASE_URL}projects/${projectId}/tasks/${taskId}/`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
+}
