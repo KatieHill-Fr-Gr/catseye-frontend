@@ -54,6 +54,7 @@ const EditProject = () => {
             getProject()
         }
     }, [projectId])
+    
     const handleSubmit = async (e) => {
         e.preventDefault()
 

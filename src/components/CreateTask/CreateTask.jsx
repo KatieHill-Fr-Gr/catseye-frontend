@@ -7,7 +7,7 @@ import { getTranslations } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
-const CreateProject = () => {
+const CreateTask= () => {
     const { user } = useContext(UserContext)
     const { projectId } = useParams()
     const navigate = useNavigate()
@@ -154,4 +154,4 @@ const CreateProject = () => {
     )
 }
 
-export default CreateProject
+export default CreateTask
