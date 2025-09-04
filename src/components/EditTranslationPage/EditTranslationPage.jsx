@@ -53,6 +53,8 @@ const EditTranslationPage = () => {
         }
     }, [translationId])
 
+    console.log('Translation data:', translation)
+
     return (
         <main className="page-content">
             <div className="content-wrapper">

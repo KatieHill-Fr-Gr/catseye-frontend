@@ -33,7 +33,8 @@ const EditSourceForm = () => {
                     body: sourceData.body || '',
                     sourceLanguage: sourceData.sourceLanguage || 'en-GB',
                 })
-                setLexicalValue(sourceData.body || '')
+                // setLexicalValue(sourceData.body || '')
+                setLexicalValue(JSON.stringify(sourceData.body || { root: { children: [] } }))
 
             } catch (error) {
                 console.error('Error fetching data:', error)
@@ -118,6 +119,7 @@ const EditSourceForm = () => {
                     <TextEditor
                         key={sourceId}
                         value={lexicalValue}
+                        // value={source.body ? JSON.stringify(source.body) : '{"root":{"children":[]}}'}
                         onChange={handleLexicalChange}
                         placeholder="Enter your source text here..."
                     />

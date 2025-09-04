@@ -19,7 +19,7 @@ const SourceDetails = ({ sourceId }) => {
                 const response = await textShow(sourceId)
                 const sourceData = response.data
                 setSource(toCamelCase(sourceData))
-                setLexicalValue(sourceData.body || '')
+                setLexicalValue(JSON.stringify(sourceData.body || { root: { children: [] } }))
 
             } catch (error) {
                 console.error('Error fetching data:', error)

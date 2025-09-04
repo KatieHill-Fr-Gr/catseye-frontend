@@ -1,18 +1,60 @@
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
+
 import CreateTranslationForm from '../CreateTranslationForm/CreateTranslationForm'
+import SourceDetails from '../SourceDetails/SourceDetails'
+
+import { taskShow } from '../../services/projects.js'
+
 import './CreateTranslationPage.css'
 
 const CreateTranslationPage = () => {
 
-// Here I want to load the source text details
+  const [searchParams] = useSearchParams()
+  const projectId = Number(searchParams.get('projectId'))
+  const taskId = Number(searchParams.get('taskId'))
 
-// And also a termbase search bar somehow?
+
+  const [task, setTask] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      if (!taskId) return
+      try {
+        const response = await taskShow(projectId, taskId)
+        console.log("Fetched task:", response.data)
+        setTask(response.data)
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchTask()
+  }, [projectId, taskId])
+
+  if (loading) return <p>Loading...</p>
+
+  console.log(taskId)
 
   return (
-    <div>
-      <section className='form'>
-        <CreateTranslationForm />
-      </section>
-    </div>
+    <main className="page-content">
+      <div className="content-wrapper">
+        {task?.sourceText && (
+          <section className='form'>
+            <SourceDetails sourceId={task.sourceText.id} />
+          </section>
+        )}
+
+        <section className='form'>
+          <CreateTranslationForm
+            taskId={taskId}
+            sourceTextId={task?.source_text?.id}
+          />
+        </section>
+      </div>
+    </main>
   )
 }
 

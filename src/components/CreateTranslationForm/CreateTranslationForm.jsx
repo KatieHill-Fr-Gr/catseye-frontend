@@ -7,7 +7,7 @@ import { UserContext } from '../../contexts/UserContext'
 import TextEditor from '../TextEditor/TextEditor'
 import './CreateTranslationForm.css'
 
-const CreateTranslationForm = () => {
+const CreateTranslationForm = ({ taskId, sourceTextId }) => {
     const { user } = useContext(UserContext)
     const [lexicalValue, setLexicalValue] = useState('')
 
@@ -29,7 +29,9 @@ const CreateTranslationForm = () => {
 
         const payload = toSnakeCase({
             ...formData,
-            body: lexicalValue
+            body: lexicalValue,
+            taskId,
+            sourceTextId
         })
 
         try {

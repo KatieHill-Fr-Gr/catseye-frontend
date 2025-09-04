@@ -48,17 +48,28 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
                     </div>
                     <div className="source-text">
                         <b>Source:</b>{" "}
-                        {task.sourceText && (
+                        {task.sourceText ? (
                             <Link to={`/texts/${task.sourceText.id}/edit`}>
                                 {task.sourceText.title}
                             </Link>
+                        ) : (
+                            <Link to={`/texts/new?taskId=${task.id}`}>
+                                Add source text
+                            </Link>
                         )}
                     </div>
+
                     <div className="translation">
                         <b>Translation:</b>{" "}
-                        <Link to={`/translations/${task.translation.id}/edit`}>
-                            {task.translation.title}
-                        </Link>
+                        {task.translation ? (
+                            <Link to={`/translations/${task.translation.id}/edit`}>
+                                {task.translation.title}
+                            </Link>
+                        ) : (
+                            <Link to={`/translations/new?projectId=${projectId}&taskId=${task.id}`}>
+                                Add translation
+                            </Link>
+                        )}
                     </div>
                 </div>
             </section>

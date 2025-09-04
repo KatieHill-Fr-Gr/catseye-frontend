@@ -30,7 +30,7 @@ export default function EditProfile() {
                 username: user.username || '',
                 email: user.email || '',
                 jobTitle: user.jobTitle || '',
-                team: user.team || '',
+                team: user.team?.id || '',
                 profileImg: user.profileImg || ''
             }))
         }
@@ -61,7 +61,7 @@ export default function EditProfile() {
         const payload = toSnakeCase(formData);
 
         try {
-            const { data } = await updateUserProfile(payload)
+            const { data } = await updateUserProfile(user.id, payload)
             console.log('Update response:', data)
         } catch (error) {
             setErrors(error.response?.data || { message: 'Update failed' })
@@ -109,7 +109,7 @@ export default function EditProfile() {
                 {uploading && <p>Loading teams...</p>}
                 {errors.team && <p className='error-message'>{errors.team}</p>}
             </div>
-            
+
             <div className="form-row">
                 <ImageUpload
                     labelText="Upload photo"
