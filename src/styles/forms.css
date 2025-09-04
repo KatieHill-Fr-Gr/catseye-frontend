@@ -72,6 +72,35 @@
   background-color: rgba(255, 255, 255, 0.15);
 }
 
+.form-row .editor-container {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-height: 150px;
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.form-row .editor-inner {
+  position: relative;
+}
+
+.form-row .editor-input {
+  min-height: 150px;
+  padding: 12px;
+  outline: none;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.form-row .editor-placeholder {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #999;
+  pointer-events: none;
+}
+
 .form button {
   width: 100%;
   padding: 0.75rem;
