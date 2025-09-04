@@ -1,24 +1,23 @@
-import { useParams, useNavigate } from 'react-router-dom'
-import { useEffect, useState, useContext } from 'react'
-import { taskShow, taskDelete } from '../../services/projects.js'
-import { UserContext } from '../../contexts/UserContext'
+import { useNavigate } from 'react-router-dom'
+import { useState, useContext } from 'react'
+import { taskDelete } from '../../services/projects.js'
+
+import FormModal from '../FormModal/FormModal'
+import EditTask from '../EditTask/EditTask'
 
 import './TaskDetails.css'
-
-// import FormModal from '../FormModal/FormModal'
-// import EditTask from '../EditTask/EditTask'
 
 
 const TaskDetails = ({ task }) => {
     const [error, setError] = useState(null)
-    // const [editTaskOpen, setEditTaskOpen] = useState(false)
+    const [editTaskOpen, setEditTaskOpen] = useState(false)
 
     const navigate = useNavigate()
 
     const handleDelete = async () => {
         try {
             await taskDelete(task.id)
-            // Close modal on delete?
+            setEditTaskOpen(false)
         } catch (error) {
             console.log(error)
             setError(error)
@@ -47,25 +46,25 @@ const TaskDetails = ({ task }) => {
                             <div className="description">
                                 <b>Description:</b> {task.description}
                             </div>
-                            {/* <div className="source-text">
-                                {task.sourceText.title}
+                            <div className="source-text">
+                                {task.source_text}
                             </div>
                             <div className="translation">
-                                {task.translation.title}
-                            </div> */}
+                                {task.translation}
+                            </div>
                         </div>
             </section>
-            <div className="task-actions">
-                {/* <button onClick={() => setEditProjectOpen(true)} className="page-button">
+            <div className="user-actions">
+                <button onClick={() => setEditTaskOpen(true)} className="page-button">
                     Edit
                 </button>
                 <FormModal
-                    isOpen={editProjectOpen}
-                    onClose={() => setEditProjectOpen(false)}
-                    title="Edit project"
+                    isOpen={editTaskOpen}
+                    onClose={() => setEditTaskOpen(false)}
+                    title="Edit task"
                 >
-                    <EditProject />
-                </FormModal> */}
+                    <EditTask />
+                </FormModal>
                 <button onClick={handleDelete} className="page-button">
                     Delete
                 </button>

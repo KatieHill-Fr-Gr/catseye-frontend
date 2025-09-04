@@ -15,10 +15,10 @@ const EditTranslationPage = () => {
     const [formData, setFormData] = useState({
         title: '',
         body: '',
-        targetLanguage: 'en-GB',
+        targetLanguage: '',
         sourceTextOption: '',
         sourceText: '',
-        termbaseOption: '', // Option to select a termbase or leave blank (or possibly create new)
+        termbaseOption: '',
         termbase: '',
         feedback: [],
     })
@@ -29,8 +29,8 @@ const EditTranslationPage = () => {
                 const response = await translationShow(translationId)
                 const translationData = response.data
                 setTranslation(toCamelCase(translationData))
-                console.log('Translation loaded:', translationData) // Add this
-                console.log('Source text ID:', translationData.source_text)
+                console.log('Translation loaded:', translationData)
+                console.log('Source text loaded:', translationData.source_text)
 
                 setFormData({
                     title: translationData.title || '',
@@ -55,11 +55,9 @@ const EditTranslationPage = () => {
         }
     }, [translationId])
 
-    console.log(translation)
-
     return (
-        <main class="page-content">
-            <div class="content-wrapper">
+        <main className="page-content">
+            <div className="content-wrapper">
                 {translation && translation.sourceText &&
                     <section className='form'>
                         <SourceDetails sourceId={translation.sourceText} />

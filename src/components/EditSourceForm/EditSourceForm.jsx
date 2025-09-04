@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { textUpdate, textShow } from '../../services/texts'
@@ -9,7 +9,6 @@ import TextEditor from '../TextEditor/TextEditor'
 import './EditSourceForm.css'
 
 const EditSourceForm = () => {
-    const { user } = useContext(UserContext)
     const { sourceId } = useParams()
     const [source, setSource] = useState(null)
     const [lexicalValue, setLexicalValue] = useState('')
@@ -17,7 +16,7 @@ const EditSourceForm = () => {
     const [formData, setFormData] = useState({
         title: '',
         body: '',
-        sourceLanguage: 'en-GB',
+        sourceLanguage: '',
         feedback: [],
     })
     const [errors, setErrors] = useState({})

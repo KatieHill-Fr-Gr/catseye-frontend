@@ -1,11 +1,11 @@
 import './ProjectPage.css'
 import { useState, useEffect, useContext, useRef } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { LuCirclePlus } from "react-icons/lu";
 
 
 import { UserContext } from '../../contexts/UserContext'
-import { projectShow, getProjectTasks } from '../../services/projects.js'
+import { projectShow, getProjectTasks, taskShow } from '../../services/projects.js'
 import DraggableTask from '../ProjectTasks/ProjectTasks'
 import DropZone from '../ProjectTaskDropZone/ProjectTaskDropZone'
 
@@ -14,9 +14,13 @@ import ProjectDetails from '../ProjectDetails/ProjectDetails'
 
 import FormModal from '../FormModal/FormModal'
 import CreateTask from '../CreateTask/CreateTask'
+import TaskDetails from '../TaskDetails/TaskDetails'
 
 const ProjectPage = () => {
     const { user } = useContext(UserContext)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const selectedTaskId = searchParams.get('task')
+    const [selectedTask, setSelectedTask] = useState(null)
     const [project, setProject] = useState(null)
     const [tasks, setTasks] = useState([])
     const [taskColumns, setTaskColumns] = useState({})
@@ -49,6 +53,26 @@ const ProjectPage = () => {
         fetchData()
     }, [projectId])
 
+    useEffect(() => {
+        const loadSelectedTask = async () => {
+            if (selectedTaskId) {
+                setLoading(true)
+                try {
+                    const response = await taskShow(projectId, selectedTaskId)
+                    setSelectedTask(response.data)
+                } catch (error) {
+                    console.error('Error loading task:', error)
+                    setSearchParams({})
+                } finally {
+                    setLoading(false)
+                }
+            } else {
+                setSelectedTask(null)
+            }
+        }
+        loadSelectedTask()
+    }, [selectedTaskId, projectId, setSearchParams])
+
     const handleTaskDrop = (droppedTask, taskColumn) => {
         console.log('Task dropped:', droppedTask);
         setTaskColumns(prev => ({
@@ -60,6 +84,14 @@ const ProjectPage = () => {
         return tasks.filter(task =>
             (taskColumns[task.id] || 'todo') === column
         )
+    }
+
+    const handleTaskClick = (taskId) => {
+        setSearchParams({ task: taskId })
+    }
+
+    const handleCloseModal = () => {
+        setSearchParams({})
     }
 
     if (!user) {
@@ -87,16 +119,16 @@ const ProjectPage = () => {
                             >
                                 <ProjectDetails />
                             </Sidebar>
-    
-                        <div className="tag-container">
-                            <span className="team-tag">
-                                {project.team.name}
+
+                            <div className="tag-container">
+                                <span className="team-tag">
+                                    {project.team.name}
                                 </span>
                                 <span className="status-tag">
                                     {project.status}
                                 </span>
                             </div>
-                              </div>
+                        </div>
                     ) : (
                         <p>There was a problem loading this project...</p>
                     )}
@@ -110,29 +142,29 @@ const ProjectPage = () => {
                             <h3>To Do</h3>
                             <div className="tasks-column">
                                 {getTasksForColumn('todo').map(task => (
-                                    <DraggableTask key={task.id} task={task} />
+                                    <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
                                 ))}
                             </div>
                         </DropZone>
-                                    <div>
-            <button onClick={() => setNewTaskOpen(true)} className="new-task">
+                        <div>
+                            <button onClick={() => setNewTaskOpen(true)} className="new-task">
                                 <LuCirclePlus /> Add new task
                             </button>
-                <FormModal
-                    isOpen={newTaskOpen}
-                    onClose={() => setNewTaskOpen(false)}
-                    title="Create new task"
-                >
-                    <CreateTask />
-                </FormModal>
-            </div>
+                            <FormModal
+                                isOpen={newTaskOpen}
+                                onClose={() => setNewTaskOpen(false)}
+                                title="Create new task"
+                            >
+                                <CreateTask />
+                            </FormModal>
+                        </div>
                     </div>
                     <div className="drop-zone">
                         <DropZone status="in-progress" onDrop={(task) => handleTaskDrop(task, 'in-progress')}>
                             <h3>In Progress</h3>
                             <div className="tasks-column">
                                 {getTasksForColumn('in-progress').map(task => (
-                                    <DraggableTask key={task.id} task={task} />
+                                    <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
                                 ))}
                             </div>
                         </DropZone>
@@ -142,12 +174,29 @@ const ProjectPage = () => {
                             <h3>Done</h3>
                             <div className="tasks-column">
                                 {getTasksForColumn('done').map(task => (
-                                    <DraggableTask key={task.id} task={task} />
+                                    <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
                                 ))}
                             </div>
                         </DropZone>
                     </div>
                 </div>
+                {selectedTaskId && (
+                    <FormModal
+                        isOpen={true}
+                        onClose={handleCloseModal}
+                        title=""
+                    >
+                        {loading ? (
+                            <div>Loading task details...</div>
+                        ) : selectedTask ? (
+                            <TaskDetails
+                                task={selectedTask}
+                                onClose={handleCloseModal}
+                                onTaskUpdated={() => {/* refresh logic */ }}
+                            />
+                        ) : null}
+                    </FormModal>
+                )}
             </section>
         </div>
     )

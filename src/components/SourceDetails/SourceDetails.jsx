@@ -1,6 +1,8 @@
-import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { textShow } from '../../services/texts.js'
+import { toCamelCase } from '../../utils/cases'
+import TextEditor from '../TextEditor/TextEditor'
+
 
 import './SourceDetails.css'
 
@@ -9,13 +11,15 @@ const SourceDetails = ({ sourceId }) => {
     const [source, setSource] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [lexicalValue, setLexicalValue] = useState('')
 
       useEffect(() => {
         const getSourceText = async () => {
             try {
                 const response = await textShow(sourceId)
                 const sourceData = response.data
-                setSource(sourceData)
+                setSource(toCamelCase(sourceData))
+                setLexicalValue(sourceData.body || '')
 
             } catch (error) {
                 console.error('Error fetching data:', error)
@@ -24,9 +28,7 @@ const SourceDetails = ({ sourceId }) => {
                 setLoading(false)
             }
         }
-        console.log(sourceId)
         if (sourceId) {
-            console.log("Getting")
             getSourceText()
         }
     }, [sourceId])
@@ -40,15 +42,19 @@ const SourceDetails = ({ sourceId }) => {
             <div className="form">
             <h2>{source.title}</h2>
                 <div className="form-row">
-                    <label>Source language:</label>
-                    <div className="value">{source.source_language}</div>
+                    <label>Language:</label>
+                    <div className="value">{source.sourceLanguage}</div>
                 </div>
-                <div className="form-row">
-                    <label>Text:</label>
-                    <div className="value multiline">{source.body}.</div>
+            <div className="form-row">
+                <label>Text</label>
+                    <TextEditor
+                        editable={false}
+                        key={sourceId}
+                        value={lexicalValue}
+                    />
+            </div>
                 </div>
             </div>
-        </div>
     )
 }
 

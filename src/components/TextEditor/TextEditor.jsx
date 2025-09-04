@@ -69,7 +69,9 @@ const TextEditor = ({ value, onChange, placeholder = "Enter some text...", edita
                     {editable && <HistoryPlugin />}
                     <EditabilityPlugin editable={editable} />
                 </div>
+                {editable && (
                 <span>Words: {wordCount}</span>
+                 )}
                 {!editable && (
                         <span>Read-only</span>
                 )}

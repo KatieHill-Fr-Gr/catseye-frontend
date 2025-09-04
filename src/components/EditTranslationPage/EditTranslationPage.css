@@ -14,7 +14,7 @@ main.page-content {
 }
 
 @media (max-width: 768px) {
-  .content-wrapper .form {
+  .content-wrapper {
     width: 100%;
   }
 }
