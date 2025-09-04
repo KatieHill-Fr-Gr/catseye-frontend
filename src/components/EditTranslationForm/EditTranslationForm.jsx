@@ -1,62 +1,13 @@
-import { useState, useContext, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-
-import { translationUpdate, translationShow } from '../../services/translations'
-import { toSnakeCase, toCamelCase } from '../../utils/cases'
-import { UserContext } from '../../contexts/UserContext'
-
+import { useState } from 'react'
+import { translationUpdate } from '../../services/translations'
+import { toSnakeCase } from '../../utils/cases'
 
 import TextEditor from '../TextEditor/TextEditor'
 // import './EditTranslationForm.css'
 
-const EditTranslationForm = () => {
-    const { user } = useContext(UserContext)
-    const { translationId } = useParams()
-    const [translation, setTranslation] = useState(null)
-    const [lexicalValue, setLexicalValue] = useState('')
-
-    const [formData, setFormData] = useState({
-        title: '',
-        body: '',
-        targetLanguage: 'en-GB',
-        sourceTextOption: '',
-        sourceText: '',
-        termbaseOption: '', // Option to select a termbase or leave blank (or possibly create new)
-        termbase: '',
-        feedback: [],
-    })
+const EditTranslationForm = ({formData, setFormData, translationId, lexicalValue, setLexicalValue }) => {
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState(false)
-
-    useEffect(() => {
-        const getTranslation = async () => {
-            try {
-                const response = await translationShow(translationId)
-                const translationData = response.data
-                setTranslation(toCamelCase(translationData))
-
-                setFormData({
-                    title: translationData.title || '',
-                    body: translationData.body || '',
-                    targetLanguage: translationData.targetLanguage || '',
-                    sourceTextOption: translationData.sourceTextOption || '',
-                    sourceText: translationData.sourceText || '',
-                    termbaseOption: translationData.termbaseOption || '',
-                    termbase: translationData.termbase || '',
-                    feedback: translationData.feedback || [],
-                })
-
-                setLexicalValue(translationData.body || '')
-
-            } catch (error) {
-                console.error('Error fetching data:', error)
-                setErrors({ message: 'Unable to load source text' })
-            }
-        }
-        if (translationId) {
-            getTranslation()
-        }
-    }, [translationId])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -90,6 +41,7 @@ const EditTranslationForm = () => {
     }
 
     return (
+         
         <form className='form' onSubmit={handleSubmit}>
             <h2>Edit translation</h2>
             <div className="form-row">
@@ -121,6 +73,7 @@ const EditTranslationForm = () => {
                 <label>Text</label>
                 {lexicalValue !== '' ? (
                     <TextEditor
+                        editable={false}
                         key={translationId}
                         value={lexicalValue}
                         onChange={handleLexicalChange}
@@ -131,7 +84,6 @@ const EditTranslationForm = () => {
                 )}
             </div>
 
-
             {errors.message && (
                 <div className="error-message general-error">
                     {errors.message}
@@ -140,6 +92,7 @@ const EditTranslationForm = () => {
 
             <button type="submit">Submit</button>
         </form>
+
     )
 }
 

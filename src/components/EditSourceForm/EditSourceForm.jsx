@@ -24,7 +24,7 @@ const EditSourceForm = () => {
     const [uploading, setUploading] = useState(false)
 
     useEffect(() => {
-        const getSource = async () => {
+        const getSourceText = async () => {
             try {
                 const response = await textShow(sourceId)
                 const sourceData = response.data
@@ -44,7 +44,7 @@ const EditSourceForm = () => {
             }
         }
         if (sourceId) {
-            getSource()
+            getSourceText()
         }
     }, [sourceId])
 

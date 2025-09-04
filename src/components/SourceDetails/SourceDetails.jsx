@@ -1,64 +1,53 @@
-import { useParams, useNavigate } from 'react-router-dom'
-import { useEffect, useState, useContext } from 'react'
-import { textShow, textDelete } from '../../services/texts.js'
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { textShow } from '../../services/texts.js'
 
 import './SourceDetails.css'
 
-const SourceDetails = () => {
-    const { sourceId } = useParams()
+const SourceDetails = ({ sourceId }) => {
 
     const [source, setSource] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        const fetchData = async () => {
+      useEffect(() => {
+        const getSourceText = async () => {
             try {
-                setLoading(true)
                 const response = await textShow(sourceId)
-                setProject(response.data)
+                const sourceData = response.data
+                setSource(sourceData)
+
             } catch (error) {
-                console.error('Error:', error)
-                setProject(null)
+                console.error('Error fetching data:', error)
+                setError({ message: 'Unable to load source text' })
             } finally {
                 setLoading(false)
             }
         }
-
+        console.log(sourceId)
         if (sourceId) {
-            fetchData()
+            console.log("Getting")
+            getSourceText()
         }
     }, [sourceId])
 
-    const handleDelete = async () => {
-        try {
-            await textDelete(sourceId)
-            navigate('/projects')
-        } catch (error) {
-            console.log(error)
-            setError(error)
-        }
-    }
-
+    if (loading) return <div>Loading source text...</div>
+    if (error) return <div>Error: {error}</div>
+    if (!source) return <div>No source text available</div>
 
     return (
         <div className="page-content">
-            <div class="form">
-                <h2>{source.title}</h2>
-                <div class="form-row">
+            <div className="form">
+            <h2>{source.title}</h2>
+                <div className="form-row">
                     <label>Source language:</label>
-                    <div class="value">{source.sourceLanguage}</div>
+                    <div className="value">{source.source_language}</div>
                 </div>
-                <div class="form-row">
+                <div className="form-row">
                     <label>Text:</label>
-                    <div class="value multiline">{source.body}.</div>
+                    <div className="value multiline">{source.body}.</div>
                 </div>
             </div>
-            {/* <button onClick={handleDelete} className="page-button">
-                Delete
-            </button> */}
         </div>
     )
 }

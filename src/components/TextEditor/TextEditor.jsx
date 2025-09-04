@@ -11,10 +11,10 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 
 
 
-const TextEditor = ({ value, onChange, placeholder = "Enter some text..." }) => {
+const TextEditor = ({ value, onChange, placeholder = "Enter some text...", editable=true }) => {
     const [wordCount, setWordCount] = useState(0)
 
-     const getInitialEditorState = () => {
+    const getInitialEditorState = () => {
         if (value && value !== '') {
             try {
                 const parsedState = JSON.parse(value)
@@ -28,6 +28,7 @@ const TextEditor = ({ value, onChange, placeholder = "Enter some text..." }) => 
     }
 
     const initialConfig = {
+        editable,
         namespace: 'MyEditor',
         editorState: getInitialEditorState(),
         onError(error) {
