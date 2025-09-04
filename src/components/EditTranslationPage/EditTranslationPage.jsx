@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { translationShow } from '../../services/translations'
 import { toCamelCase } from '../../utils/cases'
@@ -29,8 +29,6 @@ const EditTranslationPage = () => {
                 const response = await translationShow(translationId)
                 const translationData = response.data
                 setTranslation(toCamelCase(translationData))
-                console.log('Translation loaded:', translationData)
-                console.log('Source text loaded:', translationData.source_text)
 
                 setFormData({
                     title: translationData.title || '',
@@ -58,6 +56,9 @@ const EditTranslationPage = () => {
     return (
         <main className="page-content">
             <div className="content-wrapper">
+            <div className="nav-actions">
+                 <Link to='/projects'className="page-link">Return to projects</Link>
+                 </div>
                 {translation && translation.sourceText &&
                     <section className='form'>
                         <SourceDetails sourceId={translation.sourceText} />

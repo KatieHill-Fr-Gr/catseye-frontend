@@ -31,6 +31,19 @@ const MyProjects = () => {
         loadUserTeamProjects()
     }, [])
 
+    const refreshProjects = async () => {
+    try {
+        setProjectsLoading(true)
+        const projects = await getUserTeamProjects()
+        setUserTeamProjects(projects.data)
+    } catch (error) {
+        console.error('Error:', error)
+        setUserTeamProjects([])
+    } finally {
+        setProjectsLoading(false)
+    }
+}
+
     if (!user) {
         return <div>Please log in to view your projects.</div>
     }
@@ -80,7 +93,10 @@ const MyProjects = () => {
                     onClose={() => setNewProjectOpen(false)}
                     title="Create new project"
                 >
-                    <CreateProject />
+                    <CreateProject onClose={() => 
+                    setNewProjectOpen(false)}
+                    onProjectCreated={refreshProjects} 
+                    />
                 </FormModal>
             </section>
 

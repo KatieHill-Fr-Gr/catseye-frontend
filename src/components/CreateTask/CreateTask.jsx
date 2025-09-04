@@ -7,7 +7,7 @@ import { getTranslations } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
-const CreateTask= () => {
+const CreateTask= ( onClose, onTaskCreated ) => {
     const { user } = useContext(UserContext)
     const { projectId } = useParams()
     const navigate = useNavigate()
@@ -34,8 +34,11 @@ const CreateTask= () => {
                     getTranslations()
                 ]);
 
-                setExistingSourceTexts(sourceTextsResponse.data);
-                setExistingTranslations(translationsResponse.data);
+                setExistingSourceTexts(sourceTextsResponse.data)
+                setExistingTranslations(translationsResponse.data)
+
+                if (onTaskCreated) onTaskCreated()
+                if (onClose) onClose()  
             } catch (error) {
                 console.error('Error loading options:', error);
             }
@@ -60,8 +63,8 @@ const CreateTask= () => {
 
         try {
             const { data } = await taskCreate(projectId, payload)
-            console.log('Task creation response:', data)
-            navigate(`/projects/${projectId}`)
+            if (onTaskCreated) await onTaskCreated()
+            if (onClose) onClose() 
         } catch (error) {
             setErrors(error.response?.data || { message: 'Unable to create task' })
         }

@@ -7,7 +7,7 @@ import { UserContext } from '../../contexts/UserContext'
 
 import ImageUpload from '../ImageUpload/ImageUpload'
 
-const CreateProject = () => {
+const CreateProject = ({ onClose, onProjectCreated }) => {
     const { user } = useContext(UserContext)
 
     const [formData, setFormData] = useState({
@@ -27,6 +27,8 @@ const CreateProject = () => {
         try {
             const { data } = await projectCreate(payload)
             console.log('Project creation response:', data)
+            if (onProjectCreated) onProjectCreated()
+            if (onClose) onClose()      
         } catch (error) {
             setErrors(error.response?.data || { message: 'Unable to create project' })
         }

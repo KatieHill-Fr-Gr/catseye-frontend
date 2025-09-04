@@ -8,7 +8,7 @@ import EditTask from '../EditTask/EditTask'
 import './TaskDetails.css'
 
 
-const TaskDetails = ({ task }) => {
+const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted }) => {
     const [error, setError] = useState(null)
     const [editTaskOpen, setEditTaskOpen] = useState(false)
 
@@ -16,13 +16,13 @@ const TaskDetails = ({ task }) => {
 
     const handleDelete = async () => {
         try {
-            await taskDelete(task.id)
-            setEditTaskOpen(false)
+            await taskDelete(projectId, task.id)
+            if (onTaskDeleted) await onTaskDeleted(task.id)
+            if (onClose) onClose()
         } catch (error) {
             console.log(error)
-            setError(error)
         }
-    }
+    };
 
     if (!task) {
         return <p>No task data available...</p>
@@ -35,36 +35,42 @@ const TaskDetails = ({ task }) => {
             </div>
             <section className="task-container">
                 <div className="task-tags">
-                        <div className="status-tag">
-                                {task.status}
-                            </div>
-                            <div className="deadline-tag">
-                                {task.deadline}
-                            </div>
-                            </div>
+                    <div className="status-tag">
+                        {task.status}
+                    </div>
+                    <div className="deadline-tag">
+                        {task.deadline}
+                    </div>
+                </div>
                 <div className="task-details">
-                            <div className="description">
-                                <b>Description:</b> {task.description}
-                            </div>
-                            {/* <div className="source-text">
+                    <div className="description">
+                        <b>Description:</b> {task.description}
+                    </div>
+                    {/* <div className="source-text">
                                 {task.source_text}
                             </div>
                             <div className="translation">
                                 {task.translation}
                             </div> */}
-                        </div>
+                </div>
             </section>
             <div className="user-actions">
                 <button onClick={() => setEditTaskOpen(true)} className="page-button">
                     Edit
                 </button>
+
                 <FormModal
                     isOpen={editTaskOpen}
                     onClose={() => setEditTaskOpen(false)}
                     title="Edit task"
                 >
-                    <EditTask />
+                    <EditTask
+                        task={task}
+                        onClose={() => setEditTaskOpen(false)}
+                        onTaskUpdated={onTaskUpdated}
+                    />
                 </FormModal>
+
                 <button onClick={handleDelete} className="page-button">
                     Delete
                 </button>

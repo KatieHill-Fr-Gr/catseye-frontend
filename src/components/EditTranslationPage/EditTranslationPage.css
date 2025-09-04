@@ -13,6 +13,12 @@ main.page-content {
     margin: 0 auto;
 }
 
+.nav-actions   {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5rem;
+}
+
 @media (max-width: 768px) {
   .content-wrapper {
     width: 100%;
