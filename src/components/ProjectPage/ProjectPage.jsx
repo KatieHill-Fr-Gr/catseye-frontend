@@ -98,108 +98,124 @@ const ProjectPage = () => {
         return <div>Please log in to view this project.</div>
     }
 
-    return (
-        <div className="page-content">
-            <div className="page-title">
-                <h1>{project?.name}</h1>
-            </div>
-            <section>
-                <div className="project-board">
-                    {loading ? (
-                        <p>Loading project...</p>
-                    ) : project ? (
-                        <div>
-                            <button onClick={() => setProjectDetailsOpen(true)} className="profile-button">
-                                View project brief
-                            </button>
-                            <Sidebar
-                                isOpen={projectDetailsOpen}
-                                onClose={() => setProjectDetailsOpen(false)}
-                                title="Project details"
-                            >
-                                <ProjectDetails />
-                            </Sidebar>
+    const handleTaskUpdated = async () => {
 
-                            <div className="tag-container">
-                                <span className="team-tag">
-                                    {project.team.name}
-                                </span>
-                                <span className="status-tag">
-                                    {project.status}
-                                </span>
-                            </div>
-                        </div>
-                    ) : (
-                        <p>There was a problem loading this project...</p>
-                    )}
-                </div>
-            </section>
-            <section>
-                <h2>Tasks</h2>
-                <div className="project-board">
-                    <div className="drop-zone">
-                        <DropZone status="todo" onDrop={(task) => handleTaskDrop(task, 'todo')}>
-                            <h3>To Do</h3>
-                            <div className="tasks-column">
-                                {getTasksForColumn('todo').map(task => (
-                                    <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
-                                ))}
-                            </div>
-                        </DropZone>
-                        <div>
-                            <button onClick={() => setNewTaskOpen(true)} className="new-task">
-                                <LuCirclePlus /> Add new task
-                            </button>
-                            <FormModal
-                                isOpen={newTaskOpen}
-                                onClose={() => setNewTaskOpen(false)}
-                                title="Create new task"
-                            >
-                                <CreateTask />
-                            </FormModal>
-                        </div>
-                    </div>
-                    <div className="drop-zone">
-                        <DropZone status="in-progress" onDrop={(task) => handleTaskDrop(task, 'in-progress')}>
-                            <h3>In Progress</h3>
-                            <div className="tasks-column">
-                                {getTasksForColumn('in-progress').map(task => (
-                                    <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
-                                ))}
-                            </div>
-                        </DropZone>
-                    </div>
-                    <div className="drop-zone">
-                        <DropZone status="done" onDrop={(task) => handleTaskDrop(task, 'done')}>
-                            <h3>Done</h3>
-                            <div className="tasks-column">
-                                {getTasksForColumn('done').map(task => (
-                                    <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
-                                ))}
-                            </div>
-                        </DropZone>
-                    </div>
-                </div>
-                {selectedTaskId && (
-                    <FormModal
-                        isOpen={true}
-                        onClose={handleCloseModal}
-                        title=""
-                    >
-                        {loading ? (
-                            <div>Loading task details...</div>
-                        ) : selectedTask ? (
-                            <TaskDetails
-                                task={selectedTask}
-                                onClose={handleCloseModal}
-                                onTaskUpdated={() => {/* refresh logic */ }}
-                            />
-                        ) : null}
-                    </FormModal>
-                )}
-            </section>
+        try {
+
+
+        if (selectedTaskId) {
+            const response = await taskShow(projectId, selectedTaskId)
+            setSelectedTask(response.data)
+        }
+
+        console.log('Tasks refreshed after update/delete')
+    } catch (error) {
+        console.error('Error refreshing tasks:', error)
+    }
+}
+
+return (
+    <div className="page-content">
+        <div className="page-title">
+            <h1>{project?.name}</h1>
         </div>
-    )
+        <section>
+            <div className="project-board">
+                {loading ? (
+                    <p>Loading project...</p>
+                ) : project ? (
+                    <div>
+                        <button onClick={() => setProjectDetailsOpen(true)} className="profile-button">
+                            View project brief
+                        </button>
+                        <Sidebar
+                            isOpen={projectDetailsOpen}
+                            onClose={() => setProjectDetailsOpen(false)}
+                            title="Project details"
+                        >
+                            <ProjectDetails />
+                        </Sidebar>
+
+                        <div className="tag-container">
+                            <span className="team-tag">
+                                {project.team.name}
+                            </span>
+                            <span className="status-tag">
+                                {project.status}
+                            </span>
+                        </div>
+                    </div>
+                ) : (
+                    <p>There was a problem loading this project...</p>
+                )}
+            </div>
+        </section>
+        <section>
+            <h2>Tasks</h2>
+            <div className="project-board">
+                <div className="drop-zone">
+                    <DropZone status="todo" onDrop={(task) => handleTaskDrop(task, 'todo')}>
+                        <h3>To Do</h3>
+                        <div className="tasks-column">
+                            {getTasksForColumn('todo').map(task => (
+                                <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
+                            ))}
+                        </div>
+                    </DropZone>
+                    <div>
+                        <button onClick={() => setNewTaskOpen(true)} className="new-task">
+                            <LuCirclePlus /> Add new task
+                        </button>
+                        <FormModal
+                            isOpen={newTaskOpen}
+                            onClose={() => setNewTaskOpen(false)}
+                            title="Create new task"
+                        >
+                            <CreateTask />
+                        </FormModal>
+                    </div>
+                </div>
+                <div className="drop-zone">
+                    <DropZone status="in-progress" onDrop={(task) => handleTaskDrop(task, 'in-progress')}>
+                        <h3>In Progress</h3>
+                        <div className="tasks-column">
+                            {getTasksForColumn('in-progress').map(task => (
+                                <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
+                            ))}
+                        </div>
+                    </DropZone>
+                </div>
+                <div className="drop-zone">
+                    <DropZone status="done" onDrop={(task) => handleTaskDrop(task, 'done')}>
+                        <h3>Done</h3>
+                        <div className="tasks-column">
+                            {getTasksForColumn('done').map(task => (
+                                <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
+                            ))}
+                        </div>
+                    </DropZone>
+                </div>
+            </div>
+            {selectedTaskId && (
+                <FormModal
+                    isOpen={true}
+                    onClose={handleCloseModal}
+                    title=""
+                >
+                    {loading ? (
+                        <div>Loading task details...</div>
+                    ) : selectedTask ? (
+                        <TaskDetails
+                            task={selectedTask}
+                            onClose={handleCloseModal}
+                            onTaskUpdated={handleTaskUpdated}
+                        />
+                    ) : null}
+                </FormModal>
+            )}
+        </section>
+    </div>
+)
 }
 
 export default ProjectPage
