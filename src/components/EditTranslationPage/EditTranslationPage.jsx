@@ -56,9 +56,6 @@ const EditTranslationPage = () => {
     return (
         <main className="page-content">
             <div className="content-wrapper">
-            <div className="nav-actions">
-                 <Link to='/projects'className="page-link">Return to projects</Link>
-                 </div>
                 {translation && translation.sourceText &&
                     <section className='form'>
                         <SourceDetails sourceId={translation.sourceText} />

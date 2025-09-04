@@ -3,9 +3,9 @@ import { useState, useEffect, useContext, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { LuCirclePlus } from "react-icons/lu";
 
-
 import { UserContext } from '../../contexts/UserContext'
 import { projectShow, getProjectTasks, taskShow } from '../../services/projects.js'
+import { toCamelCase } from '../../utils/cases'
 import DraggableTask from '../ProjectTasks/ProjectTasks'
 import DropZone from '../ProjectTaskDropZone/ProjectTaskDropZone'
 
@@ -67,7 +67,8 @@ const ProjectPage = () => {
         try {
             setLoading(true)
             const response = await taskShow(projectId, taskId)
-            setSelectedTask(response.data)
+            const camelTask = toCamelCase(response.data)
+            setSelectedTask(camelTask)
             setTaskDetailsOpen(true)
         } catch (error) {
             console.error("Error loading task:", error)
@@ -110,8 +111,8 @@ const ProjectPage = () => {
                         <p>Loading project...</p>
                     ) : project ? (
                         <div>
-                            <button onClick={() => setProjectDetailsOpen(true)} className="profile-button">
-                                View project brief
+                            <button onClick={() => setProjectDetailsOpen(true)} className="page-button">
+                                View project details
                             </button>
                             <Sidebar
                                 isOpen={projectDetailsOpen}

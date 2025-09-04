@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useState, useContext } from 'react'
 import { taskDelete } from '../../services/projects.js'
 
@@ -46,12 +46,20 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
                     <div className="description">
                         <b>Description:</b> {task.description}
                     </div>
-                    {/* <div className="source-text">
-                                {task.source_text}
-                            </div>
-                            <div className="translation">
-                                {task.translation}
-                            </div> */}
+                    <div className="source-text">
+                        <b>Source:</b>{" "}
+                        {task.sourceText && (
+                            <Link to={`/texts/${task.sourceText.id}/edit`}>
+                                {task.sourceText.title}
+                            </Link>
+                        )}
+                    </div>
+                    <div className="translation">
+                        <b>Translation:</b>{" "}
+                        <Link to={`/translations/${task.translation.id}/edit`}>
+                            {task.translation.title}
+                        </Link>
+                    </div>
                 </div>
             </section>
             <div className="user-actions">

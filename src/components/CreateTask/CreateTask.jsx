@@ -7,7 +7,7 @@ import { getTranslations } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
-const CreateTask= ( onClose, onTaskCreated ) => {
+const CreateTask = ({ onClose, onTaskCreated }) => {
     const { user } = useContext(UserContext)
     const { projectId } = useParams()
     const navigate = useNavigate()
@@ -16,15 +16,15 @@ const CreateTask= ( onClose, onTaskCreated ) => {
         title: '',
         description: '',
         deadline: '',
-        sourceTextOption: '', 
-        sourceText: '', 
+        sourceTextOption: '',
+        sourceText: '',
         translationOption: '',
         translation: '',
     })
     const [existingSourceTexts, setExistingSourceTexts] = useState([])
     const [existingTranslations, setExistingTranslations] = useState([])
     const [errors, setErrors] = useState({})
-    const [uploading, setUploading] = useState(false)
+    const [uploading, setUploading] = useState()
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -37,8 +37,6 @@ const CreateTask= ( onClose, onTaskCreated ) => {
                 setExistingSourceTexts(sourceTextsResponse.data)
                 setExistingTranslations(translationsResponse.data)
 
-                if (onTaskCreated) onTaskCreated()
-                if (onClose) onClose()  
             } catch (error) {
                 console.error('Error loading options:', error);
             }
@@ -52,19 +50,19 @@ const CreateTask= ( onClose, onTaskCreated ) => {
 
         const { sourceTextOption, translationOption, ...filteredData } = formData
 
-        if (sourceTextOption !== 'Use existing') {
+        if (sourceTextOption !== 'existing') {
             filteredData.sourceText = null
         }
-        if (translationOption !== 'Use existing') {
+        if (translationOption !== 'existing') {
             filteredData.translation = null
         }
 
-        const payload = toSnakeCase(formData)
+        const payload = toSnakeCase(filteredData)
 
         try {
             const { data } = await taskCreate(projectId, payload)
             if (onTaskCreated) await onTaskCreated()
-            if (onClose) onClose() 
+            if (onClose) onClose()
         } catch (error) {
             setErrors(error.response?.data || { message: 'Unable to create task' })
         }
@@ -108,14 +106,14 @@ const CreateTask= ( onClose, onTaskCreated ) => {
                     <option value="create_new">Create new</option>
                 </select>
                 {formData.sourceTextOption === 'existing' && (
-                <select name="sourceText" id="sourceText" value={formData.sourceText || ''} onChange={handleChange}>
-                    <option value="">Select source text...</option>
-                    {existingSourceTexts && existingSourceTexts.length > 0 && existingSourceTexts.map(source => (
-                        <option key={source.id} value={source.id}>
-                            {source.title}
-                        </option>
-                    ))}
-                </select>
+                    <select name="sourceText" id="sourceText" value={formData.sourceText || ''} onChange={handleChange}>
+                        <option value="">Select source text...</option>
+                        {existingSourceTexts && existingSourceTexts.length > 0 && existingSourceTexts.map(source => (
+                            <option key={source.id} value={source.id}>
+                                {source.title}
+                            </option>
+                        ))}
+                    </select>
                 )}
                 {uploading && <p>Loading source texts...</p>}
                 {errors.sourceText && <p className='error-message'>{errors.sourceText}</p>}
@@ -133,14 +131,14 @@ const CreateTask= ( onClose, onTaskCreated ) => {
                     <option value="create_new">Create new</option>
                 </select>
                 {formData.translationOption === 'existing' && (
-                <select name="translation" id="translation" value={formData.translation || ''} onChange={handleChange}>
-                    <option value="">Select translation...</option>
-                    {existingTranslations && existingTranslations.length > 0 && existingTranslations.map(translation => (
-                        <option key={translation.id} value={translation.id}>
-                            {translation.title}
-                        </option>
-                    ))}
-                </select>
+                    <select name="translation" id="translation" value={formData.translation || ''} onChange={handleChange}>
+                        <option value="">Select translation...</option>
+                        {existingTranslations && existingTranslations.length > 0 && existingTranslations.map(translation => (
+                            <option key={translation.id} value={translation.id}>
+                                {translation.title}
+                            </option>
+                        ))}
+                    </select>
                 )}
                 {uploading && <p>Loading translations...</p>}
                 {errors.translation && <p className='error-message'>{errors.translation}</p>}

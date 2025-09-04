@@ -16,8 +16,7 @@ const EditSourceForm = () => {
     const [formData, setFormData] = useState({
         title: '',
         body: '',
-        sourceLanguage: '',
-        feedback: [],
+        sourceLanguage: 'en-GB',
     })
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState(false)
@@ -32,8 +31,7 @@ const EditSourceForm = () => {
                 setFormData({
                     title: sourceData.title || '',
                     body: sourceData.body || '',
-                    sourceLanguage: sourceData.sourceLanguage || '',
-                    feedback: sourceData.feedback || [],
+                    sourceLanguage: sourceData.sourceLanguage || 'en-GB',
                 })
                 setLexicalValue(sourceData.body || '')
 
@@ -50,15 +48,28 @@ const EditSourceForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        // Convert lexicalValue string → object
+        let bodyPayload
+        try {
+            bodyPayload = JSON.parse(lexicalValue)
+        } catch (err) {
+            setErrors({ message: 'Invalid JSON in editor' })
+            return
+        }
+
         const payload = toSnakeCase({
-            ...formData,
-            body: lexicalValue
+            title: formData.title,
+            body: bodyPayload,
+            source_language: formData.sourceLanguage,
         })
 
+        console.log('Payload being sent:', payload)
+
         try {
-            const { data } = await textUpdate(payload)
+            const { data } = await textUpdate(sourceId, payload)
             console.log('Text update response:', data)
         } catch (error) {
+            console.error('PUT error:', error.response?.data)
             setErrors(error.response?.data || { message: 'Unable to update source text' })
         }
     }
