@@ -104,7 +104,7 @@
 .form button {
   width: 100%;
   padding: 0.75rem;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--dark-teal);
   color: white;
   border: none;
   font-size: 0.9rem;
