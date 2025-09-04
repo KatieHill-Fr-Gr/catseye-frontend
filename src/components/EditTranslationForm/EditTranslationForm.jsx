@@ -73,7 +73,7 @@ const EditTranslationForm = ({formData, setFormData, translationId, lexicalValue
                 <label>Text</label>
                 {lexicalValue !== '' ? (
                     <TextEditor
-                        editable={false}
+                        editable={true}
                         key={translationId}
                         value={lexicalValue}
                         onChange={handleLexicalChange}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { $getRoot, $getSelection } from 'lexical'
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
@@ -9,9 +9,17 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 
+function EditabilityPlugin({ editable }) {
+    const [editor] = useLexicalComposerContext();
 
+    useEffect(() => {
+        editor.setEditable(editable);
+    }, [editor, editable]);
 
-const TextEditor = ({ value, onChange, placeholder = "Enter some text...", editable=true }) => {
+    return null;
+}
+
+const TextEditor = ({ value, onChange, placeholder = "Enter some text...", editable = true }) => {
     const [wordCount, setWordCount] = useState(0)
 
     const getInitialEditorState = () => {
@@ -28,7 +36,7 @@ const TextEditor = ({ value, onChange, placeholder = "Enter some text...", edita
     }
 
     const initialConfig = {
-        editable,
+        editable: editable,
         namespace: 'MyEditor',
         editorState: getInitialEditorState(),
         onError(error) {
@@ -58,8 +66,13 @@ const TextEditor = ({ value, onChange, placeholder = "Enter some text...", edita
                         ErrorBoundary={LexicalErrorBoundary}
                     />
                     <OnChangePlugin onChange={handleChange} />
-                    <HistoryPlugin />
+                    {editable && <HistoryPlugin />}
+                    <EditabilityPlugin editable={editable} />
                 </div>
+                <span>Words: {wordCount}</span>
+                {!editable && (
+                        <span>Read-only</span>
+                )}
             </LexicalComposer>
         </div>
     )
