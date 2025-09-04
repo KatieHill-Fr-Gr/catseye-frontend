@@ -1,0 +1,59 @@
+.form {
+  max-width: 500px;
+  margin: 1rem auto;
+  padding: 1.5rem;
+  background-color: rgba(26, 36, 46, 0.5);
+  font-size: 0.85rem;
+  border-radius: 8px;
+}
+
+.form h2 {
+  text-align: left;
+  margin-bottom: 1rem;
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  justify-content: flex-start;
+}
+
+.form-row label {
+  flex: none;
+  width: auto;             
+  margin: 0;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: left;
+  padding-right: 0.5rem;
+  white-space: nowrap;     
+}
+
+.form-row .value {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.1); 
+  color: white;
+  font-size: 0.8rem;
+  box-sizing: border-box;
+  border-radius: 4px;
+  word-wrap: break-word;
+}
+
+.form-row .value.empty {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+.form-row .value.multiline {
+  min-height: 150px;
+  white-space: pre-wrap;
+  vertical-align: top;
+}
