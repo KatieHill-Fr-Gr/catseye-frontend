@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { textCreate } from '../../services/texts'
 import { toSnakeCase } from '../../utils/cases'
@@ -7,32 +8,64 @@ import TextEditor from '../TextEditor/TextEditor'
 import './CreateSourceForm.css'
 
 const CreateSourceForm = () => {
+    const navigate = useNavigate()
 
-     const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({
         title: '',
         body: '',
-        sourceLanguage: 'en-GB',     
+        sourceLanguage: 'en-GB',
     })
 
     const [errors, setErrors] = useState({})
     const [lexicalValue, setLexicalValue] = useState('')
     const [sourceFile, setSourceFile] = useState(null)
     const [upload, setUpload] = useState('file')
-    
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const payload = toSnakeCase({
-            ...formData,
-            body: lexicalValue
-        })
+        let payload
+        let headers = {}
+
+        if (upload === 'file' && sourceFile) {
+            const filePayload = {
+                title: formData.title,
+                sourceLanguage: formData.sourceLanguage,
+                sourceFile: sourceFile
+            }
+
+            const convertedPayload = toSnakeCase(filePayload)
+
+            payload = new FormData()
+            Object.keys(convertedPayload).forEach(key => {
+                payload.append(key, convertedPayload[key])
+            })
+        } else {
+            payload = toSnakeCase({
+                ...formData,
+                body: lexicalValue
+            })
+        }
 
         try {
             const { data } = await textCreate(payload)
             console.log('Text creation response:', data)
+            setErrors({})
+            setShowSuccessMessage('Source text created successfully!')
+            setTimeout(() => {
+                navigate(`/sources/${data.id}`)
+            }, 2000)
         } catch (error) {
-            setErrors(error.response?.data || { message: 'Unable to create source text' })
+            console.log('Current errors state:', errors)
+            console.log('Is errors.message truthy?', !!errors.message)
+            if (error.response?.data) {
+                setErrors(error.response.data)
+            } else {
+                setErrors({ message: 'Unable to create source text. Please try again.' })
+            }
         }
     }
 
@@ -45,10 +78,10 @@ const CreateSourceForm = () => {
     const handleLexicalChange = (jsonString) => {
         setLexicalValue(jsonString)
     }
-    
+
     const handleFileChange = (e) => {
-        const file = e.target.files[0] // e.target returns a 'FileList' object so you need to specify the array index even if it's just one file
-        setSelectedFile(file)
+        const file = e.target.files[0]
+        setSourceFile(file)
     }
 
     const handleFileUpload = (inputType) => {
@@ -87,46 +120,42 @@ const CreateSourceForm = () => {
                 </select>
             </div>
 
-<div className="form-row">
-            {upload === 'text' ? (
-                <div>
-                    <label htmlFor="body">Text:</label>
-                    <textarea
-                        id="body"
-                        placeholder="Enter your text here..."
-                        value={formData.body}
-                        onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            body: e.target.value
-                        }))}
-                        // rows={10}
-                        // cols={50}
-                    />
-                </div>
-            ) : (
-                <div>
-                    <label htmlFor="sourceFile">Upload File:</label>
-                    <input
-                        id="sourceFile"
-                        type="file"
-                        onChange={handleFileChange}
-                        accept=".txt"
-                    />
-                    {sourceFile && (
-                        <div style={{ marginTop: '10px', color: 'green' }}>
-                            ✓ Selected file: {sourceFile.name} ({(sourceFile.size / 1024).toFixed(1)} KB)
-                        </div>
-                    )}
-                </div>
-            )}
-</div>
-
-
-
             <div className="form-row">
                 <label htmlFor="title">Title</label>
                 <input type="text" name="title" id="title" placeholder='Enter your heading here' value={formData.title} onChange={handleChange} />
                 {errors.title && <p className='error-message'>{errors.title}</p>}
+            </div>
+
+            <div className="form-row">
+                {upload === 'text' ? (
+                    <div>
+                        <label htmlFor="body">Text:</label>
+                        <textarea
+                            id="body"
+                            placeholder="Enter your text here..."
+                            value={formData.body}
+                            onChange={(e) => setFormData(prev => ({
+                                ...prev,
+                                body: e.target.value
+                            }))}
+                        />
+                    </div>
+                ) : (
+                    <div>
+                        <label htmlFor="sourceFile">Upload File:</label>
+                        <input
+                            id="sourceFile"
+                            type="file"
+                            onChange={handleFileChange}
+                            accept=".txt"
+                        />
+                        {sourceFile && (
+                            <div style={{ marginTop: '10px', color: 'green' }}>
+                                ✓ Selected file: {sourceFile.name} ({(sourceFile.size / 1024).toFixed(1)} KB)
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
 
             <div className="form-row">
@@ -138,9 +167,14 @@ const CreateSourceForm = () => {
                 />
             </div>
 
+            {showSuccessMessage && (
+                <div className="success-message">
+                    {showSuccessMessage}
+                </div>
+            )}
 
             {errors.message && (
-                <div className="error-message general-error">
+                <div className="error-message">
                     {errors.message}
                 </div>
             )}

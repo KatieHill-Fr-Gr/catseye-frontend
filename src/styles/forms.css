@@ -147,6 +147,17 @@
   border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 500;
+}
+
 .error-message {
   color: #e74c3c;
   font-size: 0.8rem;
