@@ -38,12 +38,12 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path='/sign-up' element={<SignUpPage />} />
         <Route path='/sign-in' element={<SignInPage />} />
-        <Route path='/projects' element={<MyProjects />} />
-        <Route path='/projects/:projectId' element={<ProjectPage />} />
-        <Route path='/texts/new' element={<CreateSourcePage />} />
-        <Route path='/texts/:sourceId/edit' element={<EditSourcePage />} />
-        <Route path='/translations/new' element={<CreateTranslationPage />} />
-        <Route path='/translations/:translationId/edit' element={<EditTranslationPage />} />
+        <Route path='/projects' element={user ? <MyProjects /> : <Navigate to="/sign-in" replace />} />
+        <Route path='/projects/:projectId' element={user ? <ProjectPage /> : <Navigate to="/sign-in" replace />} />
+        <Route path='/texts/new' element={user ? <CreateSourcePage /> : <Navigate to="/sign-in" replace />} />
+        <Route path='/texts/:sourceId/edit' element={user ? <EditSourcePage /> : <Navigate to="/sign-in" replace />} />
+        <Route path='/translations/new' element={user ? <CreateTranslationPage /> : <Navigate to="/sign-in" replace />} />
+        <Route path='/translations/:translationId/edit' element={user ? <EditTranslationPage /> : <Navigate to="/sign-in" replace />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       </div>

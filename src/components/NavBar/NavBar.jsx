@@ -25,7 +25,7 @@ const NavBar = () => {
 
             <div className="center-section">
                 <Link to="/projects" className="profile-button">Projects</Link>
-                <Link to="/tasks" className="profile-button">Tasks</Link>
+                <Link to="/projects" className="profile-button">Tasks</Link>
             </div>
 
             <div className="right-section">
