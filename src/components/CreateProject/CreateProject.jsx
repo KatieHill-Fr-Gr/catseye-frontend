@@ -56,7 +56,7 @@ const CreateProject = ({ onClose, onProjectCreated }) => {
 
                 <div className="form-row">
                     <label htmlFor="deadline">Due</label>
-                    <input type="deadline" name='deadline' id='deadline' placeholder='Please enter a date YYYY-MM-DD' value={formData.deadline} onChange={handleChange} />
+                    <input type="date" name='deadline' id='deadline' placeholder='Please enter a date DD-MM-2025' value={formData.deadline} onChange={handleChange} />
                     {errors.deadline && <p className='error-message'>{errors.deadline}</p>}
                 </div>
 

@@ -1,7 +1,6 @@
 import './HomePage.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 
 
 const HomePage = () => {
@@ -12,7 +11,7 @@ const HomePage = () => {
             <section className="hero">
                 <h1>Collaborate, Translate, Manage WorkFlows</h1>
                 <p>Keep all your multilingual content in one place.</p>
-                <button className="page-button">Create a project</button>
+                <Link to="/projects" className="page-button">Get started</Link>
             </section>
             <section className="page-content">
                 <div className="content-wrapper">
@@ -22,7 +21,7 @@ const HomePage = () => {
                     </div>
                 </div>
                 <div className="image-column">
-                    </div>
+                </div>
             </section>
         </main>
     )

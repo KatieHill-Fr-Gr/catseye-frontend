@@ -57,12 +57,11 @@ const ProfileDetails = () => {
                 {tasks.map(task => (
                     <div key={task.id} className="task-card">
                         <h3>
-                            <Link to={`/projects/${task.parentProject}/tasks/${task.id}`}>
+                            <Link to={`/projects/${task.parentProject}`}>
                                 {task.title}
                             </Link>
                         </h3>
                         <div className="deadline-tag">{task.deadline}</div>
-                        {task.sourceText && <p>Source: {task.sourceText.title}</p>}
                     </div>
                 ))}
                 </div>
