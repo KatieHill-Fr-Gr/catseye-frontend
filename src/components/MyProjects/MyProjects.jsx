@@ -53,8 +53,7 @@ const MyProjects = () => {
             <div className="page-title">
                 <h1>My projects</h1>
             </div>
-            <section>
-                <h2></h2>
+            <section className="projects-container">
                 <div className="projects-grid">
                     {projectsLoading ? (
                         <p>Loading projects...</p>
