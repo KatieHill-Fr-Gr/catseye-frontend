@@ -28,6 +28,8 @@ const ProfileDetails = () => {
         userTasks()
     }, [])
 
+    console.log("User context:", user)
+
 
     return (
         <div>
