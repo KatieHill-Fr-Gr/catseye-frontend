@@ -49,9 +49,6 @@ const ProfileDetails = () => {
                 >
                     <EditProfile />
                 </FormModal>
-                <button className="page-button">
-                    Delete
-                </button>
             </div>
             <div className="task-container">
                 <div className="task-list">
