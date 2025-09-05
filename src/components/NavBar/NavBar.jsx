@@ -15,39 +15,41 @@ const NavBar = () => {
     const [profileOpen, setProfileOpen] = useState(false);
 
     return (
-        <nav>
-            <nav id="main-pages">
+        <nav className="navbar">
+            <div className="left-section">
                 <div className="logo-image">
                     <img src={eyeIcon} alt="White silhouette of eye" />
                 </div>
                 <Link to="/" className="home-link">catseye</Link>
-                <Link to="/projects" className="page-link">Projects</Link>
-                <Link to="/" className="page-link">Tasks</Link>
-            </nav>
-            <nav id="user-access">
-                {user
-                    ? (
-                        <>
-                            <button onClick={() => setProfileOpen(true)} className="profile-button">
-                                My Profile
-                            </button>
-                            <Sidebar
-                                isOpen={profileOpen}
-                                onClose={() => setProfileOpen(false)}
-                                title="User Profile"
-                            >
-                                <ProfileDetails />
-                            </Sidebar>
-                            <Link to="#" onClick={(e) => { e.preventDefault(); signOut() }} className="nav-button">Sign Out</Link>
-                        </>
-                    )
-                    : (
-                        <>
-                            <Link to="/sign-in" className="nav-button">Log in</Link>
-                            <Link to="/sign-up" className="nav-button">Sign up</Link>
-                        </>
-                    )}
-            </nav>
+            </div>
+
+            <div className="center-section">
+                <Link to="/projects" className="profile-button">Projects</Link>
+                <Link to="/tasks" className="profile-button">Tasks</Link>
+            </div>
+
+            <div className="right-section">
+                {user ? (
+                    <>
+                        <button onClick={() => setProfileOpen(true)} className="profile-button">
+                            My Profile
+                        </button>
+                        <Sidebar
+                            isOpen={profileOpen}
+                            onClose={() => setProfileOpen(false)}
+                            title="User Profile"
+                        >
+                            <ProfileDetails />
+                        </Sidebar>
+                        <Link to="#" onClick={(e) => { e.preventDefault(); signOut() }} className="nav-button">Sign Out</Link>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/sign-in" className="nav-button">Log in</Link>
+                        <Link to="/sign-up" className="nav-button">Sign up</Link>
+                    </>
+                )}
+            </div>
         </nav>
     )
 }

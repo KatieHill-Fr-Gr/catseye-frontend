@@ -1,12 +1,24 @@
-nav {
-    background-color: #2D3E4E;
-    color: white;
-    padding: 0.5rem 1rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+.navbar {
+  display: flex;
+  justify-content: space-between; /* space between left, center, right */
+  align-items: center;
+  padding: 1rem 2rem;
 }
+
+.left-section,
+.center-section,
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.center-section {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); /* keeps links truly centered */
+}
+
 
 #main-pages {
     display: flex;
@@ -69,7 +81,7 @@ a.nav-button:hover {
 .logo-image {
   width: 1.5rem;
   height: 1.5rem;
-  margin: 0 auto 1rem auto;
+  margin: 0 auto;
   overflow: hidden;
   position: relative;
 }
