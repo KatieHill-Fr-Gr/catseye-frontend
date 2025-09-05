@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { LuCirclePlus } from "react-icons/lu";
 
 import { UserContext } from '../../contexts/UserContext'
-import { projectShow, getProjectTasks, taskShow } from '../../services/projects.js'
+import { projectShow, getProjectTasks, taskShow, taskUpdate } from '../../services/projects.js'
 import { toCamelCase } from '../../utils/cases'
 import DraggableTask from '../ProjectTasks/ProjectTasks'
 import DropZone from '../ProjectTaskDropZone/ProjectTaskDropZone'
@@ -51,16 +51,15 @@ const ProjectPage = () => {
     }, [projectId])
 
     const handleTaskDrop = (droppedTask, taskColumn) => {
-        console.log('Task dropped:', droppedTask);
+        console.log('Task dropped:', droppedTask)
         setTaskColumns(prev => ({
             ...prev,
             [droppedTask.taskId]: taskColumn
         }))
     }
+
     const getTasksForColumn = (column) => {
-        return tasks.filter(task =>
-            (taskColumns[task.id] || 'todo') === column
-        )
+        return tasks.filter(task => (taskColumns[task.id] || task.status || 'in_progress') === column)
     }
 
     const handleTaskClick = async (taskId) => {
@@ -105,6 +104,9 @@ const ProjectPage = () => {
             <div className="page-title">
                 <h1>{project?.name}</h1>
             </div>
+            {console.log('Tasks in In Progress:', getTasksForColumn('inProgress'))}
+{console.log('Tasks in Review:', getTasksForColumn('review'))}
+{console.log('Tasks in Completed:', getTasksForColumn('completed'))}
             <section>
                 <div className="project-board">
                     {loading ? (
@@ -140,10 +142,10 @@ const ProjectPage = () => {
                 <h2>Tasks</h2>
                 <div className="project-board">
                     <div className="drop-zone">
-                        <DropZone status="todo" onDrop={(task) => handleTaskDrop(task, 'todo')}>
-                            <h3>To Do</h3>
+                        <DropZone status="in_progress" onDrop={(task) => handleTaskDrop(task, 'in_progress')}>
+                            <h3>In Progress</h3>
                             <div className="tasks-column">
-                                {getTasksForColumn('todo').map(task => (
+                                {getTasksForColumn('in_progress').map(task => (
                                     <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
                                 ))}
                             </div>
@@ -165,20 +167,20 @@ const ProjectPage = () => {
                         </div>
                     </div>
                     <div className="drop-zone">
-                        <DropZone status="in-progress" onDrop={(task) => handleTaskDrop(task, 'in-progress')}>
-                            <h3>In Progress</h3>
+                        <DropZone status="review" onDrop={(task) => handleTaskDrop(task, 'review')}>
+                            <h3>Review</h3>
                             <div className="tasks-column">
-                                {getTasksForColumn('in-progress').map(task => (
+                                {getTasksForColumn('review').map(task => (
                                     <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
                                 ))}
                             </div>
                         </DropZone>
                     </div>
                     <div className="drop-zone">
-                        <DropZone status="done" onDrop={(task) => handleTaskDrop(task, 'done')}>
+                        <DropZone status="completed" onDrop={(task) => handleTaskDrop(task, 'completed')}>
                             <h3>Done</h3>
                             <div className="tasks-column">
-                                {getTasksForColumn('done').map(task => (
+                                {getTasksForColumn('completed').map(task => (
                                     <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
                                 ))}
                             </div>
@@ -196,7 +198,7 @@ const ProjectPage = () => {
                         ) : selectedTask ? (
                             <TaskDetails
                                 task={selectedTask}
-                                projectId={project.id}  
+                                projectId={project.id}
                                 onClose={handleCloseTaskDetails}
                                 onTaskUpdated={refreshTasks}
                                 onTaskDeleted={refreshTasks}

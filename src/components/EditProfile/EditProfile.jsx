@@ -8,6 +8,7 @@ import { toSnakeCase } from '../../utils/cases'
 
 
 export default function EditProfile() {
+
     const { user } = useContext(UserContext)
 
     const [teams, setTeams] = useState([]);
@@ -58,7 +59,11 @@ export default function EditProfile() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const payload = toSnakeCase(formData);
+        const payload = toSnakeCase(formData)
+
+        payload.team = payload.team ? Number(payload.team) : null
+
+        console.log('Payload:', payload)
 
         try {
             const { data } = await updateUserProfile(user.id, payload)
