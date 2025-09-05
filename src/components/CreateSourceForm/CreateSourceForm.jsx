@@ -54,9 +54,6 @@ const CreateSourceForm = () => {
             console.log('Text creation response:', data)
             setErrors({})
             setShowSuccessMessage('Source text created successfully!')
-            setTimeout(() => {
-                navigate(`/projects`)
-            }, 2000)
         } catch (error) {
             console.log('Current errors state:', errors)
             console.log('Is errors.message truthy?', !!errors.message)

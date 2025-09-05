@@ -12,6 +12,7 @@ const EditSourceForm = () => {
     const { sourceId } = useParams()
     const [source, setSource] = useState(null)
     const [lexicalValue, setLexicalValue] = useState('')
+     const [showSuccessMessage, setShowSuccessMessage] = useState(false)
 
     const [formData, setFormData] = useState({
         title: '',
@@ -69,6 +70,7 @@ const EditSourceForm = () => {
         try {
             const { data } = await textUpdate(sourceId, payload)
             console.log('Text update response:', data)
+            setShowSuccessMessage('Source text updated successfully!')
         } catch (error) {
             console.error('PUT error:', error.response?.data)
             setErrors(error.response?.data || { message: 'Unable to update source text' })
@@ -127,6 +129,12 @@ const EditSourceForm = () => {
                     <div>Loading...</div>
                 )}
             </div>
+
+            {showSuccessMessage && (
+                <div className="success-message">
+                    {showSuccessMessage}
+                </div>
+            )}
 
 
             {errors.message && (

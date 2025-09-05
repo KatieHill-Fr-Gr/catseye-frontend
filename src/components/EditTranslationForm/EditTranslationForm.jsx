@@ -26,9 +26,9 @@ const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValu
             const { data } = await translationUpdate(translationId, payload)
             console.log('Translation update response:', data)
             setShowSuccessMessage('Translation was updated successfully!')
-            setTimeout(() => {
-                navigate(`/projects`)
-            }, 2000)
+            // setTimeout(() => {
+            //     navigate(`/projects`)
+            // }, 2000)
         } catch (error) {
             console.error('Full error object:', error)
             console.error('Error response:', error.response)
