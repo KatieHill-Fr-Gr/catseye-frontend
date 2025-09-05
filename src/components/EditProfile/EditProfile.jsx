@@ -31,7 +31,7 @@ export default function EditProfile() {
                 username: user.username || '',
                 email: user.email || '',
                 jobTitle: user.jobTitle || '',
-                team: user.team?.id || '',
+                team: user.team ? String(user.team.id) : '',
                 profileImg: user.profileImg || ''
             }))
         }
@@ -42,6 +42,7 @@ export default function EditProfile() {
             try {
                 setUploading(true)
                 const teamsData = await getTeams()
+                console.log("Raw teams response:", teamsData)
                 setTeams(Array.isArray(teamsData) ? teamsData : [])
                 setErrors({})
             } catch (err) {
@@ -69,6 +70,7 @@ export default function EditProfile() {
             const { data } = await updateUserProfile(user.id, payload)
             console.log('Update response:', data)
         } catch (error) {
+            console.error("Update failed:", error.response?.data)
             setErrors(error.response?.data || { message: 'Update failed' })
         }
     }
@@ -106,7 +108,7 @@ export default function EditProfile() {
                 <select name="team" id="team" value={formData.team} onChange={handleChange} disabled={uploading}>
                     <option value=""></option>
                     {teams && teams.length > 0 && teams.map(team => (
-                        <option key={team.id} value={team.id}>
+                        <option key={team.id} value={String(team.id)}>
                             {team.name}
                         </option>
                     ))}

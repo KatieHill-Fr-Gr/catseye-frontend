@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { translationUpdate } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
+import { useNavigate } from 'react-router-dom'
 
 import TextEditor from '../TextEditor/TextEditor'
 // import './EditTranslationForm.css'
 
-const EditTranslationForm = ({formData, setFormData, translationId, lexicalValue, setLexicalValue }) => {
+const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValue, setLexicalValue }) => {
     const [errors, setErrors] = useState({})
-    const [uploading, setUploading] = useState(false)
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -21,7 +24,11 @@ const EditTranslationForm = ({formData, setFormData, translationId, lexicalValue
 
         try {
             const { data } = await translationUpdate(translationId, payload)
-            console.log('Text update response:', data)
+            console.log('Translation update response:', data)
+            setShowSuccessMessage('Translation was updated successfully!')
+            setTimeout(() => {
+                navigate(`/projects`)
+            }, 2000)
         } catch (error) {
             console.error('Full error object:', error)
             console.error('Error response:', error.response)
@@ -41,7 +48,7 @@ const EditTranslationForm = ({formData, setFormData, translationId, lexicalValue
     }
 
     return (
-         
+
         <form className='form' onSubmit={handleSubmit}>
             <h2>Edit translation</h2>
             <div className="form-row">
@@ -83,6 +90,12 @@ const EditTranslationForm = ({formData, setFormData, translationId, lexicalValue
                     <div>Loading...</div>
                 )}
             </div>
+
+            {showSuccessMessage && (
+                <div className="success-message">
+                    {showSuccessMessage}
+                </div>
+            )}
 
             {errors.message && (
                 <div className="error-message general-error">

@@ -28,8 +28,7 @@ const CreateSourceForm = () => {
         e.preventDefault()
 
         let payload
-        let headers = {}
-
+    
         if (upload === 'file' && sourceFile) {
             const filePayload = {
                 title: formData.title,
@@ -56,7 +55,7 @@ const CreateSourceForm = () => {
             setErrors({})
             setShowSuccessMessage('Source text created successfully!')
             setTimeout(() => {
-                navigate(`/sources/${data.id}`)
+                navigate(`/projects`)
             }, 2000)
         } catch (error) {
             console.log('Current errors state:', errors)
