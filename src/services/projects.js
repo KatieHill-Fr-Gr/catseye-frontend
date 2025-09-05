@@ -4,12 +4,12 @@ import { getToken } from '../utils/auth'
 const BASE_URL = import.meta.env.VITE_API_URL
 
 export const projectsIndex = () => {
-    return axios.get(`${BASE_URL}projects/`)
+    return axios.get(`${BASE_URL}/projects/`)
 }
 
 
 export const projectShow = (projectId) => {
-    return axios.get(`${BASE_URL}projects/${projectId}/`, {
+    return axios.get(`${BASE_URL}/projects/${projectId}/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -17,7 +17,7 @@ export const projectShow = (projectId) => {
 }
 
 export const projectCreate = (formData) => {
-    return axios.post(`${BASE_URL}projects/`, formData, {
+    return axios.post(`${BASE_URL}/projects/`, formData, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -26,7 +26,7 @@ export const projectCreate = (formData) => {
 
 export const projectUpdate = (projectId, formData) => {
     const token = getToken()
-    return axios.put(`${BASE_URL}projects/${projectId}/`, formData, {
+    return axios.put(`${BASE_URL}/projects/${projectId}/`, formData, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -34,7 +34,7 @@ export const projectUpdate = (projectId, formData) => {
 }
 
 export const projectDelete = (projectId) => {
-    return axios.delete(`${BASE_URL}projects/${projectId}/`, {
+    return axios.delete(`${BASE_URL}/projects/${projectId}/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -42,7 +42,7 @@ export const projectDelete = (projectId) => {
 }
 
 export const getUserTeamProjects = () => {
-    return axios.get(`${BASE_URL}projects/user-team-projects/`, {
+    return axios.get(`${BASE_URL}/projects/user-team-projects/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -50,7 +50,7 @@ export const getUserTeamProjects = () => {
 }
 
 export const getProjectTasks = (projectId) => {
-    return axios.get(`${BASE_URL}projects/${projectId}/tasks/`, {
+    return axios.get(`${BASE_URL}/projects/${projectId}/tasks/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -58,7 +58,7 @@ export const getProjectTasks = (projectId) => {
 }
 
 export const getUserTasks = () => {
-    return axios.get(`${BASE_URL}projects/user-tasks/`, {
+    return axios.get(`${BASE_URL}/projects/user-tasks/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -66,7 +66,7 @@ export const getUserTasks = () => {
 }
 
 export const taskShow = (projectId, taskId) => {
-    return axios.get(`${BASE_URL}projects/${projectId}/tasks/${taskId}/`, {
+    return axios.get(`${BASE_URL}/projects/${projectId}/tasks/${taskId}/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -74,7 +74,7 @@ export const taskShow = (projectId, taskId) => {
 }
 
 export const taskCreate = (projectId, formData) => {
-    return axios.post(`${BASE_URL}projects/${projectId}/tasks/`, formData, {
+    return axios.post(`${BASE_URL}/projects/${projectId}/tasks/`, formData, {
         headers: {
             Authorization: `Bearer ${getToken()}`,
         }
@@ -82,7 +82,7 @@ export const taskCreate = (projectId, formData) => {
 }
 
 export const taskUpdate = (projectId, taskId, formData) => {
-    return axios.put(`${BASE_URL}projects/${projectId}/tasks/${taskId}/`, formData, {
+    return axios.put(`${BASE_URL}/projects/${projectId}/tasks/${taskId}/`, formData, {
         headers: {
             Authorization: `Bearer ${getToken()}`,
         }
@@ -90,7 +90,7 @@ export const taskUpdate = (projectId, taskId, formData) => {
 }
 
 export const taskDelete = (projectId, taskId) => {
-    return axios.delete(`${BASE_URL}projects/${projectId}/tasks/${taskId}/`, {
+    return axios.delete(`${BASE_URL}/projects/${projectId}/tasks/${taskId}/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }

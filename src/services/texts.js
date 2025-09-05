@@ -5,7 +5,7 @@ import { getToken } from '../utils/auth'
 const BASE_URL = import.meta.env.VITE_API_URL
 
 export const getSourceTexts = () => {
-    return axios.get(`${BASE_URL}texts/`, {
+    return axios.get(`${BASE_URL}/texts/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -13,7 +13,7 @@ export const getSourceTexts = () => {
 }
 
 export const textShow = (sourceId) => {
-    return axios.get(`${BASE_URL}texts/${sourceId}/`, {
+    return axios.get(`${BASE_URL}/texts/${sourceId}/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -21,7 +21,7 @@ export const textShow = (sourceId) => {
 }
 
 export const textCreate = (formData) => {
-    return axios.post(`${BASE_URL}texts/`, formData, {
+    return axios.post(`${BASE_URL}/texts/`, formData, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -30,7 +30,7 @@ export const textCreate = (formData) => {
 
 export const textUpdate = (sourceId, formData) => {
     const token = getToken()
-    return axios.put(`${BASE_URL}texts/${sourceId}/`, formData, {
+    return axios.put(`${BASE_URL}/texts/${sourceId}/`, formData, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -38,7 +38,7 @@ export const textUpdate = (sourceId, formData) => {
 }
 
 export const textDelete = (sourceId) => {
-    return axios.delete(`${BASE_URL}texts/${sourceId}/`, {
+    return axios.delete(`${BASE_URL}/texts/${sourceId}/`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
