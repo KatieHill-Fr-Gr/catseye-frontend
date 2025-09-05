@@ -63,9 +63,9 @@ const CreateProject = ({ onClose, onProjectCreated }) => {
                 <div className="form-row">
                     <ImageUpload
                         labelText="Upload images"
-                        fieldName="profileImg"
+                        fieldName="images"
                         setFormData={setFormData}
-                        imageURLs={formData.profileImg}
+                        imageURLs={formData.images}
                         setUploading={setUploading}
                         multiple={true}
                     />

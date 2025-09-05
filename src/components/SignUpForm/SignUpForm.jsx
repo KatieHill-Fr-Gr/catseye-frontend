@@ -127,7 +127,7 @@ export default function SignUpForm() {
                     fieldName="profileImg"
                     setFormData={setFormData}
                     imageURLs={formData.profileImg}
-                    setImageUploading={setImageUploading}
+                    setUploading={setImageUploading}
                     multiple={false}
                 />
             </div>
