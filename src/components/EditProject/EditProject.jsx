@@ -7,9 +7,9 @@ import { UserContext } from '../../contexts/UserContext'
 
 import ImageUpload from '../ImageUpload/ImageUpload'
 
-const EditProject = () => {
+const EditProject = ({ project, onClose, onProjectUpdated }) => {
     const { projectId } = useParams()
-    const [project, setProject] = useState(null)
+    // const [project, setProject] = useState(null)
     const [statusChoices, setStatusChoices] = useState([])
 
     const [formData, setFormData] = useState({
@@ -30,39 +30,53 @@ const EditProject = () => {
         { value: 'cancelled', label: 'Cancelled' },
     ]
 
+    // useEffect(() => {
+    //     const getProject = async () => {
+    //         try {
+    //             const response = await projectShow(projectId)
+    //             const projectData = response.data
+    //             setProject(projectData)
+
+    //             setFormData({
+    //                 name: projectData.name || '',
+    //                 brief: projectData.brief || '',
+    //                 deadline: projectData.deadline || '',
+    //                 status: projectData.status || '',
+    //                 images: projectData.images || []
+    //             })
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error)
+    //             setErrors({ message: 'Unable to load project data' })
+    //         }
+    //     }
+
+    //     if (projectId) {
+    //         getProject()
+    //     }
+    // }, [projectId])
+
     useEffect(() => {
-        const getProject = async () => {
-            try {
-                const response = await projectShow(projectId)
-                const projectData = response.data
-                setProject(projectData)
-
-                setFormData({
-                    name: projectData.name || '',
-                    brief: projectData.brief || '',
-                    deadline: projectData.deadline || '',
-                    status: projectData.status || '',
-                    images: projectData.images || []
-                })
-            } catch (error) {
-                console.error('Error fetching data:', error)
-                setErrors({ message: 'Unable to load project data' })
-            }
+        if (project) {
+            setFormData({
+                name: project.name || '',
+                brief: project.brief || '',
+                deadline: project.deadline || '',
+                status: project.status || '',
+                images: project.images || []
+            })
         }
+    }, [project])
 
-        if (projectId) {
-            getProject()
-        }
-    }, [projectId])
-    
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const payload = toSnakeCase(formData);
+        const payload = toSnakeCase(formData)
 
         try {
             const { data } = await projectUpdate(projectId, payload)
             console.log('Edited project:', data)
+            if (onProjectUpdated) onProjectUpdated(data)
+            if (onClose) onClose()
         } catch (error) {
             setErrors(error.response?.data || { message: 'Unable to edit project' })
         }

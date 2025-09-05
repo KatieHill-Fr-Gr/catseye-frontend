@@ -105,8 +105,8 @@ const ProjectPage = () => {
                 <h1>{project?.name}</h1>
             </div>
             {console.log('Tasks in In Progress:', getTasksForColumn('inProgress'))}
-{console.log('Tasks in Review:', getTasksForColumn('review'))}
-{console.log('Tasks in Completed:', getTasksForColumn('completed'))}
+            {console.log('Tasks in Review:', getTasksForColumn('review'))}
+            {console.log('Tasks in Completed:', getTasksForColumn('completed'))}
             <section>
                 <div className="project-board">
                     {loading ? (
@@ -117,11 +117,13 @@ const ProjectPage = () => {
                                 View project details
                             </button>
                             <Sidebar
+                                project={project}
                                 isOpen={projectDetailsOpen}
                                 onClose={() => setProjectDetailsOpen(false)}
                                 title="Project details"
                             >
-                                <ProjectDetails />
+                                <ProjectDetails
+                                    project={project} onClose={() => setProjectDetailsOpen(false)} />
                             </Sidebar>
 
                             <div className="tag-container">

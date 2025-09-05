@@ -7,7 +7,7 @@ import { taskUpdate, taskShow } from '../../services/projects'
 import { toSnakeCase, toCamelCase } from '../../utils/cases'
 
 const EditTask = ({ task, onClose, onTaskUpdated }) => {
-  
+
     const { projectId } = useParams()
     const [statusChoices, setStatusChoices] = useState([])
     const [existingSourceTexts, setExistingSourceTexts] = useState([])

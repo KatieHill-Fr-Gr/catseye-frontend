@@ -9,45 +9,48 @@ import FormModal from '../FormModal/FormModal'
 import EditProject from '../EditProject/EditProject'
 
 
-const ProjectDetails = () => {
+const ProjectDetails = ({ project, onClose, onProjectUpdated, onProjectDeleted }) => {
     const { projectId } = useParams()
 
-    const [project, setProject] = useState(null)
-    const [loading, setLoading] = useState(true)
+    // const [project, setProject] = useState(null)
+    // const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [editProjectOpen, setEditProjectOpen] = useState(false)
 
     const navigate = useNavigate()
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true)
-                const response = await projectShow(projectId)
-                setProject(response.data)
-            } catch (error) {
-                console.error('Error:', error)
-                setProject(null)
-            } finally {
-                setLoading(false)
-            }
-        }
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             setLoading(true)
+    //             const response = await projectShow(projectId)
+    //             setProject(response.data)
+    //         } catch (error) {
+    //             console.error('Error:', error)
+    //             setProject(null)
+    //         } finally {
+    //             setLoading(false)
+    //         }
+    //     }
 
-        if (projectId) {
-            fetchData()
-        }
-    }, [projectId])
+    //     if (projectId) {
+    //         fetchData()
+    //     }
+    // }, [projectId])
 
     const handleDelete = async () => {
         try {
-            await projectDelete(projectId)
-            navigate('/projects')
+            // await projectDelete(projectId)
+            if (onProjectDeleted) await onProjectDeleted(projectId)
+            if (onClose) onClose()
         } catch (error) {
             console.log(error)
             setError(error)
         }
     }
 
+    console.log(project)
+    const isLoading = !project && !error
 
     return (
         <div className="page-content">
@@ -57,7 +60,7 @@ const ProjectDetails = () => {
             <section>
                 <h2></h2>
                 <div className="project-board">
-                    {loading ? (
+                    {isLoading ? (
                         <p>Loading project...</p>
                     ) : project ? (
                         <div className="project-info">
@@ -80,7 +83,10 @@ const ProjectDetails = () => {
                     onClose={() => setEditProjectOpen(false)}
                     title="Edit project"
                 >
-                    <EditProject />
+                    <EditProject 
+                        project={project}
+                        onClose={() => setEditProjectOpen(false)}
+                        onProjectUpdated={onProjectUpdated}/>
                 </FormModal>
                 <button onClick={handleDelete} className="page-button">
                     Delete
