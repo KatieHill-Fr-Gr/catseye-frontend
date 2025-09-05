@@ -19,28 +19,8 @@ const ProjectDetails = ({ project, onClose, onProjectUpdated, onProjectDeleted }
 
     const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             setLoading(true)
-    //             const response = await projectShow(projectId)
-    //             setProject(response.data)
-    //         } catch (error) {
-    //             console.error('Error:', error)
-    //             setProject(null)
-    //         } finally {
-    //             setLoading(false)
-    //         }
-    //     }
-
-    //     if (projectId) {
-    //         fetchData()
-    //     }
-    // }, [projectId])
-
     const handleDelete = async () => {
         try {
-            // await projectDelete(projectId)
             if (onProjectDeleted) await onProjectDeleted(projectId)
             if (onClose) onClose()
         } catch (error) {

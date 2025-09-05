@@ -16,11 +16,11 @@ const EditTranslationPage = () => {
         title: '',
         body: '',
         targetLanguage: '',
-        sourceTextOption: '',
-        sourceText: '',
-        termbaseOption: '',
-        termbase: '',
-        feedback: [],
+        // sourceTextOption: '',
+        // sourceText: '',
+        // termbaseOption: '',
+        // termbase: '',
+        // feedback: [],
     })
 
     useEffect(() => {
@@ -33,12 +33,12 @@ const EditTranslationPage = () => {
                 setFormData({
                     title: translationData.title || '',
                     body: translationData.body || '',
-                    targetLanguage: translationData.targetLanguage || '',
-                    sourceTextOption: translationData.sourceTextOption || '',
-                    sourceText: translationData.sourceText || '',
-                    termbaseOption: translationData.termbaseOption || '',
-                    termbase: translationData.termbase || '',
-                    feedback: translationData.feedback || [],
+                    targetLanguage: translationData.target_language || 'fr-FR',
+                    // sourceTextOption: translationData.sourceTextOption || '',
+                    // sourceText: translationData.sourceText || '',
+                    // termbaseOption: translationData.termbaseOption || '',
+                    // termbase: translationData.termbase || '',
+                    // feedback: translationData.feedback || [],
                 })
 
                 setLexicalValue(translationData.body || '')
