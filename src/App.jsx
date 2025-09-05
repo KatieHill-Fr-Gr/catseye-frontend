@@ -5,7 +5,7 @@ import './styles/forms.css';
 import { useContext } from 'react'
 import { Navigate } from 'react-router-dom'
 import { Routes, Route } from 'react-router'
-import { UserContext } from './context/UserContext'
+import { UserContext } from './contexts/UserContext'
 
 // Global
 import NavBar from './components/NavBar/NavBar'
