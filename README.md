@@ -18,3 +18,14 @@ by Katie Hill
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-plain-wordmark.svg"
 alt=“PostgreSQL” width="40" height="40" />
 
+## Timeframe
+
+- **Duration** 7 days
+- **Team** This was an individual project
+- **Skills** React frontend development, 
+
+## About
+
+Catseye.ai is a CAT (Computer Assisted Translation) and project management tool for content teams. 
+
+You can view the live app here: https://catseye-ai.netlify.app/
