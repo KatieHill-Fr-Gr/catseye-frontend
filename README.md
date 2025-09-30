@@ -73,9 +73,9 @@ npm install axios
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/trello/trello-plain-wordmark.svg" 
 	alt="Trello" width="80" height="60" />
 
-I created the UI/UX design in Figma using a template and planned the build using Trello. 
+I created the UI/UX design in Figma using a template and designed a component-based architecture with a clear separation of concerns. I then planned the build using a Trello board, focusing on a different feature each day.
 
-#### UI/UX design (Figma)
+#### 1) UI/UX design (Figma)
 
 
 <img width="1392" height="772" alt="Catseye_UI" src="https://github.com/user-attachments/assets/455c5194-cd42-47b4-b7f1-a47159e839b6" />
@@ -83,4 +83,8 @@ I created the UI/UX design in Figma using a template and planned the build using
 <img width="860" height="399" alt="Catseye_UI_2" src="https://github.com/user-attachments/assets/540871e4-fd39-47db-bd94-d66ad0a19d04" />
 
 
+#### 2) Component-Based Architecture
+
+
+<img width="630" height="295" alt="Catseye_frontendarchitecture" src="https://github.com/user-attachments/assets/c6c08c43-dcac-4a97-85fc-057d92492423" />
 
