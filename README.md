@@ -21,11 +21,66 @@ alt=“PostgreSQL” width="40" height="40" />
 ## Timeframe
 
 - **Duration** 7 days
-- **Team** This was an individual project
-- **Skills** React frontend development, 
+- **Team** This was a solo project
+- **Skills** React frontend development with component-based architecture, full CRUD functionality, third-party package & service integration (Lexical text editor, Pragmatic Kanban board, Cloudinary for image uploads), and UI/UX design
 
 ## About
 
-Catseye.ai is a CAT (Computer Assisted Translation) and project management tool for content teams. 
+Catseye is a translation and project management app intended for business users who create and manage multilingual content. In my previous roles as a translator and copywriter, I used many CAT (Computer Assisted Translation) and workflow management tools that had clunky and outdated UIs. I wanted to design and build an agile and streamlined app that combined these functionalities in a simple and intuitive way, while also fostering collaboration between teams.
+
+This was my final project on the General Assembly Software Engineering Bootcamp. Our brief was to develop a full-stack application with a React frontend that consumes a Django API. With so many interactive features to integrate, building the UI was particularly challenging and I ran into multiple issues throughout the week. I managed to resolve most of these by the project deadline and have since continued to develop the app with additional features (including AI integration). 
 
 You can view the live app here: https://catseye-ai.netlify.app/
+
+## Installation
+
+
+For the frontend, clone this repository and install the following packages: 
+
+
+```bash
+npm install react
+npm install react-dom
+npm install react-router
+npm install react-router-dom
+npm install react-icons
+npm install lucide-react
+```
+
+**Text Editor**
+
+```bash
+npm install @lexical/react @lexical/plain-text @lexical/rich-text @lexical/utils
+```
+
+**Kanban board**
+
+```bash
+npm install @atlaskit/pragmatic-drag-and-drop
+```
+
+**HTTP requests**
+
+```bash
+npm install axios
+```
+
+
+## Planning 
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" 
+     alt="Figma" width="40" height="40"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/trello/trello-plain-wordmark.svg" 
+	alt="Trello" width="80" height="60" />
+
+I created the UI/UX design in Figma using a template and planned the build using Trello. 
+
+#### UI/UX design (Figma)
+
+
+<img width="1392" height="772" alt="Catseye_UI" src="https://github.com/user-attachments/assets/455c5194-cd42-47b4-b7f1-a47159e839b6" />
+
+<img width="860" height="399" alt="Catseye_UI_2" src="https://github.com/user-attachments/assets/540871e4-fd39-47db-bd94-d66ad0a19d04" />
+
+
+
