@@ -53,13 +53,13 @@ npm install lucide-react
 npm install @lexical/react @lexical/plain-text @lexical/rich-text @lexical/utils
 ```
 
-**Kanban board**
+**Kanban Board**
 
 ```bash
 npm install @atlaskit/pragmatic-drag-and-drop
 ```
 
-**HTTP requests**
+**HTTP Requests**
 
 ```bash
 npm install axios
