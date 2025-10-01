@@ -4,14 +4,14 @@ import { updateUserProfile } from '../../services/users'
 import { getTeams } from '../../services/team'
 import { UserContext } from '../../contexts/UserContext'
 import ImageUpload from '../ImageUpload/ImageUpload'
-import { toSnakeCase } from '../../utils/cases'
+import { toSnakeCase, toCamelCase } from '../../utils/cases'
 
 
 export default function EditProfile() {
 
-    const { user } = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
 
-    const [teams, setTeams] = useState([]);
+    const [teams, setTeams] = useState([])
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState(false)
     const [imageUploading, setImageUploading] = useState(false)
@@ -31,7 +31,7 @@ export default function EditProfile() {
                 username: user.username || '',
                 email: user.email || '',
                 jobTitle: user.jobTitle || '',
-                team: user.team ? String(user.team.id) : '',
+                team: user.team ? (typeof user.team === 'object' ? String(user.team.id) : String(user.team)) : '',
                 profileImg: user.profileImg || ''
             }))
         }
@@ -42,7 +42,6 @@ export default function EditProfile() {
             try {
                 setUploading(true)
                 const teamsData = await getTeams()
-                console.log("Raw teams response:", teamsData)
                 setTeams(Array.isArray(teamsData) ? teamsData : [])
                 setErrors({})
             } catch (err) {
@@ -61,7 +60,6 @@ export default function EditProfile() {
         e.preventDefault()
 
         const payload = toSnakeCase(formData)
-
         payload.team = payload.team ? Number(payload.team) : null
 
         console.log('Payload:', payload)
@@ -69,6 +67,14 @@ export default function EditProfile() {
         try {
             const { data } = await updateUserProfile(user.id, payload)
             console.log('Update response:', data)
+
+            const camelCasedData = toCamelCase(data)
+
+            setUser(prevUser => ({
+                ...prevUser,
+                ...camelCasedData
+            }))
+
         } catch (error) {
             console.error("Update failed:", error.response?.data)
             setErrors(error.response?.data || { message: 'Update failed' })
