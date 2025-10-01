@@ -34,7 +34,11 @@ const ProfileDetails = () => {
     return (
         <div>
             <div className='profile-img-container'>
-                <img src={user.profileImg} alt='Profile' className='profile-img' />
+                <img
+                    src={user.profileImg || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.username)}&background=E09E50&color=ffffff&size=200`}
+                    alt="Profile"
+                    className="profile-img"
+                />
             </div>
             <h3>{user.username}</h3>
             <h4>{user.jobTitle}</h4>
@@ -52,17 +56,17 @@ const ProfileDetails = () => {
             </div>
             <div className="task-container">
                 <div className="task-list">
-                <h3>Tasks</h3>
-                {tasks.map(task => (
-                    <div key={task.id} className="task-card">
-                        <h3>
-                            <Link to={`/projects/${task.parentProject}`}>
-                                {task.title}
-                            </Link>
-                        </h3>
-                        <div className="deadline-tag">{task.deadline}</div>
-                    </div>
-                ))}
+                    <h3>Tasks</h3>
+                    {tasks.map(task => (
+                        <div key={task.id} className="task-card">
+                            <h3>
+                                <Link to={`/projects/${task.parentProject}`}>
+                                    {task.title}
+                                </Link>
+                            </h3>
+                            <div className="deadline-tag">{task.deadline}</div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
