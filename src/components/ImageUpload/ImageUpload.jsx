@@ -2,7 +2,7 @@ import './ImageUpload.css'
 import { uploadImage } from '../../services/cloudinaryImgs'
 import { useState } from 'react'
 
-const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFormData, imageURLs, setUploading, multiple = true }) => {
+const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFormData, imageURLs, setImageUploading, multiple = true }) => {
 
     const [error, setError] = useState('')
 
@@ -10,7 +10,7 @@ const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFor
         const files = Array.from(e.target.files);
         if (!files || files.length === 0) return;
 
-        setUploading(true)
+        setImageUploading(true)
         setError('')
 
         try {
@@ -33,7 +33,7 @@ const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFor
             console.log('Upload error', error)
             setError('Upload failed. Please try again.')
         } finally {
-            setUploading(false)
+            setImageUploading(false)
         }
     }
 
