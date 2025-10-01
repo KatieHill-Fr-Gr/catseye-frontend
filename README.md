@@ -88,3 +88,32 @@ I created the UI/UX design in Figma using a template and designed a component-ba
 
 <img width="630" height="295" alt="Catseye_frontendarchitecture" src="https://github.com/user-attachments/assets/c6c08c43-dcac-4a97-85fc-057d92492423" />
 
+
+## Build
+
+
+
+
+
+
+
+### Challenges
+
+
+#### 1) Refresh Token 
+
+When generating a fresh token, the specific settings included in the serializer were ignored and a standard token was generated instead (without the user information). 
+
+The solution was to manually generate the token with `TokenSerializer.get_token(serialized_user.instance)` to include the user in the payload:
+
+
+<img width="629" height="305" alt="Catseye_RefreshTokenFix" src="https://github.com/user-attachments/assets/ed3769a7-88fd-4edc-9052-1bee9c877141" />
+
+
+#### 2) User Profile Update
+
+The user’s team was not returned correctly in the update profile response so I changed the OwnerSerializer and TokenSerializer to include the full team object (including the id and name): 
+
+
+<img width="629" height="499" alt="Catseye_EditUserProfileFix" src="https://github.com/user-attachments/assets/2166fbf7-c442-46d6-801d-56ba758dbd79" />
+
