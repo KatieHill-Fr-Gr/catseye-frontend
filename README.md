@@ -53,13 +53,13 @@ npm install lucide-react
 npm install @lexical/react @lexical/plain-text @lexical/rich-text @lexical/utils
 ```
 
-**Kanban board**
+**Kanban Board**
 
 ```bash
 npm install @atlaskit/pragmatic-drag-and-drop
 ```
 
-**HTTP requests**
+**HTTP Requests**
 
 ```bash
 npm install axios
@@ -87,4 +87,17 @@ I created the UI/UX design in Figma using a template and designed a component-ba
 
 
 <img width="630" height="295" alt="Catseye_frontendarchitecture" src="https://github.com/user-attachments/assets/c6c08c43-dcac-4a97-85fc-057d92492423" />
+
+
+## Build
+
+
+
+
+
+
+
+### Challenges
+
+
 

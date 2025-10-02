@@ -130,6 +130,14 @@
   margin-top: 0;
 }
 
+.form-actions .save-button {
+  background: rgba(108, 117, 125, 0.8);
+}
+
+.form-actions .save-button:hover {
+  background: rgba(90, 98, 104, 0.9);
+}
+
 .form-actions .cancel-button {
   background: rgba(108, 117, 125, 0.8);
 }
