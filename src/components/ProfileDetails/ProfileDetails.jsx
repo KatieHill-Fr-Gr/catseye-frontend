@@ -10,9 +10,6 @@ import { getTeams } from '../../services/team'
 import ImageUpload from '../ImageUpload/ImageUpload'
 import { toSnakeCase, toCamelCase } from '../../utils/cases'
 
-import FormModal from '../FormModal/FormModal'
-import EditProfile from '../EditProfile/EditProfile'
-
 
 const ProfileDetails = () => {
     const { user, setUser } = useContext(UserContext)
