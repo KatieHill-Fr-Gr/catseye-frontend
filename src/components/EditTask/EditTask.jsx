@@ -45,9 +45,9 @@ const EditTask = ({ task, onClose, onTaskUpdated }) => {
                 sourceText: task.sourceText || '',
                 translation: task.translation || '',
                 assignedTo: task.assignedTo || '',
-            });
+            })
         }
-    }, [task]);
+    }, [task])
 
 
     useEffect(() => {
@@ -58,15 +58,15 @@ const EditTask = ({ task, onClose, onTaskUpdated }) => {
                     getTranslations()
                 ]);
 
-                setExistingSourceTexts(sourceTextsResponse.data);
-                setExistingTranslations(translationsResponse.data);
+                setExistingSourceTexts(sourceTextsResponse.data)
+                setExistingTranslations(translationsResponse.data)
             } catch (error) {
-                console.error('Error loading options:', error);
+                console.error('Error loading options:', error)
             }
-        };
+        }
 
-        loadOptions();
-    }, []);
+        loadOptions()
+    }, [])
 
 
     const handleSubmit = async (e) => {
@@ -116,7 +116,7 @@ const EditTask = ({ task, onClose, onTaskUpdated }) => {
 
             <div className="form-row">
                 <label htmlFor="deadline">Due</label>
-                <input type="deadline" name='deadline' id='deadline' placeholder='Please enter a date YYYY-MM-DD' value={formData.deadline} onChange={handleChange} />
+                <input type="date" name='deadline' id='deadline' placeholder='Please enter a date YYYY-MM-DD' value={formData.deadline} onChange={handleChange} />
                 {errors.deadline && <p className='error-message'>{errors.deadline}</p>}
             </div>
 
