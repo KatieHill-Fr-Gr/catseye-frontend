@@ -1,8 +1,7 @@
 import { useState, useContext, useEffect } from 'react'
-
+import { UserContext } from '../../contexts/UserContext'
 import { updateUserProfile } from '../../services/users'
 import { getTeams } from '../../services/team'
-import { UserContext } from '../../contexts/UserContext'
 import ImageUpload from '../ImageUpload/ImageUpload'
 import { toSnakeCase, toCamelCase } from '../../utils/cases'
 
