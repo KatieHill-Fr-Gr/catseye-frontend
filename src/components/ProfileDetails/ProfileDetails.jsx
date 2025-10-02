@@ -22,6 +22,7 @@ const ProfileDetails = () => {
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState(false)
     const [imageUploading, setImageUploading] = useState(false)
+
     const [formData, setFormData] = useState({
         username: user?.username || '',
         email: user?.email || '',
@@ -60,6 +61,18 @@ const ProfileDetails = () => {
 
     console.log("User context:", user)
 
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                username: user.username || '',
+                email: user.email || '',
+                jobTitle: user.jobTitle || '',
+                team: user.team ? (typeof user.team === 'object' ? String(user.team.id) : String(user.team)) : '',
+                profileImg: user.profileImg || ''
+            })
+        }
+    }, [user])
+
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
@@ -87,7 +100,6 @@ const ProfileDetails = () => {
         }
     }
 
-
     if (!user) {
         return <div>Please log in to view profile</div>
     }
@@ -96,6 +108,17 @@ const ProfileDetails = () => {
         <>
             {isEditing ? (
                 <form onSubmit={e => e.preventDefault()}>
+
+                    <div className="form-row">
+                        <ImageUpload
+                            labelText="Upload photo"
+                            fieldName="profileImg"
+                            setFormData={setFormData}
+                            imageURLs={formData.profileImg}
+                            setImageUploading={setImageUploading}
+                            multiple={false}
+                        />
+                    </div>
                     <div className="form-row">
                         <label htmlFor="username">Username</label>
                         <input type="text" name="username" id="username" placeholder='Your username' value={formData.username} onChange={handleChange} />
@@ -128,26 +151,15 @@ const ProfileDetails = () => {
                         {errors.team && <p className='error-message'>{errors.team}</p>}
                     </div>
 
-                    <div className="form-row">
-                        <ImageUpload
-                            labelText="Upload photo"
-                            fieldName="profileImg"
-                            setFormData={setFormData}
-                            imageURLs={formData.profileImg}
-                            setImageUploading={setImageUploading}
-                            multiple={false}
-                        />
-                    </div>
-
                     {errors.message && (
                         <div className="error-message general-error">
                             {errors.message}
                         </div>
                     )}
 
-                    <div className="actions">
-                        <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
-                        <button type="button" onClick={handleSave}>Save</button>
+                    <div className="form-actions">
+                        <button type="button" onClick={() => setIsEditing(false)} className="page-button">Cancel</button>
+                        <button type="button" onClick={handleSave} className="page-button">Save</button>
                     </div>
                 </form>
 
