@@ -24,8 +24,7 @@
     align-items: center;
     text-align: center;
     padding: 1rem var(--content-padding);
-    margin-top: 2rem;
-    gap: 1rem;
+    gap: 5rem;
 }
 
 .image-row {
@@ -45,7 +44,8 @@
   width: 20rem;          
   height: 20rem;        
   object-fit: cover;    
-  display: block;       
+  display: block; 
+  border-radius: 5px;      
 }
 
 @media (max-width: 768px) {

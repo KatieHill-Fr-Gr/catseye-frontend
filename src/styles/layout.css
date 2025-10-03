@@ -75,3 +75,46 @@ h2 {
     padding: 0 var(--content-padding);
     margin-top: 0;
 }
+
+
+.content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.image-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.secondary-img {
+    object-fit: cover;
+}
+
+.text-column,
+.image-column {
+    flex: 1;
+}
+
+.text-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.image-column img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+    }
+}

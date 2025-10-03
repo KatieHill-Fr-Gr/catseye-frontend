@@ -102,6 +102,10 @@ a.nav-button:hover {
   cursor: pointer;
 }
 
+.mobile-user-controls {
+  display: none;
+}
+
 @media (max-width: 768px) {
 
   .center-section,
