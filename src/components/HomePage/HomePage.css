@@ -24,11 +24,10 @@
     align-items: center;
     text-align: center;
     padding: 1rem var(--content-padding);
-    margin-top: 2rem;
-    gap: 1rem;
+    gap: 5rem;
 }
 
-.image-row {
+.feature-row {
   display: flex;
   gap: 1rem;
   justify-content: center;
@@ -36,14 +35,42 @@
   margin-top: 2rem;
 }
 
-.image-row a {
-  flex: 1;              
-  max-width: 20rem;    
+.feature-card {
+  background: linear-gradient(180deg, var(--dark-secondary) 0%, var(--dark-primary) 100%);
+  overflow: hidden;
+  border-radius: 10px;
+  width: 20rem;          
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-.image-row img {
-  width: 100%;          
-  height: 20rem;        
-  object-fit: cover;    
-  display: block;       
+.feature-info {
+  padding: 2rem;
+  text-align: center;
 }
+
+.feature-info h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--dark-fonts);
+  line-height: 1.3;
+}
+
+.feature-info .description {
+  color: var(--dark-lightteal);
+  margin: 0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .feature-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+

@@ -1,9 +1,7 @@
-/* Global Typography */
 * {
   font-family: 'Open Sans', sans-serif;
 }
 
-/* Color Scheme Variables */
 :root {
   --dark-primary: #2D3E4E;
   --dark-secondary: #1A242E;
@@ -14,27 +12,22 @@
   --dark-fonts: white;
 }
 
-/* Exceptions - Keep original fonts for specific elements */
 .logo {
   font-family: 'Open Sans', sans-serif;
 }
 
-/* Ensure headings use the new font */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Open Sans', sans-serif;
 }
 
-/* Ensure buttons and form elements use the new font */
 button, input, textarea, select, label {
   font-family: 'Open Sans', sans-serif;
 }
 
-/* Ensure links use the new font */
 a {
   font-family: 'Open Sans', sans-serif;
 }
 
-  /* Global button styles */
 .page-button {
     padding: 0.5rem 1rem;
     background-color: var(--dark-teal);

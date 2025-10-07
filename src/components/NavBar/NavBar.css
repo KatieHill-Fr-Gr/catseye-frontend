@@ -1,6 +1,7 @@
 .navbar {
   display: flex;
-  justify-content: space-between; /* space between left, center, right */
+  justify-content: space-between;
+  /* space between left, center, right */
   align-items: center;
   padding: 1rem 2rem;
 }
@@ -16,66 +17,66 @@
 .center-section {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%); /* keeps links truly centered */
+  transform: translateX(-50%);
 }
 
 
 #main-pages {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
 #user-access {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
 a.home-link {
-    font-weight: 400;
-    color: var(--dark-fonts);
-    font-size: 1.25rem;
-    text-decoration: none;
+  font-weight: 400;
+  color: var(--dark-fonts);
+  font-size: 1.25rem;
+  text-decoration: none;
 }
 
 a.home-link:hover {
-    color: var(--dark-teal);
+  color: var(--dark-teal);
 }
 
 a.page-link {
-    color: var(--dark-fonts);
-    text-decoration: none;
-    font-size: 1rem;
+  color: var(--dark-fonts);
+  text-decoration: none;
+  font-size: 1rem;
 }
 
 a.nav-button {
-    padding: 0.5rem 1rem;
-    border: 1px solid white;
-    border-radius: 5px;
-    color: var(--dark-fonts);
-    text-decoration: none;
-    font-weight: 400;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+  padding: 0.5rem 1rem;
+  border: 1px solid white;
+  border-radius: 5px;
+  color: var(--dark-fonts);
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 a.nav-button:hover {
-    color: var(--dark-teal);
+  color: var(--dark-teal);
 }
 
 .profile-button {
-    padding: 0.5rem 1rem;
-    border: none;
-    color: var(--dark-fonts);
-    background: none;
-    text-decoration: none;
-    font-weight: 400;
-    font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  color: var(--dark-fonts);
+  background: none;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 1rem;
 }
 
 .profile-button:hover {
-    color: var(--dark-teal);
+  color: var(--dark-teal);
 }
 
 .logo-image {
@@ -92,4 +93,74 @@ a.nav-button:hover {
   object-fit: cover;
   object-position: center;
   transition: transform 0.3s ease;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-user-controls {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .center-section,
+  .right-section,
+  .nav-button {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .mobile-user-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: absolute;
+    right: 1rem;
+  }
+
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: var(--dark-primary);
+    padding: 1rem 2rem;
+    gap: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .mobile-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .mobile-link {
+    font-size: 1.1rem;
+    color: var(--dark-fonts);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .mobile-link:hover {
+    color: var(--dark-teal);
+  }
+
+  .mobile-menu.hidden {
+    display: none;
+  }
+
 }
