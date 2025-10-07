@@ -89,6 +89,16 @@ export const taskUpdate = (projectId, taskId, formData) => {
     })
 }
 
+export const taskUpdateStatus = (projectId, taskId, status) => {
+    return axios.patch(`${BASE_URL}/projects/${projectId}/tasks/${taskId}/`, { status },
+        {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+            },
+        }
+    )
+}
+
 export const taskDelete = (projectId, taskId) => {
     return axios.delete(`${BASE_URL}/projects/${projectId}/tasks/${taskId}/`, {
         headers: {

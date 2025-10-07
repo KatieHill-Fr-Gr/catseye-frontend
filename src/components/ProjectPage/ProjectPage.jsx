@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { LuCirclePlus } from "react-icons/lu";
 
 import { UserContext } from '../../contexts/UserContext'
-import { projectShow, getProjectTasks, taskShow, taskUpdate } from '../../services/projects.js'
+import { projectShow, getProjectTasks, taskShow, taskUpdate, taskUpdateStatus } from '../../services/projects.js'
 import { toCamelCase } from '../../utils/cases'
 import DraggableTask from '../ProjectTasks/ProjectTasks'
 import DropZone from '../ProjectTaskDropZone/ProjectTaskDropZone'
@@ -21,7 +21,7 @@ const ProjectPage = () => {
     const [selectedTask, setSelectedTask] = useState(null)
     const [project, setProject] = useState(null)
     const [tasks, setTasks] = useState([])
-    const [taskColumns, setTaskColumns] = useState({})
+    const [droppedStatus, setDroppedStatus] = useState({})
     const [loading, setLoading] = useState(true)
     const [projectDetailsOpen, setProjectDetailsOpen] = useState(false)
     const [newTaskOpen, setNewTaskOpen] = useState(false)
@@ -50,17 +50,22 @@ const ProjectPage = () => {
         fetchData()
     }, [projectId])
 
-    const handleTaskDrop = async (droppedTask, newStatus) => {
-        console.log(`Task ${droppedTask} moved to ${newStatus}`)
+    const handleTaskDrop = async (droppedTask, droppedStatus) => {
+        console.log(`Task ${droppedTask} moved to ${droppedStatus}`)
 
         try {
-            await taskUpdate(projectId, droppedTask.taskId, { status: newStatus })
+            await taskUpdateStatus(projectId, droppedTask.taskId, droppedStatus)
 
             setTasks(prevTasks =>
                 prevTasks.map(task =>
-                    task.id === droppedTask.taskId ? { ...task, status: newStatus } : task
+                    task.id === droppedTask.taskId ? { ...task, status: droppedStatus } : task
                 )
             )
+
+            setDroppedStatus(prev => ({
+                ...prev,
+                [droppedTask.id]: droppedStatus
+            }))
 
         } catch (error) {
             console.error("Error updating task status:", error)
@@ -68,7 +73,7 @@ const ProjectPage = () => {
     }
 
     const getTasksForColumn = (column) => {
-        return tasks.filter(task => (taskColumns[task.id] || task.status || 'in_progress') === column)
+        return tasks.filter(task => (droppedStatus[task.id] || task.status || 'in_progress') === column)
     }
 
     const handleTaskClick = async (taskId) => {
