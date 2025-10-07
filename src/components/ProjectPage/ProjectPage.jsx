@@ -50,12 +50,21 @@ const ProjectPage = () => {
         fetchData()
     }, [projectId])
 
-    const handleTaskDrop = (droppedTask, taskColumn) => {
-        console.log('Task dropped:', droppedTask)
-        setTaskColumns(prev => ({
-            ...prev,
-            [droppedTask.taskId]: taskColumn
-        }))
+    const handleTaskDrop = async (droppedTask, newStatus) => {
+        console.log(`Task ${droppedTask} moved to ${newStatus}`)
+
+        try {
+            await taskUpdate(projectId, droppedTask.taskId, { status: newStatus })
+
+            setTasks(prevTasks =>
+                prevTasks.map(task =>
+                    task.id === droppedTask.taskId ? { ...task, status: newStatus } : task
+                )
+            )
+
+        } catch (error) {
+            console.error("Error updating task status:", error)
+        }
     }
 
     const getTasksForColumn = (column) => {

@@ -9,6 +9,7 @@ import { UserContext } from './contexts/UserContext'
 
 // Global
 import NavBar from './components/NavBar/NavBar'
+import Footer from './components/Footer/Footer'
 import FooterBar from './components/FooterBar/FooterBar'
 
 // Pages
@@ -47,6 +48,7 @@ function App() {
         <Route path='*' element={<NotFound />} />
       </Routes>
       </div>
+      <Footer />
       <FooterBar />
     </>
   )
