@@ -47,7 +47,7 @@
 }
 
 .feature-info {
-  padding: 1.25rem;
+  padding: 2rem;
   text-align: center;
 }
 
@@ -63,6 +63,7 @@
   color: var(--dark-lightteal);
   margin: 0;
   font-size: 0.9rem;
+  text-align: center;
 }
 
 @media (max-width: 768px) {

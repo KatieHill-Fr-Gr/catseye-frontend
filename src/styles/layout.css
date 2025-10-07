@@ -109,6 +109,18 @@ main.page-content>form {
   object-fit: cover;
 }
 
+.img-background {
+  background: linear-gradient(180deg, var(--dark-secondary) 0%, var(--dark-primary) 100%);
+  overflow: hidden;
+  border-radius: 10px;
+  width: 20rem;          
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+
 .text-column,
 .image-column,
 .form-column {

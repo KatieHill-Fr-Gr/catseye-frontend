@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
 import placeholder from '../../assets/placeholder.png'
+import { LayoutList, Languages, BrainCircuit } from "lucide-react"
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -18,26 +19,29 @@ const HomePage = () => {
         <div className="feature-row">
           <div className="feature-card">
           <div className="feature-info">
+            <LayoutList color="var(--dark-teal)" />
             <h3>Task Management</h3>
-            <div className="feature-info description">
-              <p>Create projects with drag-and-drop tasks</p>
-            </div>
+            <p className="feature-info description">
+              Create project boards with drag-and-drop tasks
+            </p>
           </div>
           </div>
           <div className="feature-card">
           <div className="feature-info">
+            <Languages color="var(--dark-teal)" />
             <h3>A Streamlined CAT Tool</h3>
-            <div className="feature-info description">
-              <p>Translate content & keep style consistent</p>
-            </div>
+            <p className="feature-info description">
+              Translate content & keep terminology consistent
+            </p>
           </div>
           </div>
           <div className="feature-card">
           <div className="feature-info">
+            <BrainCircuit color="var(--dark-teal)" />
             <h3>AI Integration</h3>
-            <div className="feature-info description">
-              <p>Boost productivity with AI-generated drafts</p>
-            </div>
+            <p className="feature-info description">
+              Boost your productivity with AI-generated drafts
+            </p>
           </div>
           </div>
         </div>
