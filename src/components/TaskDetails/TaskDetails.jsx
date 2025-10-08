@@ -27,21 +27,25 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
     if (!task) {
         return <p>No task data available...</p>
     }
-
+    
     return (
         <div className="page-content">
             <div className="task-title">
                 <h2>{task.title}</h2>
             </div>
             <section className="task-container">
-                <div className="task-tags">
-                    <div className="status-tag">
-                        {task.status}
-                    </div>
-                    <div className="deadline-tag">
-                        {task.deadline}
-                    </div>
+                {task.assignedTo ? (
+                <div className="assigned-user">
+                <img
+                    src={task.assignedTo.profile_img}
+                    alt={task.assignedTo.username}
+                    className="assigned-img"
+                />
+                <span className="assigned-username">{task.assignedTo.username}</span>
                 </div>
+            ) : (
+                <span></span>
+            )}
                 <div className="task-details">
                     <div className="description">
                         <b>Description:</b> {task.description}
@@ -71,6 +75,7 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
                             </Link>
                         )}
                     </div>
+                      <p className="deadline">Due: {task.deadline}</p>
                 </div>
             </section>
             <div className="user-actions">

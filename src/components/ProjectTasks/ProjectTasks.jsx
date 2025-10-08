@@ -24,7 +24,18 @@ const DraggableTask = ({ task, onClick }) => {
     return (
         <div ref={ref} className='project-task'>
             <p>{task.title}</p>
-                     <button onClick={() => {
+            {task.assigned_to ? (
+                <div className="assigned-img-container">
+                <img
+                    src={task.assigned_to.profile_img}
+                    alt={task.assigned_to.username}
+                    className="assigned-img"
+                />
+                </div>
+            ) : (
+                <span></span>
+            )}
+            <button onClick={() => {
                 console.log('Button clicked, task.id:', task.id)
                 onClick && onClick(task.id)
             }} className="profile-button">

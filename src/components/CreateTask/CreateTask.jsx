@@ -25,6 +25,7 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
     const [existingTranslations, setExistingTranslations] = useState([])
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState()
+    const [teamUsers, setTeamUsers] = useState([])
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -86,6 +87,19 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
                 <label htmlFor="description">Description</label>
                 <input type="text" name="description" id="description" placeholder='Describe what needs to be done' value={formData.description} onChange={handleChange} />
                 {errors.description && <p className='error-message'>{errors.description}</p>}
+            </div>
+            <div className="form-row">
+                <label htmlFor="assignedTo">Assigned</label>
+                <select name="assignedTo" id="assignedTo" value={formData.assignedTo} onChange={handleChange} disabled={uploading}>
+                    <option value="">None</option>
+                    {team.users && teams.length > 0 && teams.map(team => (
+                        <option key={team.id} value={String(team.id)}>
+                            {team.user.username}
+                        </option>
+                    ))}
+                </select>
+                {uploading && <p>Loading users...</p>}
+                {errors.team && <p className='error-message'>{errors.team}</p>}
             </div>
 
             <div className="form-row">
