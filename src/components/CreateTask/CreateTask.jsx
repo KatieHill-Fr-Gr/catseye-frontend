@@ -122,8 +122,6 @@ console.log(`Team users: ${teamUsers} ` )
                         </option>
                     ))}
                 </select>
-                {/* {uploading && <p>Loading users...</p>}
-                {errors.team && <p className='error-message'>{errors.team}</p>} */}
             </div>
 
             <div className="form-row">

@@ -3,17 +3,17 @@ import { useParams } from 'react-router-dom'
 
 import { getSourceTexts } from '../../services/texts'
 import { getTranslations } from '../../services/translations'
-import { taskUpdate, taskShow } from '../../services/projects'
+import { taskUpdate, getProjectTeamUsers } from '../../services/projects'
 import { toSnakeCase, toCamelCase } from '../../utils/cases'
 
 const EditTask = ({ task, onClose, onTaskUpdated }) => {
 
     const { projectId } = useParams()
-    const [statusChoices, setStatusChoices] = useState([])
     const [existingSourceTexts, setExistingSourceTexts] = useState([])
     const [existingTranslations, setExistingTranslations] = useState([])
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState(false)
+    const [teamUsers, setTeamUsers] = useState([])
 
     const [formData, setFormData] = useState({
         title: '',
@@ -42,12 +42,32 @@ const EditTask = ({ task, onClose, onTaskUpdated }) => {
                 description: task.description || task.brief || '',
                 deadline: task.deadline || '',
                 status: task.status || '',
-                sourceText: task.sourceText || '',
-                translation: task.translation || '',
-                assignedTo: task.assignedTo || '',
+                sourceTextOption: task.sourceText?.id ? 'existing' : '',
+                sourceText: task.sourceText?.id ? String(task.sourceText.id) : '',
+                translationOption: task.translation?.id ? 'existing' : '',
+                translation: task.translation?.id ? String(task.translation.id) : '',
+                assignedTo: task.assignedTo?.id ? String(task.assignedTo.id) : '',
             })
         }
     }, [task])
+
+    console.log(formData)
+
+
+    useEffect(() => {
+        const getTeamUsers = async () => {
+            try {
+                setUploading(true)
+                const response = await getProjectTeamUsers(projectId)
+                setTeamUsers(response.data)
+            } catch (error) {
+                setErrors(prev => ({ ...prev, team: 'Failed to load team members' }))
+            } finally {
+                setUploading(false)
+            }
+        }
+        getTeamUsers()
+    }, [projectId])
 
 
     useEffect(() => {
@@ -56,8 +76,7 @@ const EditTask = ({ task, onClose, onTaskUpdated }) => {
                 const [sourceTextsResponse, translationsResponse] = await Promise.all([
                     getSourceTexts(),
                     getTranslations()
-                ]);
-
+                ])
                 setExistingSourceTexts(sourceTextsResponse.data)
                 setExistingTranslations(translationsResponse.data)
             } catch (error) {
@@ -85,10 +104,9 @@ const EditTask = ({ task, onClose, onTaskUpdated }) => {
 
         try {
             const { data } = await taskUpdate(projectId, task.id, payload)
-            console.log('Task edit response:', data)
             if (onTaskUpdated) await onTaskUpdated()
             if (onClose) onClose()
-            
+
         } catch (error) {
             setErrors(error.response?.data || { message: 'Unable to update task' })
         }
@@ -115,6 +133,23 @@ const EditTask = ({ task, onClose, onTaskUpdated }) => {
             </div>
 
             <div className="form-row">
+                <label htmlFor="assignedTo">Assigned</label>
+                <select
+                    name="assignedTo"
+                    value={formData.assignedTo}
+                    onChange={handleChange}
+                    disabled={uploading}
+                >
+                    <option value="">None</option>
+                    {teamUsers.map(user => (
+                        <option key={user.id} value={String(user.id)}>
+                            {user.username}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <div className="form-row">
                 <label htmlFor="deadline">Due</label>
                 <input type="date" name='deadline' id='deadline' placeholder='Please enter a date YYYY-MM-DD' value={formData.deadline} onChange={handleChange} />
                 {errors.deadline && <p className='error-message'>{errors.deadline}</p>}
@@ -136,51 +171,35 @@ const EditTask = ({ task, onClose, onTaskUpdated }) => {
             <div className="form-row">
                 <label htmlFor="sourceText">Source text</label>
                 <select
-                    name="sourceTextOption"
-                    value={formData.sourceTextOption}
+                    name="sourceText"
+                    id="sourceText"
+                    value={formData.sourceText || ''}
                     onChange={handleChange}
                 >
-                    <option value="">None</option>
-                    <option value="existing">Select existing</option>
-                    <option value="create_new">Create new</option>
+                    <option value="">Select source text...</option>
+                    {existingSourceTexts.map(source => (
+                        <option key={source.id} value={String(source.id)}>
+                            {source.title}
+                        </option>
+                    ))}
                 </select>
-                {formData.sourceTextOption === 'existing' && (
-                    <select name="sourceText" id="sourceText" value={formData.sourceText || ''} onChange={handleChange}>
-                        <option value="">Select source text...</option>
-                        {existingSourceTexts && existingSourceTexts.length > 0 && existingSourceTexts.map(source => (
-                            <option key={source.id} value={source.id}>
-                                {source.title}
-                            </option>
-                        ))}
-                    </select>
-                )}
-                {uploading && <p>Loading source texts...</p>}
-                {errors.sourceText && <p className='error-message'>{errors.sourceText}</p>}
             </div>
 
             <div className="form-row">
                 <label htmlFor="translation">Translation</label>
                 <select
-                    name="translationOption"
-                    value={formData.translationOption}
+                    name="translation"
+                    id="translation"
+                    value={formData.translation || ''}
                     onChange={handleChange}
                 >
-                    <option value="">None</option>
-                    <option value="existing">Select existing</option>
-                    <option value="create_new">Create new</option>
+                    <option value="">Select translation...</option>
+                    {existingTranslations.map(translation => (
+                        <option key={translation.id} value={String(translation.id)}>
+                            {translation.title}
+                        </option>
+                    ))}
                 </select>
-                {formData.translationOption === 'existing' && (
-                    <select name="translation" id="translation" value={formData.translation || ''} onChange={handleChange}>
-                        <option value="">Select translation...</option>
-                        {existingTranslations && existingTranslations.length > 0 && existingTranslations.map(translation => (
-                            <option key={translation.id} value={translation.id}>
-                                {translation.title}
-                            </option>
-                        ))}
-                    </select>
-                )}
-                {uploading && <p>Loading translations...</p>}
-                {errors.translation && <p className='error-message'>{errors.translation}</p>}
             </div>
 
             {errors.message && (
