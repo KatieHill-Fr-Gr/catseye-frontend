@@ -118,11 +118,7 @@ const ProjectPage = () => {
             <div className="page-title">
                 <h1>{project?.name}</h1>
             </div>
-            {console.log('Tasks in In Progress:', getTasksForColumn('inProgress'))}
-            {console.log('Tasks in Review:', getTasksForColumn('review'))}
-            {console.log('Tasks in Completed:', getTasksForColumn('completed'))}
             <section>
-                <div className="project-board">
                     {loading ? (
                         <p>Loading project...</p>
                     ) : project ? (
@@ -140,27 +136,26 @@ const ProjectPage = () => {
                                     project={project} onClose={() => setProjectDetailsOpen(false)} />
                             </Sidebar>
 
-                            <div className="tag-container">
+                            {/* <div className="tag-container">
                                 <span className="team-tag">
                                     {project.team.name}
                                 </span>
                                 <span className="status-tag">
                                     {project.status}
                                 </span>
-                            </div>
+                            </div> */}
                         </div>
                     ) : (
                         <p>There was a problem loading this project...</p>
                     )}
-                </div>
             </section>
             <section>
                 <h2>Tasks</h2>
                 <div className="project-board">
-                    <div className="drop-zone">
+                    <div className="tasks-column">
                         <DropZone status="in_progress" onDrop={(task) => handleTaskDrop(task, 'in_progress')}>
                             <h3>In Progress</h3>
-                            <div className="tasks-column">
+                            <div className="drop-zone">
                                 {getTasksForColumn('in_progress').map(task => (
                                     <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
                                 ))}
@@ -182,21 +177,31 @@ const ProjectPage = () => {
                             </FormModal>
                         </div>
                     </div>
-                    <div className="drop-zone">
+                    <div className="tasks-column">
                         <DropZone status="review" onDrop={(task) => handleTaskDrop(task, 'review')}>
                             <h3>Review</h3>
-                            <div className="tasks-column">
+                            <div className="drop-zone">
                                 {getTasksForColumn('review').map(task => (
                                     <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
                                 ))}
                             </div>
                         </DropZone>
                     </div>
-                    <div className="drop-zone">
+                    <div className="tasks-column">
                         <DropZone status="completed" onDrop={(task) => handleTaskDrop(task, 'completed')}>
                             <h3>Done</h3>
-                            <div className="tasks-column">
+                            <div className="drop-zone">
                                 {getTasksForColumn('completed').map(task => (
+                                    <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
+                                ))}
+                            </div>
+                        </DropZone>
+                    </div>
+                    <div className="tasks-column">
+                        <DropZone status="on_hold" onDrop={(task) => handleTaskDrop(task, 'on_hold')}>
+                            <h3>On Hold</h3>
+                            <div className="drop-zone">
+                                {getTasksForColumn('on_hold').map(task => (
                                     <DraggableTask key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
                                 ))}
                             </div>

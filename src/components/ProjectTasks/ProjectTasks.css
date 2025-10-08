@@ -6,10 +6,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    width: 200px;
+    padding: 0.5rem;
 }
 
-.project-task h4 {
+.project-task p {
     margin: 0; 
     text-align: left; 
 }

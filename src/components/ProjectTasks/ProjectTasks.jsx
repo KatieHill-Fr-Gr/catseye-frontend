@@ -23,7 +23,7 @@ const DraggableTask = ({ task, onClick }) => {
 
     return (
         <div ref={ref} className='project-task'>
-            <h4>{task.title}</h4>
+            <p>{task.title}</p>
                      <button onClick={() => {
                 console.log('Button clicked, task.id:', task.id)
                 onClick && onClick(task.id)

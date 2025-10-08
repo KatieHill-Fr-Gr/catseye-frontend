@@ -3,6 +3,7 @@
     display: flex;
     gap: 2rem;
     padding: 2rem;
+    overflow-x: auto;
 }
 
 .drop-zone {
@@ -12,23 +13,36 @@
     padding: 1rem 2rem;
     gap: 1rem;
     min-height: 100px;
-    max-width: 400px;
 }
 
 .tasks-column {
+    background: rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     border-radius: 8px;
     padding: 1rem;
     min-height: 100px;
+    min-width: 300px;
 }
 
-.new-task {
+button.new-task {
     background: var(--dark-secondary);
     color: var(--dark-fonts);
     text-align: center;
+    border: none;
     border-radius: 8px; 
-    padding: 1rem;
-    margin: 1rem;
-    cursor: grab;
+    padding: 0.8rem;
+    margin: 0.8rem;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+button.new-task:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+button.new-task:active {
+    transform: scale(0.98);
 }
