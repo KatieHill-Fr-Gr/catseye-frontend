@@ -49,6 +49,14 @@ export const getUserTeamProjects = () => {
     })
 }
 
+export const getProjectTeamUsers = (projectId) => {
+    return axios.get(`${BASE_URL}/projects/${projectId}/team-users/`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
+}
+
 export const getProjectTasks = (projectId) => {
     return axios.get(`${BASE_URL}/projects/${projectId}/tasks/`, {
         headers: {

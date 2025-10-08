@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
-import { taskCreate } from '../../services/projects'
+import { taskCreate, getProjectTeamUsers } from '../../services/projects'
 import { getSourceTexts } from '../../services/texts'
 import { getTranslations } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
@@ -28,12 +28,31 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
     const [teamUsers, setTeamUsers] = useState([])
 
     useEffect(() => {
+    const getTeamUsers = async () => {
+        try {
+            setUploading(true)
+            const response = await getProjectTeamUsers(projectId)
+            console.log('API response:', response.data)
+            setTeamUsers(response.data) 
+        } catch (error) {
+            console.error('Error loading team users:', error)
+            setErrors(prev => ({ ...prev, team: 'Failed to load team members' }))
+        } finally {
+            setUploading(false)
+        }
+    }
+    getTeamUsers()
+}, [projectId])
+
+console.log(`Team users: ${teamUsers} ` )
+
+    useEffect(() => {
         const loadOptions = async () => {
             try {
                 const [sourceTextsResponse, translationsResponse] = await Promise.all([
                     getSourceTexts(),
                     getTranslations()
-                ]);
+                ])
 
                 setExistingSourceTexts(sourceTextsResponse.data)
                 setExistingTranslations(translationsResponse.data)
@@ -43,8 +62,8 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
             }
         };
 
-        loadOptions();
-    }, []);
+        loadOptions()
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -90,16 +109,21 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
             </div>
             <div className="form-row">
                 <label htmlFor="assignedTo">Assigned</label>
-                <select name="assignedTo" id="assignedTo" value={formData.assignedTo} onChange={handleChange} disabled={uploading}>
+                <select
+                    name="assignedTo"
+                    value={formData.assignedTo}
+                    onChange={handleChange}
+                    disabled={uploading}
+                >
                     <option value="">None</option>
-                    {team.users && teams.length > 0 && teams.map(team => (
-                        <option key={team.id} value={String(team.id)}>
-                            {team.user.username}
+                    {teamUsers.map(user => (
+                        <option key={user.id} value={String(user.id)}>
+                            {user.username}
                         </option>
                     ))}
                 </select>
-                {uploading && <p>Loading users...</p>}
-                {errors.team && <p className='error-message'>{errors.team}</p>}
+                {/* {uploading && <p>Loading users...</p>}
+                {errors.team && <p className='error-message'>{errors.team}</p>} */}
             </div>
 
             <div className="form-row">
