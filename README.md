@@ -233,11 +233,10 @@ I also added a listener to automatically close the mobile menu if the window was
 <img width="1041" height="225" alt="Catseye_HamburgerWindowResize" src="https://github.com/user-attachments/assets/bb75d71d-a4cb-465c-be40-c4bafb44121d" />
 
 
-#### 3) Translations
+#### 3)  Source Texts & Translations
 
-I initially added a dropdown of existing translations to the Create Task modal. However, to simplify the workflow I decided to refactor this component so that only the source text was selected. 
+I refactored the Task Details component to add conditional rendering for the texts and translations. 
 
-The `source_text_id` is then passed to the Create Translation form component and all translations relating the source text are visible in the Edit Translation form (`translation.source_text_id === currentSourceText.id`):
 
 
 

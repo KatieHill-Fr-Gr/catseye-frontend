@@ -6,10 +6,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    width: 280px;
+    padding: 0.5rem;
 }
 
-.project-task h4 {
+.project-task p {
     margin: 0; 
     text-align: left; 
+}
+
+.assigned-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    object-fit: cover;
+}
+
+.assigned-img-container {
+    flex-shrink: 0;
 }

@@ -10,6 +10,7 @@ import './CreateTranslationForm.css'
 const CreateTranslationForm = ({ taskId, sourceTextId }) => {
     const { user } = useContext(UserContext)
     const [lexicalValue, setLexicalValue] = useState('')
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false)
 
     const [formData, setFormData] = useState({
         title: '',
@@ -17,7 +18,7 @@ const CreateTranslationForm = ({ taskId, sourceTextId }) => {
         targetLanguage: 'en-GB',
         sourceTextOption: '',
         sourceText: '',
-        termbaseOption: '', // Option to select a termbase or leave blank (or possibly create new)
+        termbaseOption: '',
         temrbase: '',
         feedback: [],
     })
@@ -27,12 +28,14 @@ const CreateTranslationForm = ({ taskId, sourceTextId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const payload = toSnakeCase({
-            ...formData,
+        const payload = {
+            ...toSnakeCase(formData),
             body: lexicalValue,
-            taskId,
-            sourceTextId
-        })
+            task: taskId,
+            source_text: sourceTextId,
+        }
+
+        setShowSuccessMessage('Translation was added successfully!')
 
         try {
             const { data } = await translationCreate(payload)
@@ -89,6 +92,11 @@ const CreateTranslationForm = ({ taskId, sourceTextId }) => {
                 />
             </div>
 
+            {showSuccessMessage && (
+                <div className="success-message">
+                    {showSuccessMessage}
+                </div>
+            )}
 
             {errors.message && (
                 <div className="error-message general-error">
@@ -96,8 +104,13 @@ const CreateTranslationForm = ({ taskId, sourceTextId }) => {
                 </div>
             )}
 
-            <button type="submit">Submit</button>
-        </form>
+            <button
+                type="submit"
+                disabled={!!showSuccessMessage}
+            >
+                Submit
+            </button>
+        </form >
     )
 }
 

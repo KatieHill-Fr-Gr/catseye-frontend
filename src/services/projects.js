@@ -49,6 +49,14 @@ export const getUserTeamProjects = () => {
     })
 }
 
+export const getProjectTeamUsers = (projectId) => {
+    return axios.get(`${BASE_URL}/projects/${projectId}/team-users/`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
+}
+
 export const getProjectTasks = (projectId) => {
     return axios.get(`${BASE_URL}/projects/${projectId}/tasks/`, {
         headers: {
@@ -87,6 +95,16 @@ export const taskUpdate = (projectId, taskId, formData) => {
             Authorization: `Bearer ${getToken()}`,
         }
     })
+}
+
+export const taskUpdateStatus = (projectId, taskId, status) => {
+    return axios.patch(`${BASE_URL}/projects/${projectId}/tasks/${taskId}/`, { status },
+        {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+            },
+        }
+    )
 }
 
 export const taskDelete = (projectId, taskId) => {

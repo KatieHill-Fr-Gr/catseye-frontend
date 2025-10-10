@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
-import { taskCreate } from '../../services/projects'
+import { taskCreate, getProjectTeamUsers } from '../../services/projects'
 import { getSourceTexts } from '../../services/texts'
 import { getTranslations } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
@@ -10,8 +10,6 @@ import { UserContext } from '../../contexts/UserContext'
 const CreateTask = ({ onClose, onTaskCreated }) => {
     const { user } = useContext(UserContext)
     const { projectId } = useParams()
-    const navigate = useNavigate()
-
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -25,6 +23,24 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
     const [existingTranslations, setExistingTranslations] = useState([])
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState()
+    const [teamUsers, setTeamUsers] = useState([])
+
+    useEffect(() => {
+        const getTeamUsers = async () => {
+            try {
+                setUploading(true)
+                const response = await getProjectTeamUsers(projectId)
+                setTeamUsers(response.data)
+            } catch (error) {
+                setErrors(prev => ({ ...prev, team: 'Failed to load team members' }))
+            } finally {
+                setUploading(false)
+            }
+        }
+        getTeamUsers()
+    }, [projectId])
+
+    console.log(`Team users: ${teamUsers} `)
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -32,18 +48,18 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
                 const [sourceTextsResponse, translationsResponse] = await Promise.all([
                     getSourceTexts(),
                     getTranslations()
-                ]);
+                ])
 
                 setExistingSourceTexts(sourceTextsResponse.data)
                 setExistingTranslations(translationsResponse.data)
 
             } catch (error) {
-                console.error('Error loading options:', error);
+                console.error('Error loading options:', error)
             }
-        };
+        }
 
-        loadOptions();
-    }, []);
+        loadOptions()
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -87,6 +103,22 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
                 <input type="text" name="description" id="description" placeholder='Describe what needs to be done' value={formData.description} onChange={handleChange} />
                 {errors.description && <p className='error-message'>{errors.description}</p>}
             </div>
+            <div className="form-row">
+                <label htmlFor="assignedTo">Assigned</label>
+                <select
+                    name="assignedTo"
+                    value={formData.assignedTo}
+                    onChange={handleChange}
+                    disabled={uploading}
+                >
+                    <option value="">None</option>
+                    {teamUsers.map(user => (
+                        <option key={user.id} value={String(user.id)}>
+                            {user.username}
+                        </option>
+                    ))}
+                </select>
+            </div>
 
             <div className="form-row">
                 <label htmlFor="deadline">Due</label>
@@ -95,7 +127,7 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
             </div>
 
             <div className="form-row">
-                <label htmlFor="sourceText">Source text</label>
+                <label htmlFor="sourceText">Text</label>
                 <select
                     name="sourceTextOption"
                     value={formData.sourceTextOption}
