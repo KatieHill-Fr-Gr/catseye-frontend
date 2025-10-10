@@ -1,32 +1,49 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { useEffect, useState, useContext } from 'react'
-import { projectShow, projectDelete } from '../../services/projects.js'
-import { UserContext } from '../../contexts/UserContext'
+import { useState, useEffect } from 'react'
 
 import './ProjectDetails.css'
 
 import FormModal from '../FormModal/FormModal'
 import EditProject from '../EditProject/EditProject'
+import { getProjectTeamUsers } from '../../services/projects'
 
 
 const ProjectDetails = ({ project, onClose, onProjectUpdated, onProjectDeleted }) => {
     const { projectId } = useParams()
     const [error, setError] = useState(null)
     const [editProjectOpen, setEditProjectOpen] = useState(false)
+    const [teamUsers, setTeamUsers] = useState([])
+    const [uploading, setUploading] = useState([])
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const getTeamUsers = async () => {
+            try {
+                setUploading(true)
+                const response = await getProjectTeamUsers(projectId)
+                setTeamUsers(response.data)
+            } catch (error) {
+                setError(prev => ({ ...prev, team: 'Failed to load team members' }))
+            } finally {
+                setUploading(false)
+            }
+        }
+        getTeamUsers()
+    }, [projectId])
 
     const handleDelete = async () => {
         try {
             if (onProjectDeleted) await onProjectDeleted(projectId)
             if (onClose) onClose()
         } catch (error) {
-            console.log(error)
             setError(error)
         }
     }
 
     console.log(project)
+    console.log(teamUsers)
+
     const isLoading = !project && !error
 
     return (
@@ -34,18 +51,55 @@ const ProjectDetails = ({ project, onClose, onProjectUpdated, onProjectDeleted }
             <div className="page-title">
                 <h2>Brief</h2>
             </div>
-                <div className="project-container">
-                    {isLoading ? (
-                        <p>Loading project...</p>
-                    ) : project ? (
-                            <div className="brief">
-                                {project.brief}
-                            </div>
+            <div className="project-details-container">
+                {isLoading ? (
+                    <p>Loading project...</p>
+                ) : project ? (
+                    <>
+                        <div className="brief">
+                            {project.brief}
+                        </div>
+                        <h3>Team</h3>
+                        <div className="team-row">
+                            {teamUsers.length > 0 ? (
+                                teamUsers.map(user => (
+                                    <div key={user.id} className="team-member">
+                                        <img
+                                            src={user.profile_img || '/default-avatar.png'}
+                                            alt={user.username}
+                                            className="profile-img"
+                                        />
+                                    </div>
+                                ))
+                            ) : (
+                                <p>Team members not available</p>
+                            )}
 
-                    ) : (
-                        <p>There was a problem loading this project...</p>
-                    )}
-                </div>
+                        </div>
+                        <h3>Images</h3>
+                        <div className="project-img-row">
+                            {project.images.length > 0 ? (
+                                project.images.map(img => (
+                                    <div key={user.id} className="project-imgs">
+                                        <img
+                                            src={project.images}
+                                            alt=""
+                                            className="project-img"
+                                        />
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No images available</p>
+                            )}
+
+                        </div>
+
+                    </>
+
+                ) : (
+                    <p>There was a problem loading this project...</p>
+                )}
+            </div>
             <div className="project-actions">
                 <button onClick={() => setEditProjectOpen(true)} className="page-button">
                     Edit
@@ -55,10 +109,10 @@ const ProjectDetails = ({ project, onClose, onProjectUpdated, onProjectDeleted }
                     onClose={() => setEditProjectOpen(false)}
                     title="Edit project"
                 >
-                    <EditProject 
+                    <EditProject
                         project={project}
                         onClose={() => setEditProjectOpen(false)}
-                        onProjectUpdated={onProjectUpdated}/>
+                        onProjectUpdated={onProjectUpdated} />
                 </FormModal>
                 <button onClick={handleDelete} className="page-button">
                     Delete
