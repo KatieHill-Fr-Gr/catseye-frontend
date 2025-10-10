@@ -28,7 +28,6 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
 
     console.log("Task object:", task)
     console.log("task.sourceText:", task?.sourceText)
-    console.log(task)
 
     return (
         <div className="page-content">
@@ -52,33 +51,39 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
                     <div className="description">
                         <b>Description:</b> {task.description}
                     </div>
-                    <div className="source-text">
-                        <b>Text:</b>{" "}
-                        {task.sourceText ? (
-                            <Link to={`/texts/${task.sourceText.id}/edit`}>
-                                {task.sourceText.title}
-                            </Link>
-                        ) : (
-                            <Link to={`/texts/new?taskId=${task.id}`}>
-                                Add source text
-                            </Link>
-                        )}
-                    </div>
-                    <div className="translation">
-                        <b>Translation:</b>{" "}
-                        {task.translation ? (
+                    {task.translation ? (
+                        <div className="translation">
+                            <b>Translation:</b>{" "}
                             <Link to={`/translations/${task.translation.id}/edit`}>
                                 {task.translation.title}
                             </Link>
-                        ) : (
-                            <Link to={`/translations/new?projectId=${projectId}&taskId=${task.id}`}>
-                                Add translation
+                        </div>
+                    ) : task.sourceText ? (
+                        <div className="source-text">
+                            <b>Source Text:</b>{" "}
+                            <Link to={`/texts/${task.sourceText.id}/edit`}>
+                                {task.sourceText.title}
                             </Link>
-                        )}
-                    </div>
-                    <p className="deadline">Due: {task.deadline}</p>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="source-text">
+                                <b>Source text:</b>{" "}
+                                <Link to={`/texts/new?projectId=${projectId}&taskId=${task.id}`}>
+                                    Add text
+                                </Link>
+                            </div>
+                            <div className="translation">
+                                <b>Translation:</b>{" "}
+                                <Link to={`/translations/new?projectId=${projectId}&taskId=${task.id}`}>
+                                    Add translation
+                                </Link>
+                            </div>
+                        </>
+                    )}
                 </div>
-            </section>
+                <p className="deadline">Due: {task.deadline}</p>
+            </section >
             <div className="user-actions">
                 <button onClick={() => setEditTaskOpen(true)} className="page-button">
                     Edit
@@ -100,7 +105,7 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
                     Delete
                 </button>
             </div>
-        </div>
+        </div >
     )
 }
 
