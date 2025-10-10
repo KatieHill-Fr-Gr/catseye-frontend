@@ -42,7 +42,7 @@ const ProjectDetails = ({ project, onClose, onProjectUpdated, onProjectDeleted }
     }
 
     console.log(project)
-    console.log(teamUsers)
+    console.log(project.images)
 
     const isLoading = !project && !error
 
@@ -78,12 +78,12 @@ const ProjectDetails = ({ project, onClose, onProjectUpdated, onProjectDeleted }
                         </div>
                         <h3>Images</h3>
                         <div className="project-img-row">
-                            {project.images.length > 0 ? (
-                                project.images.map(img => (
-                                    <div key={user.id} className="project-imgs">
+                            {project.images && project.images.length > 0 ? (
+                                project.images.map((img) => (
+                                    <div key={img.image} className="project-imgs">
                                         <img
-                                            src={project.images}
-                                            alt=""
+                                            src={img.url}
+                                            alt={img.alt_text || 'Project image'}
                                             className="project-img"
                                         />
                                     </div>
