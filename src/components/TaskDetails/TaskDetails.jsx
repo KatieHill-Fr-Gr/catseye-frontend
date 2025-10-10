@@ -59,12 +59,20 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
                             </Link>
                         </div>
                     ) : task.sourceText ? (
+                        <>
                         <div className="source-text">
                             <b>Source Text:</b>{" "}
                             <Link to={`/texts/${task.sourceText.id}/edit`}>
                                 {task.sourceText.title}
                             </Link>
                         </div>
+                                                   <div className="translation">
+                                <b>Translation:</b>{" "}
+                                <Link to={`/translations/new?projectId=${projectId}&taskId=${task.id}`}>
+                                    Add translation
+                                </Link>
+                            </div>
+                            </>
                     ) : (
                         <>
                             <div className="source-text">
