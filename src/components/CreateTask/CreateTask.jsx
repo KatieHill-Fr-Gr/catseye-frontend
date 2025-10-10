@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { taskCreate, getProjectTeamUsers } from '../../services/projects'
 import { getSourceTexts } from '../../services/texts'
+import { getTranslations } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
@@ -14,9 +15,12 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
         description: '',
         deadline: '',
         sourceTextOption: '',
-        sourceText: ''
+        sourceText: '',
+        translationOption: '',
+        translation: '',
     })
     const [existingSourceTexts, setExistingSourceTexts] = useState([])
+    const [existingTranslations, setExistingTranslations] = useState([])
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState()
     const [teamUsers, setTeamUsers] = useState([])
@@ -41,27 +45,38 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
     useEffect(() => {
         const loadOptions = async () => {
             try {
-                const sourceTextsResponse = await getSourceTexts()
+                const [sourceTextsResponse, translationsResponse] = await Promise.all([
+                    getSourceTexts(),
+                    getTranslations()
+                ])
+
                 setExistingSourceTexts(sourceTextsResponse.data)
+                setExistingTranslations(translationsResponse.data)
+
             } catch (error) {
                 console.error('Error loading options:', error)
             }
         }
+
         loadOptions()
     }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const { sourceTextOption, sourceText, ...filteredData } = formData
+        const { sourceTextOption, translationOption, ...filteredData } = formData
 
-        const payload = toSnakeCase({
-            ...filteredData,
-            sourceText: sourceTextOption === 'existing' ? sourceText : null,
-        })
+        if (sourceTextOption !== 'existing') {
+            filteredData.sourceText = null
+        }
+        if (translationOption !== 'existing') {
+            filteredData.translation = null
+        }
+
+        const payload = toSnakeCase(filteredData)
 
         try {
-            await taskCreate(projectId, payload)
+            const { data } = await taskCreate(projectId, payload)
             if (onTaskCreated) await onTaskCreated()
             if (onClose) onClose()
         } catch (error) {
@@ -70,8 +85,9 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
     }
 
     const handleChange = (e) => {
-        const { name, value } = e.target
-        setFormData(prev => ({ ...prev, [name]: value }))
+        const newFormData = { ...formData }
+        newFormData[e.target.name] = e.target.value
+        setFormData(newFormData)
     }
 
     return (
@@ -111,7 +127,7 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
             </div>
 
             <div className="form-row">
-                <label htmlFor="sourceText">Source text</label>
+                <label htmlFor="sourceText">Text</label>
                 <select
                     name="sourceTextOption"
                     value={formData.sourceTextOption}
@@ -133,6 +149,31 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
                 )}
                 {uploading && <p>Loading source texts...</p>}
                 {errors.sourceText && <p className='error-message'>{errors.sourceText}</p>}
+            </div>
+
+            <div className="form-row">
+                <label htmlFor="translation">Translation</label>
+                <select
+                    name="translationOption"
+                    value={formData.translationOption}
+                    onChange={handleChange}
+                >
+                    <option value="">None</option>
+                    <option value="existing">Select existing</option>
+                    <option value="create_new">Create new</option>
+                </select>
+                {formData.translationOption === 'existing' && (
+                    <select name="translation" id="translation" value={formData.translation || ''} onChange={handleChange}>
+                        <option value="">Select translation...</option>
+                        {existingTranslations && existingTranslations.length > 0 && existingTranslations.map(translation => (
+                            <option key={translation.id} value={translation.id}>
+                                {translation.title}
+                            </option>
+                        ))}
+                    </select>
+                )}
+                {uploading && <p>Loading translations...</p>}
+                {errors.translation && <p className='error-message'>{errors.translation}</p>}
             </div>
 
             {errors.message && (

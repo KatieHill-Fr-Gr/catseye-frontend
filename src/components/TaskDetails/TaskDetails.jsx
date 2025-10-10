@@ -53,7 +53,7 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
                         <b>Description:</b> {task.description}
                     </div>
                     <div className="source-text">
-                        <b>Source:</b>{" "}
+                        <b>Text:</b>{" "}
                         {task.sourceText ? (
                             <Link to={`/texts/${task.sourceText.id}/edit`}>
                                 {task.sourceText.title}
@@ -64,7 +64,6 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
                             </Link>
                         )}
                     </div>
-
                     <div className="translation">
                         <b>Translation:</b>{" "}
                         {task.translation ? (
@@ -72,7 +71,7 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
                                 {task.translation.title}
                             </Link>
                         ) : (
-                            <Link to={`/translations/new?projectId=${projectId}&sourceTextId=${task.sourceText.id}&taskId=${task.id}`}>
+                            <Link to={`/translations/new?projectId=${projectId}&taskId=${task.id}`}>
                                 Add translation
                             </Link>
                         )}
