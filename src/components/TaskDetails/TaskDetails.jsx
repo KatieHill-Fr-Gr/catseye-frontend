@@ -1,5 +1,5 @@
 import { useNavigate, Link } from 'react-router-dom'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { taskDelete } from '../../services/projects.js'
 
 import FormModal from '../FormModal/FormModal'
@@ -9,9 +9,7 @@ import './TaskDetails.css'
 
 
 const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted }) => {
-    const [error, setError] = useState(null)
     const [editTaskOpen, setEditTaskOpen] = useState(false)
-
     const navigate = useNavigate()
 
     const handleDelete = async () => {
@@ -27,7 +25,11 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
     if (!task) {
         return <p>No task data available...</p>
     }
-    
+
+    console.log("Task object:", task)
+    console.log("task.sourceText:", task?.sourceText)
+    console.log(task)
+
     return (
         <div className="page-content">
             <div className="task-title">
@@ -35,17 +37,17 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
             </div>
             <section className="task-container">
                 {task.assignedTo ? (
-                <div className="assigned-user">
-                <img
-                    src={task.assignedTo.profile_img}
-                    alt={task.assignedTo.username}
-                    className="assigned-img"
-                />
-                <span className="assigned-username">{task.assignedTo.username}</span>
-                </div>
-            ) : (
-                <span></span>
-            )}
+                    <div className="assigned-user">
+                        <img
+                            src={task.assignedTo.profile_img}
+                            alt={task.assignedTo.username}
+                            className="assigned-img"
+                        />
+                        <span className="assigned-username">{task.assignedTo.username}</span>
+                    </div>
+                ) : (
+                    <span></span>
+                )}
                 <div className="task-details">
                     <div className="description">
                         <b>Description:</b> {task.description}
@@ -70,12 +72,12 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
                                 {task.translation.title}
                             </Link>
                         ) : (
-                            <Link to={`/translations/new?projectId=${projectId}&taskId=${task.id}`}>
+                            <Link to={`/translations/new?projectId=${projectId}&sourceTextId=${task.sourceText.id}&taskId=${task.id}`}>
                                 Add translation
                             </Link>
                         )}
                     </div>
-                      <p className="deadline">Due: {task.deadline}</p>
+                    <p className="deadline">Due: {task.deadline}</p>
                 </div>
             </section>
             <div className="user-actions">

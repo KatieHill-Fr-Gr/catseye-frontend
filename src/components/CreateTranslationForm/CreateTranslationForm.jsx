@@ -17,7 +17,7 @@ const CreateTranslationForm = ({ taskId, sourceTextId }) => {
         targetLanguage: 'en-GB',
         sourceTextOption: '',
         sourceText: '',
-        termbaseOption: '', // Option to select a termbase or leave blank (or possibly create new)
+        termbaseOption: '',
         temrbase: '',
         feedback: [],
     })

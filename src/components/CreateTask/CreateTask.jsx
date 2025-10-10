@@ -1,86 +1,67 @@
 import { useState, useContext, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { taskCreate, getProjectTeamUsers } from '../../services/projects'
 import { getSourceTexts } from '../../services/texts'
-import { getTranslations } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
 const CreateTask = ({ onClose, onTaskCreated }) => {
     const { user } = useContext(UserContext)
     const { projectId } = useParams()
-    const navigate = useNavigate()
-
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         deadline: '',
         sourceTextOption: '',
-        sourceText: '',
-        translationOption: '',
-        translation: '',
+        sourceText: ''
     })
     const [existingSourceTexts, setExistingSourceTexts] = useState([])
-    const [existingTranslations, setExistingTranslations] = useState([])
     const [errors, setErrors] = useState({})
     const [uploading, setUploading] = useState()
     const [teamUsers, setTeamUsers] = useState([])
 
     useEffect(() => {
-    const getTeamUsers = async () => {
-        try {
-            setUploading(true)
-            const response = await getProjectTeamUsers(projectId)
-            console.log('API response:', response.data)
-            setTeamUsers(response.data) 
-        } catch (error) {
-            console.error('Error loading team users:', error)
-            setErrors(prev => ({ ...prev, team: 'Failed to load team members' }))
-        } finally {
-            setUploading(false)
+        const getTeamUsers = async () => {
+            try {
+                setUploading(true)
+                const response = await getProjectTeamUsers(projectId)
+                setTeamUsers(response.data)
+            } catch (error) {
+                setErrors(prev => ({ ...prev, team: 'Failed to load team members' }))
+            } finally {
+                setUploading(false)
+            }
         }
-    }
-    getTeamUsers()
-}, [projectId])
+        getTeamUsers()
+    }, [projectId])
 
-console.log(`Team users: ${teamUsers} ` )
+    console.log(`Team users: ${teamUsers} `)
 
     useEffect(() => {
         const loadOptions = async () => {
             try {
-                const [sourceTextsResponse, translationsResponse] = await Promise.all([
-                    getSourceTexts(),
-                    getTranslations()
-                ])
-
+                const sourceTextsResponse = await getSourceTexts()
                 setExistingSourceTexts(sourceTextsResponse.data)
-                setExistingTranslations(translationsResponse.data)
-
             } catch (error) {
-                console.error('Error loading options:', error);
+                console.error('Error loading options:', error)
             }
-        };
-
+        }
         loadOptions()
     }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const { sourceTextOption, translationOption, ...filteredData } = formData
+        const { sourceTextOption, sourceText, ...filteredData } = formData
 
-        if (sourceTextOption !== 'existing') {
-            filteredData.sourceText = null
-        }
-        if (translationOption !== 'existing') {
-            filteredData.translation = null
-        }
-
-        const payload = toSnakeCase(filteredData)
+        const payload = toSnakeCase({
+            ...filteredData,
+            sourceText: sourceTextOption === 'existing' ? sourceText : null,
+        })
 
         try {
-            const { data } = await taskCreate(projectId, payload)
+            await taskCreate(projectId, payload)
             if (onTaskCreated) await onTaskCreated()
             if (onClose) onClose()
         } catch (error) {
@@ -89,9 +70,8 @@ console.log(`Team users: ${teamUsers} ` )
     }
 
     const handleChange = (e) => {
-        const newFormData = { ...formData }
-        newFormData[e.target.name] = e.target.value
-        setFormData(newFormData)
+        const { name, value } = e.target
+        setFormData(prev => ({ ...prev, [name]: value }))
     }
 
     return (
@@ -153,31 +133,6 @@ console.log(`Team users: ${teamUsers} ` )
                 )}
                 {uploading && <p>Loading source texts...</p>}
                 {errors.sourceText && <p className='error-message'>{errors.sourceText}</p>}
-            </div>
-
-            <div className="form-row">
-                <label htmlFor="translation">Translation</label>
-                <select
-                    name="translationOption"
-                    value={formData.translationOption}
-                    onChange={handleChange}
-                >
-                    <option value="">None</option>
-                    <option value="existing">Select existing</option>
-                    <option value="create_new">Create new</option>
-                </select>
-                {formData.translationOption === 'existing' && (
-                    <select name="translation" id="translation" value={formData.translation || ''} onChange={handleChange}>
-                        <option value="">Select translation...</option>
-                        {existingTranslations && existingTranslations.length > 0 && existingTranslations.map(translation => (
-                            <option key={translation.id} value={translation.id}>
-                                {translation.title}
-                            </option>
-                        ))}
-                    </select>
-                )}
-                {uploading && <p>Loading translations...</p>}
-                {errors.translation && <p className='error-message'>{errors.translation}</p>}
             </div>
 
             {errors.message && (

@@ -1,16 +1,16 @@
 import './ProjectTasks.css'
 
 import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 
-import { LuCircleChevronRight } from "react-icons/lu";
+import { LuCircleChevronRight } from "react-icons/lu"
 
 const DraggableTask = ({ task, onClick }) => {
     const ref = useRef(null)
 
     useEffect(() => {
-        const element = ref.current;
-        if (!element) return;
+        const element = ref.current
+        if (!element) return
 
         return draggable({
             element,
@@ -18,7 +18,7 @@ const DraggableTask = ({ task, onClick }) => {
                 taskId: task.id,
                 taskData: task
             }),
-        });
+        })
     }, [task])
 
     return (
@@ -46,3 +46,4 @@ const DraggableTask = ({ task, onClick }) => {
 }
 
 export default DraggableTask
+

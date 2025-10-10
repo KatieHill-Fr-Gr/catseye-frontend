@@ -9,11 +9,9 @@ import { taskShow } from '../../services/projects.js'
 import './CreateTranslationPage.css'
 
 const CreateTranslationPage = () => {
-
   const [searchParams] = useSearchParams()
-  const projectId = Number(searchParams.get('projectId'))
-  const taskId = Number(searchParams.get('taskId'))
-
+  const projectId = searchParams.get('projectId')
+  const taskId = searchParams.get('taskId')
 
   const [task, setTask] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -41,9 +39,9 @@ const CreateTranslationPage = () => {
   return (
     <main className="page-content">
       <div className="content-wrapper">
-        {task?.sourceText && (
+        {task?.source_text && (
           <section className='form'>
-            <SourceDetails sourceId={task.sourceText.id} />
+            <SourceDetails sourceId={task.source_text.id} />
           </section>
         )}
 

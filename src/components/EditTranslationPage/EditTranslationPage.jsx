@@ -64,7 +64,12 @@ const EditTranslationPage = () => {
                     </section>
                 }
                 <section className='form'>
-                    <EditTranslationForm translationId={translationId} formData={formData} setFormData={setFormData} lexicalValue={lexicalValue} setLexicalValue={setLexicalValue} />
+                    <EditTranslationForm
+                    translationId={translationId} 
+                    formData={formData} 
+                    setFormData={setFormData} 
+                    lexicalValue={lexicalValue} 
+                    setLexicalValue={setLexicalValue} />
                 </section>
             </div>
         </main>
