@@ -10,13 +10,13 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 
 function EditabilityPlugin({ editable }) {
-    const [editor] = useLexicalComposerContext();
+    const [editor] = useLexicalComposerContext()
 
     useEffect(() => {
-        editor.setEditable(editable);
-    }, [editor, editable]);
+        editor.setEditable(editable)
+    }, [editor, editable])
 
-    return null;
+    return null
 }
 
 const TextEditor = ({ value, onChange, placeholder = "Enter some text...", editable = true }) => {

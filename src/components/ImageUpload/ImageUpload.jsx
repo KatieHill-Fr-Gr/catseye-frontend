@@ -7,8 +7,8 @@ const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFor
     const [error, setError] = useState('')
 
     const handleUpload = async (e) => {
-        const files = Array.from(e.target.files);
-        if (!files || files.length === 0) return;
+        const files = Array.from(e.target.files)
+        if (!files || files.length === 0) return
 
         setImageUploading(true)
         setError('')
@@ -25,7 +25,7 @@ const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFor
                 [fieldName]: multiple
                     ? [...(Array.isArray(prev[fieldName]) ? prev[fieldName] : []), ...justURLs]
                     : justURLs[0] || ''
-            }));
+            }))
 
             e.target.value = ''
 

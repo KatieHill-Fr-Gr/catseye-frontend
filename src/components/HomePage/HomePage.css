@@ -32,7 +32,7 @@
   gap: 1rem;
   justify-content: center;
   align-items: stretch; 
-  margin-top: 2rem;
+  margin: 5rem 2rem;
 }
 
 .feature-card {
@@ -51,8 +51,13 @@
   text-align: center;
 }
 
+.feature-info svg {
+  margin-bottom: 1rem;
+  vertical-align: middle;
+}
+
 .feature-info h3 {
-  margin: 0 0 0.5rem 0;
+  margin: 0.25rem;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--dark-fonts);

@@ -20,7 +20,7 @@ const HomePage = () => {
         <div className="feature-row">
           <div className="feature-card">
             <div className="feature-info">
-              <LayoutList color="var(--dark-teal)" />
+              <LayoutList color="var(--dark-teal)"/>
               <h3>Task Management</h3>
               <p className="feature-info description">
                 Create project boards with drag-and-drop tasks
