@@ -11,9 +11,6 @@ import EditProject from '../EditProject/EditProject'
 
 const ProjectDetails = ({ project, onClose, onProjectUpdated, onProjectDeleted }) => {
     const { projectId } = useParams()
-
-    // const [project, setProject] = useState(null)
-    // const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [editProjectOpen, setEditProjectOpen] = useState(false)
 
@@ -37,23 +34,18 @@ const ProjectDetails = ({ project, onClose, onProjectUpdated, onProjectDeleted }
             <div className="page-title">
                 <h2>Brief</h2>
             </div>
-            <section>
-                <h2></h2>
-                <div className="project-board">
+                <div className="project-container">
                     {isLoading ? (
                         <p>Loading project...</p>
                     ) : project ? (
-                        <div className="project-info">
                             <div className="brief">
                                 {project.brief}
                             </div>
-                        </div>
 
                     ) : (
                         <p>There was a problem loading this project...</p>
                     )}
                 </div>
-            </section>
             <div className="project-actions">
                 <button onClick={() => setEditProjectOpen(true)} className="page-button">
                     Edit
