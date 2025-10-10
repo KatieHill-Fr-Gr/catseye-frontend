@@ -79,11 +79,11 @@ const ProjectDetails = ({ project, onClose, onProjectUpdated, onProjectDeleted }
                         <h3>Images</h3>
                         <div className="project-img-row">
                             {project.images && project.images.length > 0 ? (
-                                project.images.map((img) => (
-                                    <div key={img.image} className="project-imgs">
+                                project.images.map((imageURL, index) => (
+                                    <div key={index} className="project-img-container">
                                         <img
-                                            src={img.url}
-                                            alt={img.alt_text || 'Project image'}
+                                            src={imageURL}
+                                            alt={`Project image ${index + 1}`}
                                             className="project-img"
                                         />
                                     </div>

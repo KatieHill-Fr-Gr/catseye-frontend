@@ -41,13 +41,13 @@
   align-items: left; 
 }
 
-.project-imgs {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50px;
+.project-img {
+    width: 20rem;
+    height: 20rem;
+    border-radius: 10px;
     object-fit: cover;
 }
 
-.profile-img-container {
+.project-img-container {
     flex-shrink: 0;
 }
