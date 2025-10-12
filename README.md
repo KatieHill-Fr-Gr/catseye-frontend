@@ -284,9 +284,12 @@ A word count for both the source texts and translations is already included in t
 I plan to implement the termbases (which are already set up on the backend) so that this resource is available to search and edit (by adding new terms) in the Create and Edit Translation components.   
 
 
-#### 4) Desktop Version
+#### 4) Feedback
 
-A desktop version of the app so that users can download if they prefer not to work directly in their browser.
+A Feedback field was also included on the data models for source texts and translations. This will function like a comments feature, allowing reviewers to leave feedback for the copywriter or translator. 
+
+
+
 
 
 
