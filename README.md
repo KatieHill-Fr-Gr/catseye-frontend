@@ -279,7 +279,12 @@ It is currently possible for users to create and edit their profiles but not to 
 A word count for both the source texts and translations is already included in the text editor. However, it would be useful to add text analysis features for the purposes of SEO and quality assurance. 
 
 
-#### 3) Desktop Version
+#### 3) Termbases
+
+I plan to implement the termbases (which are already set up on the backend) so that this resource is available to search and edit (by adding new terms) in the Create and Edit Translation components.   
+
+
+#### 4) Desktop Version
 
 A desktop version of the app so that users can download if they prefer not to work directly in their browser.
 
