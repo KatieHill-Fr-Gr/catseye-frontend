@@ -264,27 +264,36 @@ I also learned the key differences between integrating third-party services like
 
 ## Bugs
 
-There are no bugs associated with the current features and the app is working as expected. 
+##### Sign up
+
+The JWT includes the full user object which is not ideal. If a user uploads a profile image and the image URL is too long, this causes the JWT to exceed its size limits and breaks the encoding/decoding. The user is then unable to sign in and access the app. 
+
+A solution is currently being implemented on the backend to store only the user ID in the JWT and retrieve user data from the API instead. 
 
 
 ## Future Improvements
 
-#### 1) Archive Feature
+#### 1) File formats
+
+Users are able to upload a file instead of typing out the source text in the text editor. However, the current setup only allows .txt files to be uploaded. Accepting the most common file formats would improve the user experience. 
+
+
+#### 2) Archive Feature
 
 It is currently possible for users to create and edit their profiles but not to delete their accounts. This is because the projects they have created and tasks assigned to them would then have to be transferred to another user. A fix is currently underway to allow for this and to archive users. 
 
 
-#### 2) Text Analysis
+#### 3) Text Analysis
 
 A word count for both the source texts and translations is already included in the text editor. However, it would be useful to add text analysis features for the purposes of SEO and quality assurance. 
 
 
-#### 3) Termbases
+#### 4) Termbases
 
 I plan to implement the termbases (which are already set up on the backend) so that this resource is available to search and edit (by adding new terms) in the Create and Edit Translation components.   
 
 
-#### 4) Feedback
+#### 5) Feedback
 
 A Feedback field was also included on the data models for source texts and translations. This will function like a comments feature, allowing reviewers to leave feedback for the copywriter or translator. 
 
