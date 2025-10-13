@@ -1,18 +1,20 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { projectShow, projectUpdate, getProjectTeamUsers } from '../../services/projects'
-
+import { projectShow, projectUpdate, projectDelete, getProjectTeamUsers } from '../../services/projects'
+import { toSnakeCase, toCamelCase } from '../../utils/cases'
 
 import './ProjectDetails.css'
 import ImageUpload from '../ImageUpload/ImageUpload'
 
-const ProjectDetails = ({ onClose, onProjectUpdated, onProjectDeleted }) => {
+
+const ProjectDetails = ({ onClose, onProjectDeleted }) => {
     const { projectId } = useParams()
     const [project, setProject] = useState(null)
-    const [error, setError] = useState(null)
+    const [error, setError] = useState({})
     const [isEditing, setIsEditing] = useState(false)
     const [teamUsers, setTeamUsers] = useState([])
     const [uploading, setUploading] = useState(false)
+    const [imageUploading, setImageUploading] = useState(false)
 
     const navigate = useNavigate()
 
@@ -32,7 +34,7 @@ const ProjectDetails = ({ onClose, onProjectUpdated, onProjectDeleted }) => {
         { value: 'cancelled', label: 'Cancelled' },
     ]
 
-     useEffect(() => {
+    useEffect(() => {
         const getProject = async () => {
             try {
                 const response = await projectShow(projectId)
@@ -65,6 +67,7 @@ const ProjectDetails = ({ onClose, onProjectUpdated, onProjectDeleted }) => {
                 setTeamUsers(response.data)
             } catch (error) {
                 setError(prev => ({ ...prev, team: 'Failed to load team members' }))
+                console.log(error)
             } finally {
                 setUploading(false)
             }
@@ -91,25 +94,24 @@ const ProjectDetails = ({ onClose, onProjectUpdated, onProjectDeleted }) => {
             setIsEditing(false)
         } catch (error) {
             setError(error.response?.data || { message: 'Unable to edit project' })
+            console.log(error)
         }
     }
 
     const handleDelete = async () => {
         try {
-            if (onProjectDeleted) await onProjectDeleted(projectId)
+            await projectDelete(projectId)
             if (onClose) onClose()
         } catch (error) {
-            setError(error)
+            setError({ message: 'Failed to delete project' })
         }
     }
-
-    console.log(project)
 
     const isLoading = !project && !error
 
     return (
         isEditing ? (
-            <form className='form' onSubmit={handleSubmit} >
+            <form className='form' onSubmit={handleSave} >
                 <h2>Edit project</h2>
                 <div className="form-row">
                     <label htmlFor="name">Name</label>
@@ -147,7 +149,7 @@ const ProjectDetails = ({ onClose, onProjectUpdated, onProjectDeleted }) => {
                         fieldName="images"
                         setFormData={setFormData}
                         imageURLs={formData.images}
-                        setUploading={setUploading}
+                        setImageUploading={setImageUploading}
                         multiple={true}
                     />
                 </div>
@@ -217,7 +219,7 @@ const ProjectDetails = ({ onClose, onProjectUpdated, onProjectDeleted }) => {
                         )}
                     </div>
                     <div className="project-actions">
-                        <button onClick={() => setEditProjectOpen(true)} className="page-button">
+                        <button onClick={() => setIsEditing(true)} className="page-button">
                             Edit
                         </button>
                         <button onClick={handleDelete} className="page-button">
