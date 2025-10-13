@@ -87,7 +87,7 @@ I created the UI/UX design in Figma using a template and designed a component-ba
 #### 2) Component-Based Architecture
 
 
-<img width="630" height="295" alt="Catseye_frontendarchitecture" src="https://github.com/user-attachments/assets/c6c08c43-dcac-4a97-85fc-057d92492423" />
+<img width="632" height="284" alt="Catseye_ComponentArchitecture" src="https://github.com/user-attachments/assets/5de6cf44-d2c2-44d9-82f5-57a94fe35358" />
 
 
 ## Build
@@ -235,7 +235,60 @@ I also added a listener to automatically close the mobile menu if the window was
 
 #### 3)  Source Texts & Translations
 
-I refactored the Task Details component to add conditional rendering for the texts and translations. 
+I had to rethink how to connect the source texts and translations to the tasks (and to each other) in the frontend. I refactored the Task Details component to add conditional rendering for the texts and translations. If a translation is added when creating a task, only the translation link will appear in the Task Details. I also fixed the Create Translation and Edit Translation components to ensure that the associated source text was displayed. 
+
+As the result, the workflow is now much smoother and more intuitive for users. 
+
+#### 4) AI Translation
+
+Finally, I’m currently integrating an AI translation API into the backend for this project. The Django REST backend will serve as a proxy for translation requests to ensure that the API key is secure. 
+
+The frontend will enable users to automatically generate translations in the Create Translation form. A `handleTranslate` function will send the source text to the backend via an Axios call. The backend will then retrieve the AI-generated translation from the API and return it to the frontend. The `handleSubmit` function will then send the finalised translation to the backend for storage.
+
+
+## Wins
+
+- State Management: balanced the tradeoffs of prop drilling versus using context to ensure a clean data flow and code readability
+- Successful Third-Party Integration: extended the app’s functionality to deliver a polished, professional-looking product within a short-time frame
+- Robust User Authentication:  implemented user authentication and protected routes to ensure a smooth user experience across the app
+
+
+## Key Learnings
+
+During the development, I became much more comfortable with refactoring code to improve functionality and ensure maintainbility. I identified areas for improvement and changed the code or even the architecture both to integrate new features and improve existing ones. 
+
+Handling multiple interactive features that relied on contextual data tested my skills in state management, prop drilling, and context usage. It also highlighted the importance of separating concerns for cleaner and more modular code that is easier to debug and scale. 
+
+I also learned the key differences between integrating third-party services like Cloudinary – which supports unsigned uploads without providing access to your account – and integrating a translation API which uses account-level authentication and requires all calls to be made from the backend. 
+
+
+## Bugs
+
+There are no bugs associated with the current features and the app is working as expected. 
+
+
+## Future Improvements
+
+#### 1) Archive Feature
+
+It is currently possible for users to create and edit their profiles but not to delete their accounts. This is because the projects they have created and tasks assigned to them would then have to be transferred to another user. A fix is currently underway to allow for this and to archive users. 
+
+
+#### 2) Text Analysis
+
+A word count for both the source texts and translations is already included in the text editor. However, it would be useful to add text analysis features for the purposes of SEO and quality assurance. 
+
+
+#### 3) Termbases
+
+I plan to implement the termbases (which are already set up on the backend) so that this resource is available to search and edit (by adding new terms) in the Create and Edit Translation components.   
+
+
+#### 4) Feedback
+
+A Feedback field was also included on the data models for source texts and translations. This will function like a comments feature, allowing reviewers to leave feedback for the copywriter or translator. 
+
+
 
 
 
