@@ -13,10 +13,7 @@ import './SignUpForm.css'
 
 
 export default function SignUpForm() {
-    // Context
     const { setUser } = useContext(UserContext)
-
-    // State
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -55,7 +52,7 @@ export default function SignUpForm() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const payload = toSnakeCase(formData);
+        const payload = toSnakeCase(formData)
 
         try {
             const { data } = await signUp(payload)
@@ -73,6 +70,7 @@ export default function SignUpForm() {
         newFormData[e.target.name] = e.target.value
         setFormData(newFormData)
     }
+
 
     return (
         <form className='form' onSubmit={handleSubmit}>
@@ -127,7 +125,7 @@ export default function SignUpForm() {
                     fieldName="profileImg"
                     setFormData={setFormData}
                     imageURLs={formData.profileImg}
-                    setUploading={setImageUploading}
+                    setImageUploading={setImageUploading}
                     multiple={false}
                 />
             </div>
