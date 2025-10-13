@@ -56,8 +56,6 @@ const ProfileDetails = () => {
         userTasks()
     }, [])
 
-    console.log("User context:", user)
-
     useEffect(() => {
         if (user) {
             setFormData({
@@ -78,8 +76,6 @@ const ProfileDetails = () => {
         try {
             const payload = toSnakeCase(formData)
             payload.team = payload.team ? Number(payload.team) : null
-
-            console.log('Payload:', payload)
 
             const { data } = await updateUserProfile(user.id, payload)
             console.log('Update response:', data)

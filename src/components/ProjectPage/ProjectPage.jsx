@@ -119,35 +119,31 @@ const ProjectPage = () => {
                 <h1>{project?.name}</h1>
             </div>
             <section>
-                    {loading ? (
-                        <p>Loading project...</p>
-                    ) : project ? (
-                        <div>
-                            <button onClick={() => setProjectDetailsOpen(true)} className="page-button">
-                                View project details
-                            </button>
-                            <Sidebar
+                {loading ? (
+                    <p>Loading project...</p>
+                ) : project ? (
+                    <div>
+                        <button onClick={() => setProjectDetailsOpen(true)} className="page-button">
+                            View project details
+                        </button>
+                        <Sidebar
+                            project={project}
+                            isOpen={projectDetailsOpen}
+                            onClose={() => setProjectDetailsOpen(false)}
+                            title="Project details"
+                        >
+                            <ProjectDetails
                                 project={project}
-                                isOpen={projectDetailsOpen}
                                 onClose={() => setProjectDetailsOpen(false)}
-                                title="Project details"
-                            >
-                                <ProjectDetails
-                                    project={project} onClose={() => setProjectDetailsOpen(false)} />
-                            </Sidebar>
-
-                            {/* <div className="tag-container">
-                                <span className="team-tag">
-                                    {project.team.name}
-                                </span>
-                                <span className="status-tag">
-                                    {project.status}
-                                </span>
-                            </div> */}
-                        </div>
-                    ) : (
-                        <p>There was a problem loading this project...</p>
-                    )}
+                                onProjectDeleted={(projectId) => {
+                                    console.log('Project deleted:', projectId)
+                                }}
+                            />
+                        </Sidebar>
+                    </div>
+                ) : (
+                    <p>There was a problem loading this project...</p>
+                )}
             </section>
             <section>
                 <h2>Tasks</h2>
