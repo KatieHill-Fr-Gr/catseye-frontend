@@ -86,8 +86,122 @@ I created the UI/UX design in Figma using a template and designed a component-ba
 
 #### 2) Component-Based Architecture
 
-
-<img width="632" height="284" alt="Catseye_ComponentArchitecture" src="https://github.com/user-attachments/assets/5de6cf44-d2c2-44d9-82f5-57a94fe35358" />
+```
+src
+│   ├── App.jsx
+│   ├── assets
+│   │   ├── MyProjects.jpeg
+│   │   ├── TextandTranslationView.png
+│   │   ├── eyeIcon.png
+│   │   └── react.svg
+│   ├── components
+│   │   ├── 404NotFound
+│   │   │   ├── 404NotFound.css
+│   │   │   └── 404NotFound.jsx
+│   │   ├── CreateProject
+│   │   │   └── CreateProject.jsx
+│   │   ├── CreateSourceForm
+│   │   │   ├── CreateSourceForm.css
+│   │   │   └── CreateSourceForm.jsx
+│   │   ├── CreateSourcePage
+│   │   │   └── CreateSourcePage.jsx
+│   │   ├── CreateTask
+│   │   │   └── CreateTask.jsx
+│   │   ├── CreateTranslationForm
+│   │   │   ├── CreateTranslationForm.css
+│   │   │   └── CreateTranslationForm.jsx
+│   │   ├── CreateTranslationPage
+│   │   │   ├── CreateTranslationPage.css
+│   │   │   └── CreateTranslationPage.jsx
+│   │   ├── EditSourceForm
+│   │   │   ├── EditSourceForm.css
+│   │   │   └── EditSourceForm.jsx
+│   │   ├── EditSourcePage
+│   │   │   ├── EditSourcePage.css
+│   │   │   └── EditSourcePage.jsx
+│   │   ├── EditTask
+│   │   │   └── EditTask.jsx
+│   │   ├── EditTranslationForm
+│   │   │   └── EditTranslationForm.jsx
+│   │   ├── EditTranslationPage
+│   │   │   ├── EditTranslationPage.css
+│   │   │   └── EditTranslationPage.jsx
+│   │   ├── Footer
+│   │   │   ├── Footer.css
+│   │   │   └── Footer.jsx
+│   │   ├── FooterBar
+│   │   │   ├── FooterBar.css
+│   │   │   └── FooterBar.jsx
+│   │   ├── FormModal
+│   │   │   ├── FormModal.css
+│   │   │   └── FormModal.jsx
+│   │   ├── HomePage
+│   │   │   ├── HomePage.css
+│   │   │   └── HomePage.jsx
+│   │   ├── ImageUpload
+│   │   │   ├── ImageUpload.css
+│   │   │   └── ImageUpload.jsx
+│   │   ├── MyProjects
+│   │   │   ├── MyProjects.css
+│   │   │   └── MyProjects.jsx
+│   │   ├── NavBar
+│   │   │   ├── NavBar.css
+│   │   │   └── NavBar.jsx
+│   │   ├── ProfileDetails
+│   │   │   ├── ProfileDetails.css
+│   │   │   └── ProfileDetails.jsx
+│   │   ├── ProjectDetails
+│   │   │   ├── ProjectDetails.css
+│   │   │   └── ProjectDetails.jsx
+│   │   ├── ProjectPage
+│   │   │   ├── ProjectPage.css
+│   │   │   └── ProjectPage.jsx
+│   │   ├── ProjectTaskDropZone
+│   │   │   └── ProjectTaskDropZone.jsx
+│   │   ├── ProjectTasks
+│   │   │   ├── ProjectTasks.css
+│   │   │   └── ProjectTasks.jsx
+│   │   ├── Sidebar
+│   │   │   ├── Sidebar.css
+│   │   │   └── Sidebar.jsx
+│   │   ├── SignInForm
+│   │   │   ├── SignInForm.css
+│   │   │   └── SignInForm.jsx
+│   │   ├── SignInPage
+│   │   │   ├── SignInPage.css
+│   │   │   └── SignInPage.jsx
+│   │   ├── SignUpForm
+│   │   │   ├── SignUpForm.css
+│   │   │   └── SignUpForm.jsx
+│   │   ├── SignUpPage
+│   │   │   ├── SignUpPage.css
+│   │   │   └── SignUpPage.jsx
+│   │   ├── SourceDetails
+│   │   │   ├── SourceDetails.css
+│   │   │   └── SourceDetails.jsx
+│   │   ├── TaskDetails
+│   │   │   ├── TaskDetails.css
+│   │   │   └── TaskDetails.jsx
+│   │   └── TextEditor
+│   │       └── TextEditor.jsx
+│   ├── contexts
+│   │   └── UserContext.jsx
+│   ├── main.jsx
+│   ├── services
+│   │   ├── cloudinaryImgs.js
+│   │   ├── projects.js
+│   │   ├── team.js
+│   │   ├── texts.js
+│   │   ├── translations.js
+│   │   └── users.js
+│   ├── styles
+│   │   ├── forms.css
+│   │   ├── index.css
+│   │   └── layout.css
+│   └── utils
+│       ├── auth.js
+│       └── cases.js
+```
 
 
 ## Build
@@ -130,7 +244,52 @@ I developed components to manage projects and tasks, with full CRUD operations f
 In addition to the Project Details component, I also wanted a Kanban-style project board where users can drag and drop tasks in order to track their progress. To create the layout, I integrated Atlassian’s Pragmatic Drag and Drop and developed separate Draggable Task and Task Drop Zone components for the columns:
 
 
-<img width="1041" height="389" alt="Catseye_DraggableTask" src="https://github.com/user-attachments/assets/03e525a7-1751-4037-abd3-39dd1a8a9e21" />
+```
+import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
+import { useRef, useEffect } from 'react'
+
+import { LuCircleChevronRight } from "react-icons/lu"
+
+const DraggableTask = ({ task, onClick }) => {
+    const ref = useRef(null)
+
+    useEffect(() => {
+        const element = ref.current
+        if (!element) return
+
+        return draggable({
+            element,
+            getInitialData: () => ({
+                taskId: task.id,
+                taskData: task
+            }),
+        })
+    }, [task])
+
+    return (
+        <div ref={ref} className='project-task'>
+            <p>{task.title}</p>
+            {task.assigned_to ? (
+                <div className="assigned-img-container">
+                <img
+                    src={task.assigned_to.profile_img}
+                    alt={task.assigned_to.username}
+                    className="assigned-img"
+                />
+                </div>
+            ) : (
+                <span></span>
+            )}
+            <button onClick={() => {
+                console.log('Button clicked, task.id:', task.id)
+                onClick && onClick(task.id)
+            }} className="profile-button">
+                <LuCircleChevronRight />
+            </button>
+        </div>
+    )
+}
+```
 
 
 
@@ -150,9 +309,27 @@ To keep the UI organised and easy to use, the source texts (and related translat
 
 The Edit Translation page component then displays the source text and translation side-by-side:  
 
-<img width="1040" height="407" alt="Catseye_EditTranslation" src="https://github.com/user-attachments/assets/a2396bd5-168c-41a0-8689-47f7232e0f2a" />
-
-
+```
+    return (
+        <main className="page-content">
+            <div className="content-wrapper">
+                {translation && translation.sourceText &&
+                    <section className='form'>
+                        <SourceDetails sourceId={translation.sourceText} />
+                    </section>
+                }
+                <section className='form'>
+                    <EditTranslationForm
+                    translationId={translationId} 
+                    formData={formData} 
+                    setFormData={setFormData} 
+                    lexicalValue={lexicalValue} 
+                    setLexicalValue={setLexicalValue} />
+                </section>
+            </div>
+        </main>
+    )
+```
  #### 5) Text Editor & File Upload
 
 I integrated a rich-text editor to enable the user to write and edit source texts and translations directly in the UI. I initially experimented with Slate React but ran into compatibility issues with React 19 so I switched to Lexical, which offered better performance and support. 
