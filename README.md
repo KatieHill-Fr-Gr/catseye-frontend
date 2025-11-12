@@ -436,7 +436,14 @@ The modal components were tricky to implement because they relied on contextual 
 
 I tried to avoid tight coupling between modals and the component structure wherever possible. However, when developing the Kanban board, I had to pass several props (`task`, `taskId`, `onTaskUpdated`, `onTaskDeleted`) through the component tree due to the interactions between modals: 
 
-<img width="1040" height="151" alt="Catseye_TasksComponentTree" src="https://github.com/user-attachments/assets/03bfe0fa-7bc8-46a2-b578-e1a6dcfeeb7d" />
+
+```
+── ProjectPage (Kanban board)
+	  └── ProjectTaskDropZone
+		└── ProjectTask (draggable task)
+			└── TaskDetails (modal)
+				└── EditTask (nested modal)
+```
 
 
 This solution works well for the Minimum Viable Product (MVP). For future scalability, a better approach might be to use React Context to manage modal state and shared contextual data (e.g. `task` and `projectId`).
@@ -449,8 +456,27 @@ In addition to managing the state locally, the Kanban board also needed to synch
 
 I added a separate helper function `taskUpdateStatus` and modified the handleTaskDrop function in the component to optimistically update the UI while simultaneously sending a request to the backend to persist the change:
 
-<img width="1031" height="514" alt="Catseye_handleTaskDrop" src="https://github.com/user-attachments/assets/021f32f2-6bb9-422a-9b40-58b9776f7489" />
+```
+    const handleTaskDrop = async (droppedTask, droppedStatus) => {
+        try {
+            await taskUpdateStatus(projectId, droppedTask.taskId, droppedStatus)
 
+            setTasks(prevTasks =>
+                prevTasks.map(task =>
+                    task.id === droppedTask.taskId ? { ...task, status: droppedStatus } : task
+                )
+            )
+
+            setDroppedStatus(prev => ({
+                ...prev,
+                [droppedTask.id]: droppedStatus
+            }))
+
+        } catch (error) {
+            console.error("Error updating task status:", error)
+        }
+    }
+```
 
 #### 3) Text Editor (converting to JSON)
 
