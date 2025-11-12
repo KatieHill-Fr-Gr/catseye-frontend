@@ -336,15 +336,96 @@ I integrated a rich-text editor to enable the user to write and edit source text
 
 To manage the editor state, I created a custom plugin and integrated this into both the create and edit forms: 
 
+```
+const TextEditor = ({ value, onChange, placeholder = "Enter some text...", editable = true }) => {
+    const [wordCount, setWordCount] = useState(0)
 
-<img width="1036" height="459" alt="Catseye_TextEditor" src="https://github.com/user-attachments/assets/724a8f5e-5cf0-41b4-aae3-2d0cc7b608d4" />
+    const getInitialEditorState = () => {
+        if (value && value !== '') {
+            try {
+                const parsedState = JSON.parse(value)
+                return JSON.stringify(parsedState)
+            } catch (error) {
+                console.error('Error parsing initial editor state:', error)
+                return null
+            }
+        }
+        return null
+    }
 
+    const initialConfig = {
+        editable: editable,
+        namespace: 'MyEditor',
+        editorState: getInitialEditorState(),
+        onError(error) {
+            console.error(error)
+        },
+    }
 
+    const handleChange = (editorState) => {
+        const jsonString = JSON.stringify(editorState.toJSON())
+        onChange(jsonString)
 
+        editorState.read(() => {
+            const root = $getRoot()
+            const textContent = root.getTextContent()
+            const words = textContent.trim() === '' ? 0 : textContent.trim().split(/\s+/).length
+            setWordCount(words)
+        })
+    }
+
+    return (
+        <div className="editor-container">
+            <LexicalComposer initialConfig={initialConfig}>
+                <div className="editor-inner">
+                    <PlainTextPlugin
+                        contentEditable={<ContentEditable className="editor-input" />}
+                        placeholder={<div className="editor-placeholder">{placeholder}</div>}
+                        ErrorBoundary={LexicalErrorBoundary}
+                    />
+                    <OnChangePlugin onChange={handleChange} />
+                    {editable && <HistoryPlugin />}
+                    <EditabilityPlugin editable={editable} />
+                </div>
+                {editable && (
+                <span>Words: {wordCount}</span>
+                 )}
+                {!editable && (
+                        <span>Read-only</span>
+                )}
+            </LexicalComposer>
+        </div>
+    )
+}
+```
 For a more flexible and user-friendly experience, I also added a feature that allows users to upload an existing text file (.txt). The text from the file is saved as a string in the database and then be retrieved, parsed, and loaded into the Lexical text editor for editing: 
 
-<img width="1044" height="499" alt="Catseye_FileUpload" src="https://github.com/user-attachments/assets/ed7993b7-a1c0-4cd7-92bc-6f153a928dc7" />
+```
+const handleSubmit = async (e) => {
+        e.preventDefault()
 
+        let payload
+    
+        if (upload === 'file' && sourceFile) {
+            const filePayload = {
+                title: formData.title,
+                sourceLanguage: formData.sourceLanguage,
+                sourceFile: sourceFile
+            }
+
+            const convertedPayload = toSnakeCase(filePayload)
+
+            payload = new FormData()
+            Object.keys(convertedPayload).forEach(key => {
+                payload.append(key, convertedPayload[key])
+            })
+        } else {
+            payload = toSnakeCase({
+                ...formData,
+                body: lexicalValue
+            })
+        }
+```
 
 ### Challenges
 
