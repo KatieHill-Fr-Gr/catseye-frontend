@@ -49,10 +49,8 @@ const EditTranslationForm = ({ formData, setFormData, translationId, sourceId, l
         try {
             const { data } = await autoTranslate(sourceId, formData.targetLanguage)
             setLexicalValue(JSON.stringify(data.translated_text))
-            console.log(lexicalValue)
             setEditorKey(prev => prev + 1)
         } catch (err) {
-            console.log(err)
             setErrors({ message: 'Something went wrong! Please try again' })
         } finally {
             setIsTranslating(false)

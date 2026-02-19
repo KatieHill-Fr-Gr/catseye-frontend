@@ -622,15 +622,38 @@ I also added a listener to automatically close the mobile menu if the window was
 
 #### 3)  Source Texts & Translations
 
-I had to rethink how to connect the source texts and translations to the tasks (and to each other) in the frontend. I refactored the Task Details component to add conditional rendering for the texts and translations. If a translation is added when creating a task, only the translation link will appear in the Task Details. I also fixed the Create Translation and Edit Translation components to ensure that the associated source text was displayed. 
+I had to rethink how to connect the source texts and translations to the tasks (and to each other) in the frontend. I refactored the Task Details component to add conditional rendering for the texts and translations. If a translation is added when creating a task, only the translation link will appear in the Task Details. I also fixed the Create Translation and Edit Translation components to ensure that the associated source text was displayed in read-only mode. 
 
 As the result, the workflow is now much smoother and more intuitive for users. 
 
 #### 4) AI Translation
 
-Finally, I’m currently integrating an AI translation API into the backend for this project. The Django REST backend will serve as a proxy for translation requests to ensure that the API key is secure. 
+Finally, I integrated an AI translation API into the backend for this project. The Django REST backend serves as a proxy for translation requests to ensure that the API key is secure. 
 
-The frontend will enable users to automatically generate translations in the Create Translation form. A `handleTranslate` function will send the source text to the backend via an Axios call. The backend will then retrieve the AI-generated translation from the API and return it to the frontend. The `handleSubmit` function will then send the finalised translation to the backend for storage.
+The frontend enables users to automatically generate translations in both the Create and Edit Translation forms. A `handleAutoTranslate` function sends the source text to the backend via an Axios call. The backend then retrieves the AI-generated translation from the API and returns it to the frontend where it displayed in the text editor. The user can edit the translation if desired and then click submit when they are happy with it. The `handleSubmit` function then sends the finalised translation to the backend for storage.
+
+```
+  const handleAutoTranslate = async () => {
+        setIsTranslating(true)
+        try {
+            const { data } = await autoTranslate(sourceId, formData.targetLanguage)
+            setLexicalValue(JSON.stringify(data.translated_text))
+            setEditorKey(prev => prev + 1)
+        } catch (err) {
+            setErrors({ message: 'Something went wrong! Please try again' })
+        } finally {
+            setIsTranslating(false)
+        }
+    }
+```
+
+The `translated_text` from the API had to be converted back into a string for the text editor: 
+
+`setLexicalValue(JSON.stringify(data.translated_text))`
+
+Lexical relies on the user's key strokes to detect changes and update its internal state so it was necessary to force the text editor to re-render after the user clicks auto-generate with an editorKey: 
+
+`setEditorKey(prev => prev + 1)`
 
 
 ## Wins
@@ -657,6 +680,10 @@ The JWT includes the full user object which is not ideal. If a user uploads a pr
 
 A solution is currently being implemented on the backend to store only the user ID in the JWT and retrieve user data from the API instead. 
 
+#### Navigation
+
+The navigation between projects, tasks, source texts and translations needs to be improved. 
+
 
 ## Future Improvements
 
@@ -667,7 +694,7 @@ Users are able to upload a file instead of typing out the source text in the tex
 
 #### 2) Archive Feature
 
-It is currently possible for users to create and edit their profiles but not to delete their accounts. This is because the projects they have created and tasks assigned to them would then have to be transferred to another user. A fix is currently underway to allow for this and to archive users. 
+It is currently possible for users to create and edit their profiles but not to delete their accounts. This is because the projects they have created and tasks assigned to them would then have to be transferred to another user. A fix will be added to allow for this and to archive users. 
 
 
 #### 3) Text Analysis
