@@ -8,6 +8,7 @@ import TextEditor from '../TextEditor/TextEditor'
 const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValue, setLexicalValue }) => {
     const [errors, setErrors] = useState({})
     const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+    const [isTranslating, setIsTranslating] = useState(false)
 
     const navigate = useNavigate()
 
@@ -42,6 +43,19 @@ const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValu
 
     const handleLexicalChange = (jsonString) => {
         setLexicalValue(jsonString)
+    }
+
+    const handleAutoTranslate = async () => {
+        setIsTranslating(true)
+        try {
+            const { data } = await autoTranslate(sourceId, formData.targetLanguage)
+            setLexicalValue(data.translated_text)
+        } catch (err) {
+            console.log(err)
+            setErrors({ message: 'Something went wrong! Please try again' })
+        } finally {
+            setIsTranslating(false)
+        }
     }
 
     return (
@@ -99,6 +113,10 @@ const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValu
                     {errors.message}
                 </div>
             )}
+
+            <button type="button" onClick={handleAutoTranslate} disabled={isTranslating}>
+                    {isTranslating ? 'Translating...' : 'Auto-translate'}
+            </button>
 
             <button type="submit">Submit</button>
         </form>
