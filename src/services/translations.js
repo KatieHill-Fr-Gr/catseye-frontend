@@ -44,3 +44,11 @@ export const translationDelete = (translationId) => {
         }
     })
 }
+
+export const autoTranslate = (sourceId, targetLang) => {
+    return axios.post(`${BASE_URL}/auto-translate/`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
+}

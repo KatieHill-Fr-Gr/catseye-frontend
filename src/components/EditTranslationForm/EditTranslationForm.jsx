@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { translationUpdate } from '../../services/translations'
+import { translationUpdate, autoTranslate } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
 import { useNavigate } from 'react-router-dom'
 
