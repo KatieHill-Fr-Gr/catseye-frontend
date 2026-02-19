@@ -9,6 +9,7 @@ const EditTranslationForm = ({ formData, setFormData, translationId, sourceId, l
     const [errors, setErrors] = useState({})
     const [showSuccessMessage, setShowSuccessMessage] = useState(false)
     const [isTranslating, setIsTranslating] = useState(false)
+    const [editorKey, setEditorKey] = useState(0)
 
     const navigate = useNavigate()
 
@@ -46,12 +47,12 @@ const EditTranslationForm = ({ formData, setFormData, translationId, sourceId, l
     }
 
     const handleAutoTranslate = async () => {
-        console.log('sourceId:', sourceId)
-        console.log('targetLanguage:', formData.targetLanguage)
         setIsTranslating(true)
         try {
             const { data } = await autoTranslate(sourceId, formData.targetLanguage)
-            setLexicalValue(data.translated_text)
+            setLexicalValue(JSON.stringify(data.translated_text))
+            console.log(lexicalValue)
+            setEditorKey(prev => prev + 1)
         } catch (err) {
             console.log(err)
             setErrors({ message: 'Something went wrong! Please try again' })
@@ -94,7 +95,7 @@ const EditTranslationForm = ({ formData, setFormData, translationId, sourceId, l
                 {lexicalValue !== '' ? (
                     <TextEditor
                         editable={true}
-                        key={translationId}
+                        key={editorKey}
                         value={lexicalValue}
                         onChange={handleLexicalChange}
                         placeholder="Enter your translation here..."
