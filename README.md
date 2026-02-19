@@ -682,7 +682,7 @@ A solution is currently being implemented on the backend to store only the user 
 
 #### Navigation
 
-The navigation between projects, tasks, source texts and translations needs to be improved. 
+Improvements to the navigation between projects, tasks, source texts and translations are planned (link to the user's tasks via the navbar and profile sidebar, "return to project" and "return to task" buttons, etc.).
 
 
 ## Future Improvements
