@@ -21,7 +21,7 @@
     padding: 2rem;
 }
 
-.task_list {
+.task-list {
     flex: 1;
     background: rgba(0, 0, 0, 0.3);
     border-radius: 8px;
