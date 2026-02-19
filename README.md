@@ -86,8 +86,122 @@ I created the UI/UX design in Figma using a template and designed a component-ba
 
 #### 2) Component-Based Architecture
 
-
-<img width="632" height="284" alt="Catseye_ComponentArchitecture" src="https://github.com/user-attachments/assets/5de6cf44-d2c2-44d9-82f5-57a94fe35358" />
+```
+src
+│   ├── App.jsx
+│   ├── assets
+│   │   ├── MyProjects.jpeg
+│   │   ├── TextandTranslationView.png
+│   │   ├── eyeIcon.png
+│   │   └── react.svg
+│   ├── components
+│   │   ├── 404NotFound
+│   │   │   ├── 404NotFound.css
+│   │   │   └── 404NotFound.jsx
+│   │   ├── CreateProject
+│   │   │   └── CreateProject.jsx
+│   │   ├── CreateSourceForm
+│   │   │   ├── CreateSourceForm.css
+│   │   │   └── CreateSourceForm.jsx
+│   │   ├── CreateSourcePage
+│   │   │   └── CreateSourcePage.jsx
+│   │   ├── CreateTask
+│   │   │   └── CreateTask.jsx
+│   │   ├── CreateTranslationForm
+│   │   │   ├── CreateTranslationForm.css
+│   │   │   └── CreateTranslationForm.jsx
+│   │   ├── CreateTranslationPage
+│   │   │   ├── CreateTranslationPage.css
+│   │   │   └── CreateTranslationPage.jsx
+│   │   ├── EditSourceForm
+│   │   │   ├── EditSourceForm.css
+│   │   │   └── EditSourceForm.jsx
+│   │   ├── EditSourcePage
+│   │   │   ├── EditSourcePage.css
+│   │   │   └── EditSourcePage.jsx
+│   │   ├── EditTask
+│   │   │   └── EditTask.jsx
+│   │   ├── EditTranslationForm
+│   │   │   └── EditTranslationForm.jsx
+│   │   ├── EditTranslationPage
+│   │   │   ├── EditTranslationPage.css
+│   │   │   └── EditTranslationPage.jsx
+│   │   ├── Footer
+│   │   │   ├── Footer.css
+│   │   │   └── Footer.jsx
+│   │   ├── FooterBar
+│   │   │   ├── FooterBar.css
+│   │   │   └── FooterBar.jsx
+│   │   ├── FormModal
+│   │   │   ├── FormModal.css
+│   │   │   └── FormModal.jsx
+│   │   ├── HomePage
+│   │   │   ├── HomePage.css
+│   │   │   └── HomePage.jsx
+│   │   ├── ImageUpload
+│   │   │   ├── ImageUpload.css
+│   │   │   └── ImageUpload.jsx
+│   │   ├── MyProjects
+│   │   │   ├── MyProjects.css
+│   │   │   └── MyProjects.jsx
+│   │   ├── NavBar
+│   │   │   ├── NavBar.css
+│   │   │   └── NavBar.jsx
+│   │   ├── ProfileDetails
+│   │   │   ├── ProfileDetails.css
+│   │   │   └── ProfileDetails.jsx
+│   │   ├── ProjectDetails
+│   │   │   ├── ProjectDetails.css
+│   │   │   └── ProjectDetails.jsx
+│   │   ├── ProjectPage
+│   │   │   ├── ProjectPage.css
+│   │   │   └── ProjectPage.jsx
+│   │   ├── ProjectTaskDropZone
+│   │   │   └── ProjectTaskDropZone.jsx
+│   │   ├── ProjectTasks
+│   │   │   ├── ProjectTasks.css
+│   │   │   └── ProjectTasks.jsx
+│   │   ├── Sidebar
+│   │   │   ├── Sidebar.css
+│   │   │   └── Sidebar.jsx
+│   │   ├── SignInForm
+│   │   │   ├── SignInForm.css
+│   │   │   └── SignInForm.jsx
+│   │   ├── SignInPage
+│   │   │   ├── SignInPage.css
+│   │   │   └── SignInPage.jsx
+│   │   ├── SignUpForm
+│   │   │   ├── SignUpForm.css
+│   │   │   └── SignUpForm.jsx
+│   │   ├── SignUpPage
+│   │   │   ├── SignUpPage.css
+│   │   │   └── SignUpPage.jsx
+│   │   ├── SourceDetails
+│   │   │   ├── SourceDetails.css
+│   │   │   └── SourceDetails.jsx
+│   │   ├── TaskDetails
+│   │   │   ├── TaskDetails.css
+│   │   │   └── TaskDetails.jsx
+│   │   └── TextEditor
+│   │       └── TextEditor.jsx
+│   ├── contexts
+│   │   └── UserContext.jsx
+│   ├── main.jsx
+│   ├── services
+│   │   ├── cloudinaryImgs.js
+│   │   ├── projects.js
+│   │   ├── team.js
+│   │   ├── texts.js
+│   │   ├── translations.js
+│   │   └── users.js
+│   ├── styles
+│   │   ├── forms.css
+│   │   ├── index.css
+│   │   └── layout.css
+│   └── utils
+│       ├── auth.js
+│       └── cases.js
+```
 
 
 ## Build
@@ -130,7 +244,52 @@ I developed components to manage projects and tasks, with full CRUD operations f
 In addition to the Project Details component, I also wanted a Kanban-style project board where users can drag and drop tasks in order to track their progress. To create the layout, I integrated Atlassian’s Pragmatic Drag and Drop and developed separate Draggable Task and Task Drop Zone components for the columns:
 
 
-<img width="1041" height="389" alt="Catseye_DraggableTask" src="https://github.com/user-attachments/assets/03e525a7-1751-4037-abd3-39dd1a8a9e21" />
+```
+import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
+import { useRef, useEffect } from 'react'
+
+import { LuCircleChevronRight } from "react-icons/lu"
+
+const DraggableTask = ({ task, onClick }) => {
+    const ref = useRef(null)
+
+    useEffect(() => {
+        const element = ref.current
+        if (!element) return
+
+        return draggable({
+            element,
+            getInitialData: () => ({
+                taskId: task.id,
+                taskData: task
+            }),
+        })
+    }, [task])
+
+    return (
+        <div ref={ref} className='project-task'>
+            <p>{task.title}</p>
+            {task.assigned_to ? (
+                <div className="assigned-img-container">
+                <img
+                    src={task.assigned_to.profile_img}
+                    alt={task.assigned_to.username}
+                    className="assigned-img"
+                />
+                </div>
+            ) : (
+                <span></span>
+            )}
+            <button onClick={() => {
+                console.log('Button clicked, task.id:', task.id)
+                onClick && onClick(task.id)
+            }} className="profile-button">
+                <LuCircleChevronRight />
+            </button>
+        </div>
+    )
+}
+```
 
 
 
@@ -150,24 +309,122 @@ To keep the UI organised and easy to use, the source texts (and related translat
 
 The Edit Translation page component then displays the source text and translation side-by-side:  
 
-<img width="1040" height="407" alt="Catseye_EditTranslation" src="https://github.com/user-attachments/assets/a2396bd5-168c-41a0-8689-47f7232e0f2a" />
-
-
+```
+    return (
+        <main className="page-content">
+            <div className="content-wrapper">
+                {translation && translation.sourceText &&
+                    <section className='form'>
+                        <SourceDetails sourceId={translation.sourceText} />
+                    </section>
+                }
+                <section className='form'>
+                    <EditTranslationForm
+                    translationId={translationId} 
+                    formData={formData} 
+                    setFormData={setFormData} 
+                    lexicalValue={lexicalValue} 
+                    setLexicalValue={setLexicalValue} />
+                </section>
+            </div>
+        </main>
+    )
+```
  #### 5) Text Editor & File Upload
 
 I integrated a rich-text editor to enable the user to write and edit source texts and translations directly in the UI. I initially experimented with Slate React but ran into compatibility issues with React 19 so I switched to Lexical, which offered better performance and support. 
 
 To manage the editor state, I created a custom plugin and integrated this into both the create and edit forms: 
 
+```
+function EditabilityPlugin({ editable }) {
+    const [editor] = useLexicalComposerContext()
 
-<img width="1036" height="459" alt="Catseye_TextEditor" src="https://github.com/user-attachments/assets/724a8f5e-5cf0-41b4-aae3-2d0cc7b608d4" />
+    useEffect(() => {
+        editor.setEditable(editable)
+    }, [editor, editable])
 
+    return null
+}
+```
 
+```
+const TextEditor = ({ value, onChange, placeholder = "Enter some text...", editable = true }) => {
+    const [wordCount, setWordCount] = useState(0)
 
+    const initialConfig = {
+        editable: editable,
+        namespace: 'MyEditor',
+        editorState: getInitialEditorState(),
+        onError(error) {
+            console.error(error)
+        },
+    }
+
+    const handleChange = (editorState) => {
+        const jsonString = JSON.stringify(editorState.toJSON())
+        onChange(jsonString)
+
+        editorState.read(() => {
+            const root = $getRoot()
+            const textContent = root.getTextContent()
+            const words = textContent.trim() === '' ? 0 : textContent.trim().split(/\s+/).length
+            setWordCount(words)
+        })
+    }
+
+    return (
+        <div className="editor-container">
+            <LexicalComposer initialConfig={initialConfig}>
+                <div className="editor-inner">
+                    <PlainTextPlugin
+                        contentEditable={<ContentEditable className="editor-input" />}
+                        placeholder={<div className="editor-placeholder">{placeholder}</div>}
+                        ErrorBoundary={LexicalErrorBoundary}
+                    />
+                    <OnChangePlugin onChange={handleChange} />
+                    {editable && <HistoryPlugin />}
+                    <EditabilityPlugin editable={editable} />
+                </div>
+                {editable && (
+                <span>Words: {wordCount}</span>
+                 )}
+                {!editable && (
+                        <span>Read-only</span>
+                )}
+            </LexicalComposer>
+        </div>
+    )
+}
+```
 For a more flexible and user-friendly experience, I also added a feature that allows users to upload an existing text file (.txt). The text from the file is saved as a string in the database and then be retrieved, parsed, and loaded into the Lexical text editor for editing: 
 
-<img width="1044" height="499" alt="Catseye_FileUpload" src="https://github.com/user-attachments/assets/ed7993b7-a1c0-4cd7-92bc-6f153a928dc7" />
+```
+const handleSubmit = async (e) => {
+        e.preventDefault()
 
+        let payload
+    
+        if (upload === 'file' && sourceFile) {
+            const filePayload = {
+                title: formData.title,
+                sourceLanguage: formData.sourceLanguage,
+                sourceFile: sourceFile
+            }
+
+            const convertedPayload = toSnakeCase(filePayload)
+
+            payload = new FormData()
+            Object.keys(convertedPayload).forEach(key => {
+                payload.append(key, convertedPayload[key])
+            })
+        } else {
+            payload = toSnakeCase({
+                ...formData,
+                body: lexicalValue
+            })
+        }
+```
 
 ### Challenges
 
@@ -178,7 +435,14 @@ The modal components were tricky to implement because they relied on contextual 
 
 I tried to avoid tight coupling between modals and the component structure wherever possible. However, when developing the Kanban board, I had to pass several props (`task`, `taskId`, `onTaskUpdated`, `onTaskDeleted`) through the component tree due to the interactions between modals: 
 
-<img width="1040" height="151" alt="Catseye_TasksComponentTree" src="https://github.com/user-attachments/assets/03bfe0fa-7bc8-46a2-b578-e1a6dcfeeb7d" />
+
+```
+── ProjectPage (Kanban board)
+	  └── ProjectTaskDropZone
+		└── ProjectTask (draggable task)
+			└── TaskDetails (modal)
+				└── EditTask (nested modal)
+```
 
 
 This solution works well for the Minimum Viable Product (MVP). For future scalability, a better approach might be to use React Context to manage modal state and shared contextual data (e.g. `task` and `projectId`).
@@ -191,15 +455,46 @@ In addition to managing the state locally, the Kanban board also needed to synch
 
 I added a separate helper function `taskUpdateStatus` and modified the handleTaskDrop function in the component to optimistically update the UI while simultaneously sending a request to the backend to persist the change:
 
-<img width="1031" height="514" alt="Catseye_handleTaskDrop" src="https://github.com/user-attachments/assets/021f32f2-6bb9-422a-9b40-58b9776f7489" />
+```
+    const handleTaskDrop = async (droppedTask, droppedStatus) => {
+        try {
+            await taskUpdateStatus(projectId, droppedTask.taskId, droppedStatus)
 
+            setTasks(prevTasks =>
+                prevTasks.map(task =>
+                    task.id === droppedTask.taskId ? { ...task, status: droppedStatus } : task
+                )
+            )
+
+            setDroppedStatus(prev => ({
+                ...prev,
+                [droppedTask.id]: droppedStatus
+            }))
+
+        } catch (error) {
+            console.error("Error updating task status:", error)
+        }
+    }
+```
 
 #### 3) Text Editor (converting to JSON)
 
 The Lexical rich-text editor stores its state in a JSON object so I had to convert this into a string before sending it to the Django API for database storage. I then had to use JSON.parse() when retrieving the text from the API to restore the editor’s internal state (and preserve the text formatting):
 
-<img width="1043" height="520" alt="Catseye_EditabilityPlugin" src="https://github.com/user-attachments/assets/e6475ae5-4b4f-4eff-8d39-e6f2e1446297" />
-
+```
+    const getInitialEditorState = () => {
+        if (value && value !== '') {
+            try {
+                const parsedState = JSON.parse(value)
+                return JSON.stringify(parsedState)
+            } catch (error) {
+                console.error('Error parsing initial editor state:', error)
+                return null
+            }
+        }
+        return null
+    }
+```
 
 ## Fixes
 
@@ -214,7 +509,21 @@ The user’s team was not displayed correctly in the edit form so I updated the 
 
 The form also opened as a modal over the sidebar, which was visually confusing and made the UI feel heavy and difficult to use. I refactored the Profile Details component to support inline editing inside the sidebar:
 
-<img width="1035" height="295" alt="Catseye_EditProfileDetails" src="https://github.com/user-attachments/assets/f948b231-d7e5-447d-b034-1d0ecb8c3d23" />
+```
+            {isEditing ? (
+                <form onSubmit={e => e.preventDefault()}>
+
+                    <div className="form-row">
+                        <ImageUpload
+                            labelText="Upload photo"
+                            fieldName="profileImg"
+                            setFormData={setFormData}
+                            imageURLs={formData.profileImg}
+                            setImageUploading={setImageUploading}
+                            multiple={false}
+                        />
+                    </div>
+```
 
 Although this solution combines the Show and Update operations in a single component, the code is still readable and the UI is now much cleaner and more user-friendly.
 
@@ -223,15 +532,93 @@ Although this solution combines the Show and Update operations in a single compo
 
 The navigation menu was not displaying properly on smaller screens. Although this app is mostly likely to be used on desktop, I implemented a hamburger menu for mobile devices: 
 
-<img width="1038" height="616" alt="Catseye_HamburgerCSS" src="https://github.com/user-attachments/assets/2dcfdcec-ca9d-40ed-9deb-e25d3f3c2f84" />
+```
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
 
+.mobile-user-controls {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .center-section,
+  .right-section,
+  .nav-button {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .mobile-user-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: absolute;
+    right: 1rem;
+  }
+
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: var(--dark-primary);
+    padding: 1rem 2rem;
+    gap: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .mobile-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .mobile-link {
+    font-size: 1.1rem;
+    color: var(--dark-fonts);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .mobile-link:hover {
+    color: var(--dark-teal);
+  }
+
+  .mobile-menu.hidden {
+    display: none;
+  }
+
+}
+```
 
 There was a state conflict between `setMenuOpen()` and `setProfileOpen()` when the profile link was placed inside the mobile menu. I therefore kept the profile link as an icon in the navigation bar next to the hamburger icon.
 
 I also added a listener to automatically close the mobile menu if the window was resized: 
 
-<img width="1041" height="225" alt="Catseye_HamburgerWindowResize" src="https://github.com/user-attachments/assets/bb75d71d-a4cb-465c-be40-c4bafb44121d" />
-
+```
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 768) {
+                setMenuOpen(false)
+            }
+        }
+        window.addEventListener("resize", handleResize)
+        return () => window.removeEventListener("resize", handleResize)
+    }, [])
+```
 
 #### 3)  Source Texts & Translations
 
@@ -249,7 +636,7 @@ The frontend will enable users to automatically generate translations in the Cre
 ## Wins
 
 - State Management: balanced the tradeoffs of prop drilling versus using context to ensure a clean data flow and code readability
-- Successful Third-Party Integration: extended the app’s functionality to deliver a polished, professional-looking product within a short-time frame
+- Successful Third-Party Integration: extended the app’s functionality to deliver a polished, professional-looking product within a short time-frame
 - Robust User Authentication:  implemented user authentication and protected routes to ensure a smooth user experience across the app
 
 
