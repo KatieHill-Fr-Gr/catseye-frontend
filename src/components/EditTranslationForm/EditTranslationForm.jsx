@@ -1,13 +1,15 @@
 import { useState } from 'react'
-import { translationUpdate } from '../../services/translations'
+import { translationUpdate, autoTranslate } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
 import { useNavigate } from 'react-router-dom'
 
 import TextEditor from '../TextEditor/TextEditor'
 
-const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValue, setLexicalValue }) => {
+const EditTranslationForm = ({ formData, setFormData, translationId, sourceId, lexicalValue, setLexicalValue }) => {
     const [errors, setErrors] = useState({})
     const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+    const [isTranslating, setIsTranslating] = useState(false)
+    const [editorKey, setEditorKey] = useState(0)
 
     const navigate = useNavigate()
 
@@ -23,25 +25,40 @@ const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValu
 
         try {
             const { data } = await translationUpdate(translationId, payload)
-            console.log('Translation update response:', data)
             setShowSuccessMessage('Translation was updated successfully!')
 
         } catch (error) {
-            console.error('Full error object:', error)
-            console.error('Error response:', error.response)
-            console.error('Error response data:', error.response?.data)
             setErrors(error.response?.data || { message: 'Unable to update translation' })
         }
     }
 
     const handleChange = (e) => {
+        setErrors({})
+        setShowSuccessMessage(false)
         const newFormData = { ...formData }
         newFormData[e.target.name] = e.target.value
         setFormData(newFormData)
     }
 
     const handleLexicalChange = (jsonString) => {
+        setErrors({})
+        setShowSuccessMessage(false)
         setLexicalValue(jsonString)
+    }
+
+    const handleAutoTranslate = async () => {
+        setIsTranslating(true)
+        try {
+            const { data } = await autoTranslate(sourceId, formData.targetLanguage)
+            setLexicalValue(JSON.stringify(data.translated_text))
+            console.log(lexicalValue)
+            setEditorKey(prev => prev + 1)
+        } catch (err) {
+            console.log(err)
+            setErrors({ message: 'Something went wrong! Please try again' })
+        } finally {
+            setIsTranslating(false)
+        }
     }
 
     return (
@@ -61,7 +78,7 @@ const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValu
                     <option value="fr-FR">French</option>
                     <option value="es-ES">Spanish</option>
                     <option value="it-IT">Italian</option>
-                    <option value="gr-GR">Greek</option>
+                    <option value="el-EL">Greek</option>
                     <option value="de-DE">German</option>
                     <option value="nl-NL">Dutch</option>
                     <option value="pl-PL">Polish</option>
@@ -78,7 +95,7 @@ const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValu
                 {lexicalValue !== '' ? (
                     <TextEditor
                         editable={true}
-                        key={translationId}
+                        key={editorKey}
                         value={lexicalValue}
                         onChange={handleLexicalChange}
                         placeholder="Enter your translation here..."
@@ -99,6 +116,10 @@ const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValu
                     {errors.message}
                 </div>
             )}
+
+            <button type="button" onClick={handleAutoTranslate} disabled={isTranslating}>
+                    {isTranslating ? 'Translating...' : 'Auto-translate'}
+            </button>
 
             <button type="submit">Submit</button>
         </form>

@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 
-import { translationCreate } from '../../services/translations'
+import { translationCreate, autoTranslate } from '../../services/translations'
 import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
@@ -11,6 +11,8 @@ const CreateTranslationForm = ({ taskId, sourceTextId }) => {
     const { user } = useContext(UserContext)
     const [lexicalValue, setLexicalValue] = useState('')
     const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+    const [isTranslating, setIsTranslating] = useState(false)
+    const [editorKey, setEditorKey] = useState(0)
 
     const [formData, setFormData] = useState({
         title: '',
@@ -39,20 +41,36 @@ const CreateTranslationForm = ({ taskId, sourceTextId }) => {
 
         try {
             const { data } = await translationCreate(payload)
-            console.log('Translation response:', data)
         } catch (error) {
             setErrors(error.response?.data || { message: 'Unable to create translation' })
         }
     }
 
     const handleChange = (e) => {
+        setErrors({})
+        setShowSuccessMessage(false)
         const newFormData = { ...formData }
         newFormData[e.target.name] = e.target.value
         setFormData(newFormData)
     }
 
     const handleLexicalChange = (jsonString) => {
+        setErrors({})
+        setShowSuccessMessage(false)
         setLexicalValue(jsonString)
+    }
+
+    const handleAutoTranslate = async () => {
+        setIsTranslating(true)
+        try {
+            const { data } = await autoTranslate(sourceTextId, formData.targetLanguage)
+            setLexicalValue(JSON.stringify(data.translated_text))
+            setEditorKey(prev => prev + 1)
+        } catch (err) {
+            setErrors({ message: 'Something went wrong! Please try again' })
+        } finally {
+            setIsTranslating(false)
+        }
     }
 
     return (
@@ -71,7 +89,7 @@ const CreateTranslationForm = ({ taskId, sourceTextId }) => {
                     <option value="fr-FR">French</option>
                     <option value="es-ES">Spanish</option>
                     <option value="it-IT">Italian</option>
-                    <option value="gr-GR">Greek</option>
+                    <option value="el-EL">Greek</option>
                     <option value="de-DE">German</option>
                     <option value="nl-NL">Dutch</option>
                     <option value="pl-PL">Polish</option>
@@ -87,8 +105,9 @@ const CreateTranslationForm = ({ taskId, sourceTextId }) => {
                 <label>Translation</label>
                 <TextEditor
                     value={lexicalValue}
+                    key={editorKey}
                     onChange={handleLexicalChange}
-                    placeholder="Enter your source text here..."
+                    placeholder="Enter your translation here..."
                 />
             </div>
 
@@ -103,6 +122,10 @@ const CreateTranslationForm = ({ taskId, sourceTextId }) => {
                     {errors.message}
                 </div>
             )}
+
+            <button type="button" onClick={handleAutoTranslate} disabled={isTranslating}>
+                {isTranslating ? 'Translating...' : 'Auto-translate'}
+            </button>
 
             <button
                 type="submit"
