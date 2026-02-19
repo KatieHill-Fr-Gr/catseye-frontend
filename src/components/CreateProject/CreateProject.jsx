@@ -26,7 +26,6 @@ const CreateProject = ({ onClose, onProjectCreated }) => {
 
         try {
             const { data } = await projectCreate(payload)
-            console.log('Project creation response:', data)
             if (onProjectCreated) onProjectCreated()
             if (onClose) onClose()      
         } catch (error) {

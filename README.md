@@ -711,6 +711,10 @@ I plan to implement the termbases (which are already set up on the backend) so t
 
 A Feedback field was also included on the data models for source texts and translations. This will function like a comments feature, allowing reviewers to leave feedback for the copywriter or translator. 
 
+#### 6) apiClient
+
+Conversion between cases for the frontend (camelCase) and backend (snake_case) is currently handled manually using helper functions. I plan to refactor this by implementing a `services/apiClient.js` to encapsulate serialization, authentication, and networking logic at the API boundary.
+
 
 
 

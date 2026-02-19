@@ -40,8 +40,6 @@ const CreateTask = ({ onClose, onTaskCreated }) => {
         getTeamUsers()
     }, [projectId])
 
-    console.log(`Team users: ${teamUsers} `)
-
     useEffect(() => {
         const loadOptions = async () => {
             try {
