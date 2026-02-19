@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import TextEditor from '../TextEditor/TextEditor'
 
-const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValue, setLexicalValue }) => {
+const EditTranslationForm = ({ formData, setFormData, translationId, sourceId, lexicalValue, setLexicalValue }) => {
     const [errors, setErrors] = useState({})
     const [showSuccessMessage, setShowSuccessMessage] = useState(false)
     const [isTranslating, setIsTranslating] = useState(false)
@@ -41,11 +41,13 @@ const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValu
 
     const handleLexicalChange = (jsonString) => {
         setErrors({})
-         setShowSuccessMessage(false)
+        setShowSuccessMessage(false)
         setLexicalValue(jsonString)
     }
 
     const handleAutoTranslate = async () => {
+        console.log('sourceId:', sourceId)
+        console.log('targetLanguage:', formData.targetLanguage)
         setIsTranslating(true)
         try {
             const { data } = await autoTranslate(sourceId, formData.targetLanguage)
@@ -75,7 +77,7 @@ const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValu
                     <option value="fr-FR">French</option>
                     <option value="es-ES">Spanish</option>
                     <option value="it-IT">Italian</option>
-                    <option value="gr-GR">Greek</option>
+                    <option value="el-EL">Greek</option>
                     <option value="de-DE">German</option>
                     <option value="nl-NL">Dutch</option>
                     <option value="pl-PL">Polish</option>

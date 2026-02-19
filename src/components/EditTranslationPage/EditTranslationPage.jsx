@@ -59,14 +59,17 @@ const EditTranslationPage = () => {
                         <SourceDetails sourceId={translation.sourceText} />
                     </section>
                 }
+                {translation && 
                 <section className='form'>
                     <EditTranslationForm
                     translationId={translationId} 
                     formData={formData} 
                     setFormData={setFormData} 
                     lexicalValue={lexicalValue} 
-                    setLexicalValue={setLexicalValue} />
+                    setLexicalValue={setLexicalValue}
+                    sourceId={translation.sourceText} />
                 </section>
+                }
             </div>
         </main>
     )
