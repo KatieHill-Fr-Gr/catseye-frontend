@@ -10,6 +10,7 @@ import './TaskDetails.css'
 
 const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted }) => {
     const [editTaskOpen, setEditTaskOpen] = useState(false)
+    const [error, setError] = useState()
     const navigate = useNavigate()
 
     const handleDelete = async () => {
@@ -18,16 +19,13 @@ const TaskDetails = ({ task, projectId, onClose, onTaskUpdated, onTaskDeleted })
             if (onTaskDeleted) await onTaskDeleted(task.id)
             if (onClose) onClose()
         } catch (error) {
-            console.log(error)
+            setError({ message: 'Failed to delete task' })
         }
-    };
+    }
 
     if (!task) {
         return <p>No task data available...</p>
     }
-
-    console.log("Task object:", task)
-    console.log("task.sourceText:", task?.sourceText)
 
     return (
         <div className="page-content">

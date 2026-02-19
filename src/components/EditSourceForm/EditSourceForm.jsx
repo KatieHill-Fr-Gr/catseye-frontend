@@ -3,10 +3,8 @@ import { useParams } from 'react-router-dom'
 
 import { textUpdate, textShow } from '../../services/texts'
 import { toSnakeCase } from '../../utils/cases'
-import { UserContext } from '../../contexts/UserContext'
-
 import TextEditor from '../TextEditor/TextEditor'
-import './EditSourceForm.css'
+
 
 const EditSourceForm = () => {
     const { sourceId } = useParams()
@@ -34,11 +32,9 @@ const EditSourceForm = () => {
                     body: sourceData.body || '',
                     sourceLanguage: sourceData.sourceLanguage || 'en-GB',
                 })
-                // setLexicalValue(sourceData.body || '')
                 setLexicalValue(JSON.stringify(sourceData.body || { root: { children: [] } }))
 
             } catch (error) {
-                console.error('Error fetching data:', error)
                 setErrors({ message: 'Unable to load source text' })
             }
         }
@@ -50,7 +46,6 @@ const EditSourceForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        // Convert lexicalValue string → object
         let bodyPayload
         try {
             bodyPayload = JSON.parse(lexicalValue)
@@ -65,14 +60,10 @@ const EditSourceForm = () => {
             source_language: formData.sourceLanguage,
         })
 
-        console.log('Payload being sent:', payload)
-
         try {
             const { data } = await textUpdate(sourceId, payload)
-            console.log('Text update response:', data)
             setShowSuccessMessage('Source text updated successfully!')
         } catch (error) {
-            console.error('PUT error:', error.response?.data)
             setErrors(error.response?.data || { message: 'Unable to update source text' })
         }
     }
@@ -121,7 +112,6 @@ const EditSourceForm = () => {
                     <TextEditor
                         key={sourceId}
                         value={lexicalValue}
-                        // value={source.body ? JSON.stringify(source.body) : '{"root":{"children":[]}}'}
                         onChange={handleLexicalChange}
                         placeholder="Enter your source text here..."
                     />

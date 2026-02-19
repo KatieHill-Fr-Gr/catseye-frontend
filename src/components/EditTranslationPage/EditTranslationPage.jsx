@@ -15,10 +15,7 @@ const EditTranslationPage = () => {
     const [formData, setFormData] = useState({
         title: '',
         body: '',
-        targetLanguage: '',
-        // termbaseOption: '',
-        // termbase: '',
-        // feedback: [],
+        targetLanguage: ''
     })
 
     useEffect(() => {
@@ -31,16 +28,12 @@ const EditTranslationPage = () => {
                 setFormData({
                     title: translationData.title || '',
                     body: translationData.body || '',
-                    targetLanguage: translationData.target_language || 'fr-FR',
-                    // termbaseOption: translationData.termbaseOption || '',
-                    // termbase: translationData.termbase || '',
-                    // feedback: translationData.feedback || [],
+                    targetLanguage: translationData.target_language || 'fr-FR'
                 })
 
                 setLexicalValue(translationData.body || '')
 
             } catch (error) {
-                console.error('Error fetching data:', error)
                 setErrors({ message: 'Unable to load source text' })
             }
         }
@@ -48,8 +41,6 @@ const EditTranslationPage = () => {
             getTranslation()
         }
     }, [translationId])
-
-    console.log('Translation data:', translation)
 
     return (
         <main className="page-content">

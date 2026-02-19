@@ -5,7 +5,6 @@ import { toSnakeCase } from '../../utils/cases'
 import { UserContext } from '../../contexts/UserContext'
 
 import TextEditor from '../TextEditor/TextEditor'
-import './CreateTranslationForm.css'
 
 const CreateTranslationForm = ({ taskId, sourceTextId }) => {
     const { user } = useContext(UserContext)

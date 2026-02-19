@@ -3,10 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 
 import CreateTranslationForm from '../CreateTranslationForm/CreateTranslationForm'
 import SourceDetails from '../SourceDetails/SourceDetails'
-
 import { taskShow } from '../../services/projects.js'
-
-import './CreateTranslationPage.css'
 
 const CreateTranslationPage = () => {
   const [searchParams] = useSearchParams()
@@ -21,7 +18,6 @@ const CreateTranslationPage = () => {
       if (!taskId) return
       try {
         const response = await taskShow(projectId, taskId)
-        console.log("Fetched task:", response.data)
         setTask(response.data)
       } catch (err) {
         console.error(err)
@@ -33,8 +29,6 @@ const CreateTranslationPage = () => {
   }, [projectId, taskId])
 
   if (loading) return <p>Loading...</p>
-
-  console.log(taskId)
 
   return (
     <main className="page-content">

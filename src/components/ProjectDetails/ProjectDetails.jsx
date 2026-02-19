@@ -94,7 +94,6 @@ const ProjectDetails = ({ onClose, onProjectDeleted }) => {
             setIsEditing(false)
         } catch (error) {
             setError(error.response?.data || { message: 'Unable to edit project' })
-            console.log(error)
         }
     }
 

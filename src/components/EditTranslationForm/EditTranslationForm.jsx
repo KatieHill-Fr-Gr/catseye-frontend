@@ -21,8 +21,6 @@ const EditTranslationForm = ({ formData, setFormData, translationId, sourceId, l
             body: lexicalValue
         })
 
-        console.log(payload)
-
         try {
             const { data } = await translationUpdate(translationId, payload)
             setShowSuccessMessage('Translation was updated successfully!')
