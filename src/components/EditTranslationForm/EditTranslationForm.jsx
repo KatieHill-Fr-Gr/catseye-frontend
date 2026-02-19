@@ -24,24 +24,24 @@ const EditTranslationForm = ({ formData, setFormData, translationId, lexicalValu
 
         try {
             const { data } = await translationUpdate(translationId, payload)
-            console.log('Translation update response:', data)
             setShowSuccessMessage('Translation was updated successfully!')
 
         } catch (error) {
-            console.error('Full error object:', error)
-            console.error('Error response:', error.response)
-            console.error('Error response data:', error.response?.data)
             setErrors(error.response?.data || { message: 'Unable to update translation' })
         }
     }
 
     const handleChange = (e) => {
+        setErrors({})
+        setShowSuccessMessage(false)
         const newFormData = { ...formData }
         newFormData[e.target.name] = e.target.value
         setFormData(newFormData)
     }
 
     const handleLexicalChange = (jsonString) => {
+        setErrors({})
+         setShowSuccessMessage(false)
         setLexicalValue(jsonString)
     }
 
