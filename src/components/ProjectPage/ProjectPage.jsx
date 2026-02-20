@@ -51,8 +51,6 @@ const ProjectPage = () => {
     }, [projectId])
 
     const handleTaskDrop = async (droppedTask, droppedStatus) => {
-        console.log(`Task ${droppedTask} moved to ${droppedStatus}`)
-
         try {
             await taskUpdateStatus(projectId, droppedTask.taskId, droppedStatus)
 

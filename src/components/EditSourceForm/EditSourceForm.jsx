@@ -32,7 +32,7 @@ const EditSourceForm = () => {
                     body: sourceData.body || '',
                     sourceLanguage: sourceData.sourceLanguage || 'en-GB',
                 })
-                setLexicalValue(JSON.stringify(sourceData.body || { root: { children: [] } }))
+                setLexicalValue(JSON.stringify(sourceData.body || { root: { children: [] } })) 
 
             } catch (error) {
                 setErrors({ message: 'Unable to load source text' })

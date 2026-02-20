@@ -45,13 +45,12 @@ const CreateSourceForm = () => {
         } else {
             payload = toSnakeCase({
                 ...formData,
-                body: lexicalValue
+                body: JSON.parse(lexicalValue)
             })
         }
 
         try {
             const { data } = await textCreate(payload)
-            console.log('Text creation response:', data)
             setErrors({})
             setShowSuccessMessage('Source text created successfully!')
         } catch (error) {
@@ -123,20 +122,6 @@ const CreateSourceForm = () => {
             </div>
 
             <div className="form-row">
-                {upload === 'text' ? (
-                    <div>
-                        <label htmlFor="body">Text:</label>
-                        <textarea
-                            id="body"
-                            placeholder="Enter your text here..."
-                            value={formData.body}
-                            onChange={(e) => setFormData(prev => ({
-                                ...prev,
-                                body: e.target.value
-                            }))}
-                        />
-                    </div>
-                ) : (
                     <div>
                         <label htmlFor="sourceFile">Upload File:</label>
                         <input
@@ -151,7 +136,7 @@ const CreateSourceForm = () => {
                             </div>
                         )}
                     </div>
-                )}
+                
             </div>
 
             <div className="form-row">
