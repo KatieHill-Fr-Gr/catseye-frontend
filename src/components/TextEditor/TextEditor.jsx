@@ -26,7 +26,10 @@ const TextEditor = ({ value, onChange, placeholder = "Enter some text...", edita
         if (value && value !== '') {
             try {
                 const parsedState = JSON.parse(value)
+                if (parsedState?.root?.type === 'root') {
                 return JSON.stringify(parsedState)
+                }
+                return null
             } catch (error) {
                 console.error('Error parsing initial editor state:', error)
                 return null

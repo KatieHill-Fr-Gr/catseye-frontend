@@ -36,7 +36,6 @@ const DraggableTask = ({ task, onClick }) => {
                 <span></span>
             )}
             <button onClick={() => {
-                console.log('Button clicked, task.id:', task.id)
                 onClick && onClick(task.id)
             }} className="profile-button">
                 <LuCircleChevronRight />
