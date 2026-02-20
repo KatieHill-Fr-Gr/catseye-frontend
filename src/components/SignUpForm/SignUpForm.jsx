@@ -40,7 +40,6 @@ export default function SignUpForm() {
             } catch (err) {
                 setTeams([])
                 setErrors({ teams: 'Failed to load teams' })
-                console.error('Error loading teams:', err)
             } finally {
                 setUploading(false)
             }
@@ -57,7 +56,6 @@ export default function SignUpForm() {
 
         try {
             const { data } = await signUp(payload)
-            console.log('Signup response:', data)
             setToken(data)
             setUser(getUser())
             navigate('/')
