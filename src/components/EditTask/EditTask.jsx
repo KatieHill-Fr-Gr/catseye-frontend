@@ -51,8 +51,6 @@ const EditTask = ({ task, onClose, onTaskUpdated }) => {
         }
     }, [task])
 
-    console.log(formData)
-
 
     useEffect(() => {
         const getTeamUsers = async () => {

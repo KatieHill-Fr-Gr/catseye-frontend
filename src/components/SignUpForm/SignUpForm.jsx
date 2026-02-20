@@ -51,6 +51,7 @@ export default function SignUpForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (imageUploading) return
 
         const payload = toSnakeCase(formData)
 
@@ -118,7 +119,7 @@ export default function SignUpForm() {
                 {uploading && <p>Loading teams...</p>}
                 {errors.team && <p className='error-message'>{errors.team}</p>}
             </div>
-            
+
             <div className="form-row">
                 <ImageUpload
                     labelText="Upload photo"
@@ -136,7 +137,9 @@ export default function SignUpForm() {
                 </div>
             )}
 
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={imageUploading}>
+                {imageUploading ? 'Uploading...' : 'Submit'}
+            </button>
         </form>
     )
 }
